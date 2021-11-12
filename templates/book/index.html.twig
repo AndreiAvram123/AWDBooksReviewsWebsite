@@ -31,18 +31,18 @@
                 {% for bookReview in allReviews %}
                     {% if loop.index % 3 == 2 %}
                         <div class="col">
-                            {{ include('book/book_review.html.twig') }}
+                            {{ include('book/book_review_card.html.twig') }}
                         </div>
                     {% endif %}
                     {% if loop.index % 3 == 2 %}
                         <div class="col">
-                            {{ include('book/book_review.html.twig') }}
+                            {{ include('book/book_review_card.html.twig') }}
                         </div>
                     {% endif %}
 
                     {% if loop.index % 3 == 2 %}
                         <div class="col">
-                            {{ include('book/book_review.html.twig') }}
+                            {{ include('book/book_review_card.html.twig') }}
                         </div>
                     {% endif %}
                 {% endfor %}

@@ -24,20 +24,10 @@ class BookController extends AbstractController
 
 
 
-    #[Route('/book/{id}', name : "get_book_by_id",methods: ["GET","POST"])]
-    public function displayBookById(Request $request): Response
+    #[Route('/bookReview/{id}', name : "get_book_by_id",methods: ["GET"])]
+    public function displayBookReviewById(BookReview $bookReview): Response
     {
-        $bookReview = new BookReview();
-        $form = $this->createForm(BookReviewType::class, $bookReview);
-        if($form->isSubmitted() && $form-> isValid()){
-            $bookReview = $form->handleRequest($request);
-            $this->persistAndFlush($bookReview);
-            return $this->redirect("/");
-        }
-        return $this-> renderForm('book/index.html.twig',[
-            'form' => $form
-            ]
-        );
+        return $this-> render('book/book_review.html.twig');
     }
 
     private function getManager(): ObjectManager
