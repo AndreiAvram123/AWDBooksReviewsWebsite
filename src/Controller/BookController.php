@@ -17,7 +17,7 @@ class BookController extends AbstractController
     public function index(): Response{
         $repo = $this->getManager()->getRepository(BookReview::class);
         $allReviews = $repo->findAll();
-        return $this->render('book/index.html.twig', [
+        return $this->render('index.html.twig', [
             'allReviews' => $allReviews
         ]);
     }
@@ -27,7 +27,9 @@ class BookController extends AbstractController
     #[Route('/bookReview/{id}', name : "get_book_by_id",methods: ["GET"])]
     public function displayBookReviewById(BookReview $bookReview): Response
     {
-        return $this-> render('book/book_review.html.twig');
+        return $this-> render('book_review/book_review.html.twig', [
+            'bookReview' => $bookReview
+        ]);
     }
 
     private function getManager(): ObjectManager
