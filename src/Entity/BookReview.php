@@ -13,45 +13,33 @@ class BookReview
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $title;
-
-    #[ORM\Column(type: 'integer', nullable: false)]
-    private int $numberOfPages;
+    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Book $book;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $summary;
+    private string $summary;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+
+    public function getBook(): ?Book
     {
-        return $this->title;
+        return $this->book;
     }
 
-    public function setTitle(string $title): self
+    public function setBook(?Book $book): self
     {
-        $this->title = $title;
+        $this->book = $book;
 
         return $this;
     }
 
-    public function getNumberOfPages(): ?int
-    {
-        return $this->numberOfPages;
-    }
-
-    public function setNumberOfPages(int $numberOfPages): self
-    {
-        $this->numberOfPages = $numberOfPages;
-
-        return $this;
-    }
-
-    public function getSummary(): ?string
+    public function getSummary(): string
     {
         return $this->summary;
     }
