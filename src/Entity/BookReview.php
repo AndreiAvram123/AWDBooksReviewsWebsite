@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BookReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Length;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
 class BookReview
@@ -18,6 +19,7 @@ class BookReview
     private Book $book;
 
     #[ORM\Column(type: 'text', nullable: false)]
+    #[NotB(min: 20 , minMessage: "Your summary is too short")]
     private string $summary;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]

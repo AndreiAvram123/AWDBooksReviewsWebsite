@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Pure] public function __construct()
     {
-        $this->roles = ['user'];
+        $this->roles = ['ROLE_USER'];
         $this->bookReviews = new ArrayCollection();
     }
 
