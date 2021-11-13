@@ -2,27 +2,33 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Form\BookReviewType;
+use App\Form\BookType;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BookController extends AbstractController
+class BookController extends BaseController
 {
-
-    #[Route("/", name: "home", methods: ["GET"])]
-    public function index(): Response{
-        $repo = $this->getManager()->getRepository(BookReview::class);
-        $allReviews = $repo->findAll();
-        return $this->render('index.html.twig', [
-            'allReviews' => $allReviews
+    #[Route("/books/create", name: "create_book",methods: ["GET","POST"])]
+    public function createBook(Request $request):Response{
+        $book = new Book();
+        $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $book = $form->getData();
+            $this->persistAndFlush($book);
+            return $this->redirectToRoute('home');
+        }
+        return $this->renderForm("book/create_book.html.twig",
+        [
+            'form'=> $form
         ]);
     }
-
-
 
     #[Route('/bookReview/{id}', name : "get_book_by_id",methods: ["GET"])]
     public function displayBookReviewById(BookReview $bookReview): Response
@@ -32,12 +38,4 @@ class BookController extends AbstractController
         ]);
     }
 
-    private function getManager(): ObjectManager
-    {
-        return $this->getDoctrine()->getManager();
-    }
-    private function persistAndFlush($object){
-        $this->getManager()->persist($object);
-        $this->getManager()->flush();
-    }
 }
