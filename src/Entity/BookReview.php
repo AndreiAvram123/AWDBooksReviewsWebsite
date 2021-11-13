@@ -20,6 +20,10 @@ class BookReview
     #[ORM\Column(type: 'text', nullable: false)]
     private string $summary;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $creator;
+
 
     public function getId(): ?int
     {
@@ -47,6 +51,18 @@ class BookReview
     public function setSummary(string $summary): self
     {
         $this->summary = $summary;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
 
         return $this;
     }

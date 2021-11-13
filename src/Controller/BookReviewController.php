@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\BookReview;
+use App\Entity\User;
 use App\Form\BookReviewType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,12 +17,27 @@ class BookReviewController extends BaseController
     public function index(): Response{
         $repo = $this->getManager()->getRepository(BookReview::class);
         $allReviews = $repo->findAll();
+        $user = $this->getUser();
         return $this->render('index.html.twig', [
-            'allReviews' => $allReviews
+            'allReviews' => $allReviews,
+            'user'=>$user
         ]);
     }
 
 
+    #[Route("/reviews/user-reviews",name: "get_user_reviews",methods: ["GET"])]
+    public function getUserReviews():Response{
+        $user =  $this->getUser();
+        $reviews  = $this
+            ->getManager()
+            ->getRepository(User::class)
+            ->findByEmail($user->getUserIdentifier())
+            ->getBookReviews();
+        return $this->render('book_review/user_book_reviews.html.twig',
+            [
+                'reviews' => $reviews
+            ]);
+    }
 
     #[Route('/reviews/create', name: 'create_book_review', methods: ["GET","POST"])]
     public function createBookReview(Request $request): Response

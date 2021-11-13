@@ -23,16 +23,16 @@ class RegistrationType extends AbstractType
                 array('invalid_message' => "The username is not valid"))
             ->add('email', EmailType::class)
             ->add('password',RepeatedType::class,
-            [
-                'type' => PasswordType::class,
-                'options' => ['attr' => ['class' => 'password-field']],
-                'first_options' => [
-                'label' => "Password"
-            ],
-                'second_options'=> [
-                 'label' => "Repeat password"
-             ]
-            ]
+                [    'invalid_message' => "Ooops...It seems like the passwords do not match",
+                    'type' => PasswordType::class,
+                    'options' => ['attr' => ['class' => 'password-field']],
+                    'first_options' => [
+                        'label' => "Password"
+                    ],
+                    'second_options'=> [
+                        'label' => "Repeat password"
+                    ]
+                ]
             )
             ->add('submit', SubmitType::class)
         ;
