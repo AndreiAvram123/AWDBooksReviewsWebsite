@@ -9,12 +9,19 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ url('home') }}">Home</a>
                 </li>
-
+                {% if is_granted('IS_AUTHENTICATED_FULLY') == true %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('create_book_review') }}">Create</a>
+                    {% endif %}
                 </li>
             </ul>
-
+            {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
+                {% if app.request.uri != url('login_path') %}
+                    <div class="form-inline my-2 my-lg-0">
+                        <button class="btn btn-primary my-2 my-sm-0" type="button" onclick="window.location = '{{ url('login_path') }}'">Log in</button>
+                    </div>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 </nav>
