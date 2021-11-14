@@ -67,14 +67,16 @@ class BookReviewController extends BaseController
        }
        $form = $this->createBookReviewForm($bookReview);
        $form->handleRequest($request);
+
        if($form->isSubmitted() && $form->isValid()){
            $bookReview = $form->getData();
            $bookReview->setCreator($this->getUser());
            $this->persistAndFlush($bookReview);
            return $this->redirectToRoute('home');
        }
-        return $this->renderForm('book_review/create_review.twig',[
+        return $this->renderForm('book_review/book_review_edit.html.twig',[
             'form' => $form
         ]);
     }
+
 }

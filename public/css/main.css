@@ -1,3 +1,7 @@
+.image-profile-thumbnail {
+  max-width: 50px;
+}
+
 .fab {
   border-radius: 10px !important;
   position: absolute;
