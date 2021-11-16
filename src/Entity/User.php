@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Pure] public function __construct()
     {
-        $this->roles = ['user'];
+        $this->roles = ['ROLE_USER'];
         $this->bookReviews = new ArrayCollection();
     }
 
@@ -137,5 +137,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+    public function getFormattedRole():string{
+        return match ($this->getRoles()[0]) {
+            'ROLE_USER' => "User",
+            'ROLE_ADMIN' => "Admin",
+            default => "Unknown",
+        };
     }
 }
