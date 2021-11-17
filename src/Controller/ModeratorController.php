@@ -28,4 +28,16 @@ class ModeratorController extends AbstractController
             'totalBooksPending' => $totalPendingBooks
         ]);
     }
+
+    #[Route('moderator/pendingBookReviews', name: 'pending_book_reviews')]
+    public function pendingBookReviews():Response{
+        $pendingReviews = $this
+            ->getDoctrine()
+            ->getRepository(BookReview::class)
+            ->findBy(array('pending' => true));
+        return $this->render('moderator/moderator_pending_reviews.twig',
+        [
+            'pendingReviews' => $pendingReviews]
+        );
+    }
 }

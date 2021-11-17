@@ -36,4 +36,5 @@ security:
 
     access_control:
          - { path: ^/admin/*, roles: ROLE_ADMIN }
+         - { path: ^/moderator/*, roles : ROLE_MODERATOR}
          - { path: ^/reviews/user-reviews, roles: ROLE_USER }

@@ -36,6 +36,8 @@ class BookReviewController extends BaseController
             ]);
     }
 
+
+
     #[Route('/reviews/create', name: 'create_book_review', methods: ["GET","POST"])]
     public function createBookReview(Request $request): Response
     {
