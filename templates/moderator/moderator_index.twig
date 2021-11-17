@@ -1,0 +1,20 @@
+{% extends 'baseTemplates/abstract_dashboard.html.twig' %}
+
+{% block title %}Moderator{% endblock %}
+
+
+{% block card_1_heading_text %}
+    Total pending reviews
+{% endblock %}
+{% block card_1_content%}
+    {{ totalPendingReviews }}
+{% endblock %}
+
+{% block card_2_heading_text %}
+  Total books pending
+{% endblock %}
+
+{% block card_2_content %}
+
+{{ totalBooksPending }}
+{% endblock %}
