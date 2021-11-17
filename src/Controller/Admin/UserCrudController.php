@@ -7,9 +7,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
 class UserCrudController extends AbstractCrudController
 {
+
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -20,11 +22,9 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             EmailField::new('email'),
-            ChoiceField::new('roles')->allowMultipleChoices()->setChoices(array(
-                "ROLE_USER" => "ROLE_USER",
-                "ROLE_ADMIN" => "ROLE_ADMIN"
-                )
-            ),
+            ChoiceField::new('roles')
+                ->allowMultipleChoices()
+                ->setChoices(UserRoles::provideFormUserRoles())
         ];
     }
 }
