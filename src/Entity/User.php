@@ -42,10 +42,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: BookReview::class, orphanRemoval: true)]
     private $bookReviews;
 
+
     #[Pure] public function __construct()
     {
-        $this->roles = ['ROLE_USER'];
         $this->bookReviews = new ArrayCollection();
+    }
+
+    public function setRoles($roles){
+        $this->roles= $roles;
     }
 
     public function getId(): ?int
@@ -138,11 +142,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function getFormattedRole():string{
-        return match ($this->getRoles()[0]) {
-            'ROLE_USER' => "User",
-            'ROLE_ADMIN' => "Admin",
-            default => "Unknown",
-        };
-    }
+
+
 }
