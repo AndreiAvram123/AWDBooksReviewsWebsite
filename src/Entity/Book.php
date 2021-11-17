@@ -25,6 +25,9 @@ class Book
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookReview::class, orphanRemoval: true)]
     private  $bookReviews;
 
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    private $pending;
+
     #[Pure] public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
@@ -85,6 +88,18 @@ class Book
                 $bookReview->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPending(): ?bool
+    {
+        return $this->pending;
+    }
+
+    public function setPending(bool $pending): self
+    {
+        $this->pending = $pending;
 
         return $this;
     }

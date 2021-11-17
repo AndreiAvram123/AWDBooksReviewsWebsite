@@ -18,13 +18,16 @@ class BookReview
     #[ORM\JoinColumn(nullable: false)]
     private Book $book;
 
-    #[ORM\Column(type: 'text', nullable: false)]
+    #[ORM\Column(type: 'text')]
     #[NotB(min: 20 , minMessage: "Your summary is too short")]
     private string $summary;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]
     #[ORM\JoinColumn(nullable: false)]
     private $creator;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $pending = true;
 
 
     public function getId(): ?int
@@ -65,6 +68,18 @@ class BookReview
     public function setCreator(?User $creator): self
     {
         $this->creator = $creator;
+
+        return $this;
+    }
+
+    public function getPending(): ?bool
+    {
+        return $this->pending;
+    }
+
+    public function setPending(bool $pending): self
+    {
+        $this->pending = $pending;
 
         return $this;
     }
