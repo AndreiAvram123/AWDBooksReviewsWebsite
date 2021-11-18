@@ -51,7 +51,7 @@ class BookReviewController extends BaseController
                 return  $this->redirectToRoute('home');
             }
         }
-        return $this-> renderForm('book_review/book_review.html.twig', [
+        return $this-> renderForm('author_book_review_card.html.twig', [
             'bookReview' => $bookReview,
             'removeBookReviewForm' => $removeBookReviewForm
         ]);

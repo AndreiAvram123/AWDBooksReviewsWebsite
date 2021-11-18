@@ -13,7 +13,10 @@ class RemoveBookReviewType extends AbstractType
     {
         $builder->add('Remove_book_review',
                 SubmitType::class,
-                array('attr' => ['class' => 'btn btn-danger'], 'label' => "Take down review")
+                array(
+                    'attr' => ['class' => 'btn btn-danger'], 'label' => "Take down review",
+
+                )
             )
         ;
     }

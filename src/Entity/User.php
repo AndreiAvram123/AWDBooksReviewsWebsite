@@ -42,6 +42,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: BookReview::class, orphanRemoval: true)]
     private $bookReviews;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $nickname;
+
+    #[ORM\OneToOne(inversedBy: 'owner', targetEntity: SocialMediaHub::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private $socialHub;
+
 
     #[Pure] public function __construct()
     {
@@ -139,6 +146,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $bookReview->setCreator(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNickname(): ?string
+    {
+        return $this->nickname;
+    }
+
+    public function setNickname(?string $nickname): self
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    public function getSocialHub(): ?SocialMediaHub
+    {
+        return $this->socialHub;
+    }
+
+    public function setSocialHub(SocialMediaHub $socialHub): self
+    {
+        $this->socialHub = $socialHub;
 
         return $this;
     }
