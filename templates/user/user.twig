@@ -790,12 +790,16 @@
                                 <div class="media-body">
                                     <div class="author-info">
                                         <h1 class="title"><a href="#">{{ user.username }}</a></h1>
-                                        {% if user.nickname != null %}
                                         <span class="b3 subtitle">{{ user.nickname }}</span>
-                                        {% endif %}
                                     </div>
                                     <div class="content">
-                                        <p class="b1 description">At 40+ years old, my favorite compliment is being told that I look like my mom. Seeing myself in her image, like this daughter up top, makes me so proud of how far I’ve come, and so thankful for where I come from</p>
+                                        <p class="b1 description">
+                                        {% if user.description != null %}
+                                            {{ user.description }}
+                                            {% else %}
+                                            {{ "It is often hard to describe ourselves" }}
+                                       {% endif %}
+                                        </p>
                                          {% if user.socialHub != null %}
                                         <ul class="social-share-transparent size-md">
                                             {% if user.socialHub.facebookURL != null %}
@@ -837,98 +841,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Post List Wrapper  -->
+        {{ include('components/copyright_area.twig') }}
 
-        <!-- Start Footer Area  -->
-        <div class="axil-footer-area axil-footer-style-1 bg-color-white">
-            <!-- Start Footer Top Area  -->
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <!-- Start Post List  -->
-                            <div class="inner d-flex align-items-center flex-wrap">
-                                <h5 class="follow-title mb--0 mr--20">Follow Us</h5>
-                                <ul class="social-icon color-tertiary md-size justify-content-start">
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                </ul>
-                            </div>
-                            <!-- End Post List  -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Footer Top Area  -->
-
-            <!-- Start Copyright Area  -->
-            <div class="copyright-area">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-9 col-md-12">
-                            <div class="copyright-left">
-                                <div class="logo">
-                                    <a href="index.html">
-                                        <img class="dark-logo" src="assets/images/logo/logo-black.png" alt="Logo Images">
-                                        <img class="light-logo" src="assets/images/logo/logo-white2.png" alt="Logo Images">
-                                    </a>
-                                </div>
-                                <ul class="mainmenu justify-content-start">
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                        <span data-text="Contact Us">Contact Us</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                        <span data-text="Terms of Use">Terms of Use</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                        <span data-text="AdChoices">AdChoices</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                        <span data-text="Advertise with Us">Advertise with Us</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                        <span data-text="Blogar Store">Blogar Store</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-12">
-                            <div class="copyright-right text-left text-lg-right mt_md--20 mt_sm--20">
-                                <p class="b3">All Rights Reserved © 2020</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Copyright Area  -->
         </div>
-        <!-- End Footer Area  -->
-
-        <!-- Start Back To Top  -->
-        <a id="backto-top"></a>
-        <!-- End Back To Top  -->
-
-    </div>
 {% endblock %}

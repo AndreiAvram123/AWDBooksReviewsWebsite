@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private $socialHub;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $description;
+
 
     #[Pure] public function __construct()
     {
@@ -170,6 +173,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSocialHub(SocialMediaHub $socialHub): self
     {
         $this->socialHub = $socialHub;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
