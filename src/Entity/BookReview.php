@@ -29,6 +29,9 @@ class BookReview
     #[ORM\Column(type: 'boolean')]
     private bool $pending = true;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $declined = false;
+
 
     public function getId(): ?int
     {
@@ -80,6 +83,18 @@ class BookReview
     public function setPending(bool $pending): self
     {
         $this->pending = $pending;
+
+        return $this;
+    }
+
+    public function getDeclined(): ?bool
+    {
+        return $this->declined;
+    }
+
+    public function setDeclined(?bool $declined): self
+    {
+        $this->declined = $declined;
 
         return $this;
     }

@@ -20,32 +20,20 @@ class BookReviewRepository extends ServiceEntityRepository
     }
 
 
-    // /**
-    //  * @return BookReview[] Returns an array of BookReview objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function findPending():array{
+        return $this->createQueryBuilder('br')
+                   ->andWhere('br.declined = false')
+                   ->andWhere('br.pending = true')
+                   ->getQuery()
+                   ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?BookReview
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+    public function findAvailableToUsers():array{
+        return $this->createQueryBuilder('br')
+            ->andWhere('br.declined = false')
+            ->andWhere('br.pending = false')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+
 }

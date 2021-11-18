@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\BookReview;
 use App\Entity\User;
 use App\Form\BookReviewType;
+use App\Form\RemoveBookReviewType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,14 +18,14 @@ class BookReviewController extends BaseController
 
     #[Route("/", name: "home", methods: ["GET"])]
     public function index(): Response{
-        $repo = $this->getManager()
-            ->getRepository(BookReview::class);
-        $allReviews = $repo->findAll();
+        $allReviews = $this->getManager()
+            ->getRepository(BookReview::class)
+            ->findAvailableToUsers();
+
         return $this->render('index.html.twig', [
             'allReviews' => $allReviews
         ]);
     }
-
 
     #[Route("/reviews/user-reviews",name: "get_user_reviews",methods: ["GET"])]
     public function getUserReviews():Response{
@@ -35,7 +37,25 @@ class BookReviewController extends BaseController
                 'reviews' => $reviews
             ]);
     }
-
+    #[Route('/bookReview/{id}', name : "get_book_by_id")]
+    public function displayBookReviewById(BookReview $bookReview, Request $request): Response
+    {
+        $removeBookReviewForm = $this->createForm(RemoveBookReviewType::class);
+        $removeBookReviewForm->handleRequest($request);
+        if($removeBookReviewForm -> isSubmitted() && $removeBookReviewForm-> isValid()){
+            /** @var SubmitButton $removeButton */
+            $removeButton = $removeBookReviewForm->get('Remove_book_review');
+            if($removeButton->isClicked()){
+                $bookReview->setDeclined(true);
+                $this->persistAndFlush($bookReview);
+                return  $this->redirectToRoute('home');
+            }
+        }
+        return $this-> renderForm('book_review/book_review.html.twig', [
+            'bookReview' => $bookReview,
+            'removeBookReviewForm' => $removeBookReviewForm
+        ]);
+    }
 
 
     #[Route('/reviews/create', name: 'create_book_review', methods: ["GET","POST"])]
