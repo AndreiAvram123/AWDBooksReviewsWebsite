@@ -6,6 +6,7 @@ use App\Repository\BookReviewRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -21,10 +22,7 @@ class BookReview
     #[ORM\JoinColumn(nullable: false)]
     private Book $book;
 
-    #[ORM\Column(type: 'text')]
-    #[Length(min: 20 , minMessage: "Your summary is too short")]
-    private string $summary;
-
+    
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]
     #[ORM\JoinColumn(nullable: false)]
     private $creator;
@@ -35,8 +33,6 @@ class BookReview
     #[ORM\Column(type: 'boolean')]
     private bool $declined = false;
 
-    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Image::class, orphanRemoval: true)]
-    private $images;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
@@ -47,9 +43,16 @@ class BookReview
     #[ORM\Column(type: 'integer', nullable: true)]
     private $estimatedReadTime;
 
-    public function __construct()
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, orphanRemoval: true)]
+    private $sections;
+
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    private $frontImage;
+
+    #[Pure] public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
 
@@ -181,6 +184,48 @@ class BookReview
     public function setEstimatedReadTime(?int $estimatedReadTime): self
     {
         $this->estimatedReadTime = $estimatedReadTime;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ReviewSection[]
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(ReviewSection $section): self
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+            $section->setBookReview($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(ReviewSection $section): self
+    {
+        if ($this->sections->removeElement($section)) {
+            // set the owning side to null (unless already changed)
+            if ($section->getBookReview() === $this) {
+                $section->setBookReview(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFrontImage(): ?Image
+    {
+        return $this->frontImage;
+    }
+
+    public function setFrontImage(?Image $frontImage): self
+    {
+        $this->frontImage = $frontImage;
 
         return $this;
     }

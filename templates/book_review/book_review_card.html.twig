@@ -1,8 +1,8 @@
 
 <div class="content-block post-list-view mt--30">
-    {% if bookReview.images is not empty %}
+    {% if bookReview.frontImage != null %}
         <div class="post-thumbnail">
-                <img src="{{ bookReview.images|first.url }}" alt="Post Images">
+                <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
         </div>
     {% endif %}
     <div class="post-content">
