@@ -37,7 +37,7 @@ class BookReviewController extends BaseController
                 'reviews' => $reviews
             ]);
     }
-    #[Route('/bookReview/{id}', name : "get_book_by_id")]
+    #[Route('/bookReview/{id}', name : "get_book_review_by_id")]
     public function displayBookReviewById(BookReview $bookReview, Request $request): Response
     {
         $removeBookReviewForm = $this->createForm(RemoveBookReviewType::class);
@@ -51,9 +51,8 @@ class BookReviewController extends BaseController
                 return  $this->redirectToRoute('home');
             }
         }
-        return $this-> renderForm('author_book_review_card.html.twig', [
-            'bookReview' => $bookReview,
-            'removeBookReviewForm' => $removeBookReviewForm
+        return $this-> render('book_review/book_review.twig', [
+            'bookReview' => $bookReview
         ]);
     }
 

@@ -16,10 +16,6 @@ class Image
     #[ORM\Column(type: 'string', length: 255)]
     private $url;
 
-    #[ORM\ManyToOne(targetEntity: BookReview::class, inversedBy: 'images')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $bookReview;
-
     public function getId(): ?int
     {
         return $this->id;

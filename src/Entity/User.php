@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Unique;
+use function PHPUnit\Framework\isNull;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
@@ -27,14 +28,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Length(min : 5, max: 20)]
-    private $username;
+    private string $username;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $email;
+    private string $email;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Length(min: 5, minMessage: "The password is too weak")]
-    private $password;
+    private ?string $password;
 
     #[ORM\Column(type : 'json')]
     private array $roles = [];
@@ -43,14 +44,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $nickname;
+    private ?string $nickname;
 
     #[ORM\OneToOne(inversedBy: 'owner', targetEntity: SocialMediaHub::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private $socialHub;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $description;
+    private ?string $description;
+
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    private ?Image $profileImage;
+
 
 
     #[Pure] public function __construct()
@@ -189,5 +194,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getProfileImage(): ?Image
+    {
+        if(is_null($this->profileImage )){
+            $image = new Image();
+            $image->setUrl("https://robohash.org/138.246.253.15.png");
+            return $image;
+        }
+        return $this->profileImage;
+    }
 
+    public function setProfileImage(?Image $profileImage): self
+    {
+        $this->profileImage = $profileImage;
+
+        return $this;
+    }
+    
 }

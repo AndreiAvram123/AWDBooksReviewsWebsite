@@ -12,7 +12,7 @@ class UserController extends AbstractController
     #[Route('/user/{id}', name: 'get_user_by_id')]
     public function getUserById(User $user): Response
     {
-        return $this->render('user/user.twig', [
+        return $this->render('user/user_profile.twig', [
            'user' => $user
         ]);
     }
