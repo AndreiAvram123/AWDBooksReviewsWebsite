@@ -12615,6 +12615,11 @@ body.active-dark-mode .axil-footer-style-1 .footer-top .inner {
     color: #ffffff;
   }
 }
+.author-thumbnail {
+  max-width: 150px;
+  margin-right: 20px;
+}
+
 .flex-media {
   display: flex !important;
 }

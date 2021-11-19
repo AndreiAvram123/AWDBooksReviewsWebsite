@@ -31,7 +31,7 @@
                                                     </div>
                                                     <div class="content">
                                                         <h6 class="post-author-name">
-                                                            <a class="hover-flip-item-wrapper" href="{{ url('get_user_by_id',{'id' : bookReview.creator.id}) }}">
+                                                            <a class="hover-flip-item-wrapper" href="{{ url('user_profile',{'id' : bookReview.creator.id}) }}">
                                                                     <span class="hover-flip-item">
                                                                         <span data-text="{{ bookReview.creator.username }}">{{ bookReview.creator.username }}</span>
                                                                     </span>
@@ -110,7 +110,7 @@
                         </div>
 
                           {{ form_end(ratingForm) }}
-                        
+
 
                                 {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     {{ form_start(commentForm) }}

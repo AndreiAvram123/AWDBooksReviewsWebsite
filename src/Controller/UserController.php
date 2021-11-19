@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/user/{id}', name: 'get_user_by_id')]
+    #[Route('/user/{id}', name: 'user_profile')]
     public function getUserById(User $user): Response
     {
         return $this->render('user/user_profile.twig', [

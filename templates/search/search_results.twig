@@ -4,16 +4,25 @@
     <div class="axil-post-list-area axil-section-gap bg-color-white">
         <div class="container">
             <div class="row">
+                {% if (bookReviews is empty) and (users is empty) %}
+                <h1>We are sorry... We could not find any match for your search</h1>
+                {% endif %}
                 <div class="col-lg-8 col-xl-8">
-                    {% if results is not empty %}
-                    <h1>Total results :  {{ results|length }}</h1>
-                    {% for bookReview in results %}
+                    {% if bookReviews is not empty %}
+                    <h1>Total reviews :  {{ results|length }}</h1>
+                    {% for bookReview in bookReviews %}
                         {{ include('book_review/book_review_card.html.twig') }}
                     {% endfor %}
-                    {% else %}
-                        <h1>We are sorry... We could not find any match for your search</h1>
                     {% endif %}
                 </div>
+            </div>
+            <div class="row">
+                {% if users is not empty %}
+                   <h1>Total users : {{ users | length }}</h1>
+                    {% for user in users %}
+                        {{ include('cards/user_card.twig')}}
+                       {% endfor %}
+                  {% endif %}
             </div>
         </div>
     </div>

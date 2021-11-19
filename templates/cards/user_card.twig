@@ -1,0 +1,24 @@
+
+<div class="about-author">
+    <div class="media" style="display: flex">
+        <div class="thumbnail">
+            <img class="author-thumbnail" src="{{ user.profileImage.url }}" alt="Author Images">
+        </div>
+        <div class="media-body">
+            <div class="author-info">
+                <h1 class="title"><a href="{{ url('user_profile', {'id':  user.id}) }}">{{ user.username }}</a></h1>
+                <span class="b3 subtitle">{{ user.nickname }}</span>
+            </div>
+            <div class="content">
+                <p class="b1 description">
+                    {% if user.description != null %}
+                        {{ user.description }}
+                    {% else %}
+                        {{ "It is often hard to describe ourselves" }}
+                    {% endif %}
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
