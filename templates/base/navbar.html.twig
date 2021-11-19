@@ -698,10 +698,10 @@
 
             <div class="col-xl-3 col-lg-8 col-md-8 col-sm-9 col-12">
                 <div class="header-search text-right d-flex align-items-center">
-                    <form class="header-search-form">
+                    <form class="header-search-form" action="{{ url('search') }}" name="searchForm">
                         <div class="axil-search form-group">
                             <button type="submit" class="search-button"><i class="fal fa-search"></i></button>
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" placeholder="Search" name="_search_query">
                         </div>
                     </form>
                     <ul class="metabar-block">

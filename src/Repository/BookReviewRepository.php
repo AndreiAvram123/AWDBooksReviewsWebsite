@@ -36,4 +36,12 @@ class BookReviewRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllByTitle(string $query):array{
+        return $this->createQueryBuilder('br')
+            ->andWhere('LOWER(br.title) LIKE LOWER(:title)')
+            ->setParameter('title','%'.$query.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
