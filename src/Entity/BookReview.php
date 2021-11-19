@@ -7,8 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
 class BookReview
@@ -35,19 +33,23 @@ class BookReview
 
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $title;
+    private ?string $title;
 
     #[ORM\Column(type: 'datetime')]
     private $creationDate;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $estimatedReadTime;
+    private ?int $estimatedReadTime;
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, orphanRemoval: true)]
     private $sections;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private $frontImage;
+
+    #[ORM\OneToOne(targetEntity: Rating::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $rating;
 
     #[Pure] public function __construct()
     {
@@ -226,6 +228,18 @@ class BookReview
     public function setFrontImage(?Image $frontImage): self
     {
         $this->frontImage = $frontImage;
+
+        return $this;
+    }
+
+    public function getRating(): ?Rating
+    {
+        return $this->rating;
+    }
+
+    public function setRating(Rating $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }
