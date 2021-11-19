@@ -29,16 +29,7 @@ class Comment
     #[ORM\Column(type: 'datetime')]
     private $creationDate;
 
-    #[ORM\ManyToOne(targetEntity: Comment::class, inversedBy: 'subcomments')]
-    private $repliedComment;
 
-    #[ORM\OneToMany(mappedBy: 'repliedComment', targetEntity: Comment::class)]
-    private $subcomments;
-
-    public function __construct()
-    {
-        $this->subcomments = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -93,45 +84,6 @@ class Comment
         return $this;
     }
 
-    public function getRepliedComment(): ?self
-    {
-        return $this->repliedComment;
-    }
 
-    public function setRepliedComment(?self $repliedComment): self
-    {
-        $this->repliedComment = $repliedComment;
 
-        return $this;
-    }
-
-    /**
-     * @return Collection|self[]
-     */
-    public function getSubcomments(): Collection
-    {
-        return $this->subcomments;
-    }
-
-    public function addSubcomment(self $subcomment): self
-    {
-        if (!$this->subcomments->contains($subcomment)) {
-            $this->subcomments[] = $subcomment;
-            $subcomment->setRepliedComment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubcomment(self $subcomment): self
-    {
-        if ($this->subcomments->removeElement($subcomment)) {
-            // set the owning side to null (unless already changed)
-            if ($subcomment->getRepliedComment() === $this) {
-                $subcomment->setRepliedComment(null);
-            }
-        }
-
-        return $this;
-    }
 }

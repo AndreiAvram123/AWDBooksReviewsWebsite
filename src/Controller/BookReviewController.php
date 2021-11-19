@@ -87,6 +87,8 @@ class BookReviewController extends BaseController
             return $this->redirectToRoute('get_book_review_by_id',['id'=>$bookReview->getId()]);
         }
 
+
+
         return $this-> renderForm('book_review/book_review.twig', [
             'bookReview' => $bookReview,
             'removeBookReviewForm'=>$removeBookReviewForm,
