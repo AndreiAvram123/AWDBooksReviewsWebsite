@@ -110,18 +110,7 @@
                         </div>
 
                           {{ form_end(ratingForm) }}
-
-                            <!-- Start Comment Form Area  -->
-                            <div class="axil-comment-area">
-                                <div class="axil-total-comment-post">
-                                    <div class="title">
-                                        <h4 class="mb--0">30+ Comments</h4>
-                                    </div>
-                                    <div class="add-comment-button cerchio">
-                                        <a class="axil-button button-rounded" href="post-details.html" tabindex="0"><span>Add Your Comment</span></a>
-                                    </div>
-                                </div>
-
+                        
 
                                 {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     {{ form_start(commentForm) }}
@@ -147,7 +136,7 @@
                                 {% if bookReview.comments is not empty %}
                                 <!-- Start Comment Area  -->
                                 <div class="axil-comment-area">
-                                    <h4 class="title">2 comments</h4>
+                                    <h4 class="title">{{ bookReview.comments|length}} comments</h4>
                                     <ul class="comment-list">
                                         {% for comment in bookReview.comments %}
                                             {{ include('comment/comment_item.twig') }}
