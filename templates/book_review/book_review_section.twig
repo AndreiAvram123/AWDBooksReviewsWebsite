@@ -1,0 +1,9 @@
+<h2>{{ bookSection.heading }}</h2>
+<p class="has-medium-font-size">{{ bookSection.text }}</p>
+{% if bookSection.image != null %}
+<figure class="wp-block-image alignwide text-center">
+    <img src="assets/images/post-single/post-single-06.jpg" alt="Post Images">
+    <figcaption>The Apple Design Award trophy, created by the Apple Design team, is a symbol
+        of achievement and excellence.</figcaption>
+    {% endif %}
+</figure>

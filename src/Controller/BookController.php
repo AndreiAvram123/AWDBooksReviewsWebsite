@@ -30,12 +30,5 @@ class BookController extends BaseController
         ]);
     }
 
-    #[Route('/bookReview/{id}', name : "get_book_by_id",methods: ["GET"])]
-    public function displayBookReviewById(BookReview $bookReview): Response
-    {
-        return $this-> render('book_review/book_review.html.twig', [
-            'bookReview' => $bookReview
-        ]);
-    }
 
 }

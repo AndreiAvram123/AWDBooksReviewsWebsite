@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pending reviews{% endblock %}
+
+{% block mainContent %}
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    {% for bookReview in pendingReviews %}
+                        {% if loop.index % 3 == 1 %}
+                            {{ include('cards/pending_book_review_card.twig') }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    {% for bookReview in pendingReviews %}
+                        {% if loop.index % 3 == 2 %}
+                            {{ include('cards/pending_book_review_card.twig') }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    {% for bookReview in pendingReviews %}
+                        {% if loop.index % 3 == 0 %}
+                            {{ include('cards/pending_book_review_card.twig') }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}

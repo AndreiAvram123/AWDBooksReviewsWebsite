@@ -3,8 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\BookReviewRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
 class BookReview
@@ -18,16 +22,38 @@ class BookReview
     #[ORM\JoinColumn(nullable: false)]
     private Book $book;
 
-    #[ORM\Column(type: 'text')]
-    #[NotB(min: 20 , minMessage: "Your summary is too short")]
-    private string $summary;
-
+    
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]
     #[ORM\JoinColumn(nullable: false)]
     private $creator;
 
     #[ORM\Column(type: 'boolean')]
     private bool $pending = true;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $declined = false;
+
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $title;
+
+    #[ORM\Column(type: 'datetime')]
+    private $creationDate;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $estimatedReadTime;
+
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, orphanRemoval: true)]
+    private $sections;
+
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    private $frontImage;
+
+    #[Pure] public function __construct()
+    {
+        $this->images = new ArrayCollection();
+        $this->sections = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -80,6 +106,126 @@ class BookReview
     public function setPending(bool $pending): self
     {
         $this->pending = $pending;
+
+        return $this;
+    }
+
+    public function getDeclined(): ?bool
+    {
+        return $this->declined;
+    }
+
+    public function setDeclined(?bool $declined): self
+    {
+        $this->declined = $declined;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setBookReview($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getBookReview() === $this) {
+                $image->setBookReview(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(?\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getEstimatedReadTime(): ?int
+    {
+        return $this->estimatedReadTime;
+    }
+
+    public function setEstimatedReadTime(?int $estimatedReadTime): self
+    {
+        $this->estimatedReadTime = $estimatedReadTime;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ReviewSection[]
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(ReviewSection $section): self
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+            $section->setBookReview($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(ReviewSection $section): self
+    {
+        if ($this->sections->removeElement($section)) {
+            // set the owning side to null (unless already changed)
+            if ($section->getBookReview() === $this) {
+                $section->setBookReview(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFrontImage(): ?Image
+    {
+        return $this->frontImage;
+    }
+
+    public function setFrontImage(?Image $frontImage): self
+    {
+        $this->frontImage = $frontImage;
 
         return $this;
     }

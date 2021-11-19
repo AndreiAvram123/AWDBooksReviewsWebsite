@@ -1,0 +1,161 @@
+
+{% extends 'base.html.twig' %}
+
+{% block mainContent %}
+    <div class="main-wrapper">
+        <div class="mouse-cursor cursor-outer"></div>
+        <div class="mouse-cursor cursor-inner"></div>
+
+        <div id="my_switcher" class="my_switcher">
+            <ul>
+                <li>
+                    <a href="javascript: void(0);" data-theme="light" class="setColor light">
+                        <span title="Light Mode">Light</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" data-theme="dark" class="setColor dark">
+                        <span title="Dark Mode">Dark</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- Start Mobile Menu Area  -->
+        <div class="popup-mobilemenu-area">
+            <div class="inner">
+                <div class="mobile-menu-top">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img class="dark-logo" src="assets/images/logo/logo-black.png" alt="Logo Images">
+                            <img class="light-logo" src="assets/images/logo/logo-white2.png" alt="Logo Images">
+                        </a>
+                    </div>
+                    <div class="mobile-close">
+                        <div class="icon">
+                            <i class="fal fa-times"></i>
+                        </div>
+                    </div>
+                </div>
+                <ul class="mainmenu">
+                    <li class="menu-item-has-children"><a href="#">Home</a>
+                        <ul class="axil-submenu">
+                            <li><a href="index.html">Home Default</a></li>
+                            <li><a href="home-creative-blog.html">Home Creative Blog</a></li>
+                            <li><a href="home-seo-blog.html">Home Seo Blog</a></li>
+                            <li><a href="home-tech-blog.html">Home Tech Blog</a></li>
+                            <li><a href="home-lifestyle-blog.html">Home Lifestyle Blog</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children"><a href="#">Categories</a>
+                        <ul class="axil-submenu">
+                            <li><a href="post-details.html">Accessibility</a></li>
+                            <li><a href="post-details.html">Android Dev</a></li>
+                            <li><a href="post-details.html">Accessibility</a></li>
+                            <li><a href="post-details.html">Android Dev</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children"><a href="#">Post Format</a>
+                        <ul class="axil-submenu">
+                            <li><a href="post-format-standard.html">Post Format Standard</a></li>
+                            <li><a href="post-format-video.html">Post Format Video</a></li>
+                            <li><a href="post-format-gallery.html">Post Format Gallery</a></li>
+                            <li><a href="post-format-text.html">Post Format Text Only</a></li>
+                            <li><a href="post-layout-1.html">Post Layout One</a></li>
+                            <li><a href="post-layout-2.html">Post Layout Two</a></li>
+                            <li><a href="post-layout-3.html">Post Layout Three</a></li>
+                            <li><a href="post-layout-4.html">Post Layout Four</a></li>
+                            <li><a href="post-layout-5.html">Post Layout Five</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children"><a href="#">Pages</a>
+                        <ul class="axil-submenu">
+                            <li><a href="post-list.html">Post List</a></li>
+                            <li><a href="archive.html">Post Archive</a></li>
+                            <li><a href="author.html">Author Page</a></li>
+                            <li><a href="about.html">About Page</a></li>
+                            <li><a href="maintenance.html">Maintenance</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="404.html">404 Page</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="buy-now-btn">
+                    <a href="#">Buy Now <span class="badge">$15</span></a>
+                </div>
+            </div>
+        </div>
+        <!-- End Mobile Menu Area  -->
+
+
+
+
+        <!-- Start Author Area  -->
+        <div class="axil-author-area axil-author-banner bg-color-grey">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="about-author">
+                            <div class="media" style="display: flex">
+                                <div class="thumbnail">
+                                    <img class="author-thumb" src="https://robohash.org/138.246.253.15.png?size=200x200" alt="Author Images">
+                                </div>
+                                <div class="media-body">
+                                    <div class="author-info">
+                                        <h1 class="title"><a href="#">{{ user.username }}</a></h1>
+                                        <span class="b3 subtitle">{{ user.nickname }}</span>
+                                    </div>
+                                    <div class="content">
+                                        <p class="b1 description">
+                                        {% if user.description != null %}
+                                            {{ user.description }}
+                                            {% else %}
+                                            {{ "It is often hard to describe ourselves" }}
+                                       {% endif %}
+                                        </p>
+                                         {% if user.socialHub != null %}
+                                        <ul class="social-share-transparent size-md">
+                                            {% if user.socialHub.facebookURL != null %}
+                                                <li><a href="{{ user.socialHub.facebookURL }}"><i class="fab fa-facebook"></i></a></li>
+                                            {% endif %}
+                                            {% if user.socialHub.instagramURL != null %}
+                                                <li><a href="{{ user.socialHub.instagramURL }}"><i class="fab fa-instagram"></i></a></li>
+                                            {% endif %}
+                                            {% if user.socialHub.linkedIn != null %}
+                                            <li><a href="{{ user.socialHub.linkedIn }}"><i class="fab fa-linkedin-in"></i></a></li>
+                                            {% endif %}
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Author Area  -->
+
+        <!-- Start Post List Wrapper  -->
+        <div class="axil-post-list-area axil-section-gap bg-color-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-title">
+                            <h2 class="title mb--40">Articles By This Author</h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-xl-8">
+                       {% for bookReview in user.bookReviews %}
+                           {{ include('book_review/book_review_card.html.twig') }}
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        </div>
+{% endblock %}

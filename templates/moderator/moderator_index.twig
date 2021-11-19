@@ -3,18 +3,23 @@
 {% block title %}Moderator{% endblock %}
 
 
+
+{%  set card_1_url= url('pending_book_reviews') %}
+
 {% block card_1_heading_text %}
     Total pending reviews
 {% endblock %}
+
 {% block card_1_content%}
-    {{ totalPendingReviews }}
+    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ totalPendingReviews }}</div>
 {% endblock %}
+
+
 
 {% block card_2_heading_text %}
   Total books pending
 {% endblock %}
 
-{% block card_2_content %}
-
+{% block card_2_content_text %}
 {{ totalBooksPending }}
 {% endblock %}
