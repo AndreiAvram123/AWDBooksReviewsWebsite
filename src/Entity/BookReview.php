@@ -232,7 +232,7 @@ class BookReview
         return $this;
     }
 
-    public function getRating(): ?Rating
+    public function getRating(): Rating
     {
         return $this->rating;
     }

@@ -10778,15 +10778,17 @@ blockquote p {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.axil-post-details .social-share-block .post-dislike, .axil-post-details .rating-block .post-dislike {
-  display: inline;
-}
 .axil-post-details .social-share-block .post-like, .axil-post-details .rating-block .post-like, .axil-post-details .social-share-block .post-dislike, .axil-post-details .rating-block .post-dislike {
+  display: inline;
   padding-bottom: 20px;
   padding-right: 20px;
 }
+.axil-post-details .social-share-block .post-like span, .axil-post-details .rating-block .post-like span, .axil-post-details .social-share-block .post-dislike span, .axil-post-details .rating-block .post-dislike span {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-gray);
+}
 .axil-post-details .social-share-block .post-like a, .axil-post-details .rating-block .post-like a, .axil-post-details .social-share-block .post-dislike a, .axil-post-details .rating-block .post-dislike a {
-  display: flex;
   align-items: center;
 }
 .axil-post-details .social-share-block .post-like a i, .axil-post-details .rating-block .post-like a i, .axil-post-details .social-share-block .post-dislike a i, .axil-post-details .rating-block .post-dislike a i {
@@ -10798,11 +10800,6 @@ blockquote p {
   border-radius: 100%;
   text-align: center;
   margin-right: 20px;
-}
-.axil-post-details .social-share-block .post-like a span, .axil-post-details .rating-block .post-like a span, .axil-post-details .social-share-block .post-dislike a span, .axil-post-details .rating-block .post-dislike a span {
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--color-gray);
 }
 .axil-post-details .social-share-block .post-like a:hover i, .axil-post-details .rating-block .post-like a:hover i, .axil-post-details .social-share-block .post-dislike a:hover i, .axil-post-details .rating-block .post-dislike a:hover i {
   background-color: var(--color-primary);

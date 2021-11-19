@@ -47,4 +47,12 @@ class Rating
 
         return $this;
     }
+
+    public function addLike(){
+        $this->likes++;
+    }
+    public function addDislike(){
+        $this->dislikes--;
+    }
+
 }

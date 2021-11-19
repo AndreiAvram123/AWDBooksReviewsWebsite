@@ -69,17 +69,7 @@
                             <a href="#">Life Style</a>
                         </div>
 
-                        <div class="rating-block">
-                            <div class="post-like">
-                                <a href="#"><i class="fal fa-thumbs-up"></i><span>{{ bookReview.rating.likes}} Likes</span></a>
-                            </div>
-                            <div class="post-dislike">
-                                <a href="#"><i class="fal fa-thumbs-down"></i><span>{{ bookReview.rating.dislikes}} Dislikes</span></a>
-                            </div>
-                        </div>
 
-
-                        <!-- Start Author  -->
 
                         <div class="about-author">
                             <div class="flex-media">
@@ -105,7 +95,17 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- End Author  -->
+                        {{ form_start(ratingForm) }}
+                        <div class="rating-block">
+                            <div class="post-like">
+                             <span>{{ bookReview.rating.likes}} Likes</span>
+                             {{ form_widget(ratingForm.like_button)}}
+                            </div>
+                            <div class="post-dislike">
+                            <span>{{ bookReview.rating.dislikes}}  Dislikes</span>
+                                {{ form_widget(ratingForm.dislike_button)}}
+                            </div>
+                        {{ form_end(ratingForm) }}
 
                         <!-- Start Comment Form Area  -->
                         <div class="axil-comment-area">

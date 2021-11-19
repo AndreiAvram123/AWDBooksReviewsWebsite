@@ -6,6 +6,10 @@
 parameters:
 
 services:
+    foobar.form_extension.icon:
+        class: App\Form\ButtonTypeIconExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ButtonType }
 
     # default configuration for services in *this* file
     _defaults:

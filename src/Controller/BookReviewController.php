@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BookReview;
 use App\Entity\User;
 use App\Form\BookReviewType;
+use App\Form\RatingType;
 use App\Form\RemoveBookReviewType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -42,6 +43,10 @@ class BookReviewController extends BaseController
     {
         $removeBookReviewForm = $this->createForm(RemoveBookReviewType::class);
         $removeBookReviewForm->handleRequest($request);
+
+        $ratingForm = $this->createForm(RatingType::class);
+        $ratingForm->handleRequest($request);
+
         if($removeBookReviewForm -> isSubmitted() && $removeBookReviewForm-> isValid()){
             /** @var SubmitButton $removeButton */
             $removeButton = $removeBookReviewForm->get('Remove_book_review');
@@ -51,9 +56,34 @@ class BookReviewController extends BaseController
                 return  $this->redirectToRoute('home');
             }
         }
-        return $this-> render('book_review/book_review.twig', [
-            'bookReview' => $bookReview
+        if($this->canAccessFormData($ratingForm)){
+            $rating = $bookReview->getRating();
+            if($this->isFormButtonClicked($ratingForm,"like_button")){
+                $rating->addLike();
+            }
+            if($this->isFormButtonClicked($ratingForm,"dislike_button")){
+                $rating->addDislike();
+            }
+            $this->persistAndFlush($rating);
+            return $this->redirectToRoute('get_book_review_by_id',['id'=>$bookReview->getId()]);
+        }
+        return $this-> renderForm('book_review/book_review.twig', [
+            'bookReview' => $bookReview,
+            'removeBookReviewForm'=>$removeBookReviewForm,
+            'ratingForm' => $ratingForm
         ]);
+    }
+
+
+    private function canAccessFormData(FormInterface $form) : bool{
+        return $form-> isSubmitted() && $form->isValid();
+    }
+
+    private function isFormButtonClicked(FormInterface $form, string $buttonName): bool
+    {
+        /** @var SubmitButton $button */
+        $button = $form->get($buttonName);
+        return $button->isClicked();
     }
 
 
