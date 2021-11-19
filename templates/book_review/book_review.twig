@@ -118,55 +118,27 @@
                                 </div>
                             </div>
 
-                            <!-- Start Comment Respond  -->
+
+                            {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {{ form_start(commentForm) }}
                             <div class="comment-respond">
                                 <h4 class="title">Post a comment</h4>
-                                <form action="#">
-                                    <p class="comment-notes"><span id="email-notes">Your email address will not be
-                                                published.</span> Required fields are marked <span
-                                                class="required">*</span></p>
                                     <div class="row row--10">
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label>Your Name</label>
-                                                <input id="name" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label>Your Email</label>
-                                                <input id="email" type="email">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label>Your Website</label>
-                                                <input id="website" type="text">
-                                            </div>
-                                        </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Leave a Reply</label>
-                                                <textarea name="message"></textarea>
+                                            {{ form_widget(commentForm.summary) }}
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <p class="comment-form-cookies-consent">
-                                                <input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes">
-                                                <label for="wp-comment-cookies-consent">Save my name, email, and
-                                                    website in this browser for the next time I comment.</label>
-                                            </p>
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-submit cerchio">
-                                                <input name="submit" type="submit" id="submit" class="axil-button button-rounded" value="Post Comment">
+                                                {{ form_widget(commentForm.post_comment_button) }}
                                             </div>
                                         </div>
                                     </div>
-                                </form>
                             </div>
-                            <!-- End Comment Respond  -->
+                            {{ form_end(commentForm) }}
 
+                            {% endif %}
                             <!-- Start Comment Area  -->
                             <div class="axil-comment-area">
                                 <h4 class="title">2 comments</h4>
@@ -308,6 +280,7 @@
                     <!-- End Blog Details  -->
                 </div>
             </div>
+        </div>
         </div>
     </div>
 {% endblock %}

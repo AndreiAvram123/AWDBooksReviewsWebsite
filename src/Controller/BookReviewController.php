@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\BookReview;
+use App\Entity\Comment;
 use App\Entity\User;
 use App\Form\BookReviewType;
+use App\Form\CommentType;
 use App\Form\RatingType;
 use App\Form\RemoveBookReviewType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +49,11 @@ class BookReviewController extends BaseController
         $ratingForm = $this->createForm(RatingType::class);
         $ratingForm->handleRequest($request);
 
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class,$comment);
+        $commentForm->handleRequest($request);
+
+
         if($removeBookReviewForm -> isSubmitted() && $removeBookReviewForm-> isValid()){
             /** @var SubmitButton $removeButton */
             $removeButton = $removeBookReviewForm->get('Remove_book_review');
@@ -67,10 +74,21 @@ class BookReviewController extends BaseController
             $this->persistAndFlush($rating);
             return $this->redirectToRoute('get_book_review_by_id',['id'=>$bookReview->getId()]);
         }
+
+        if($this->canAccessFormData($commentForm)){
+            /** @var Comment $comment */
+            $comment = $commentForm->getData();
+            /** @var User $creator */
+            $creator = $this->getUser();
+            $comment -> setCreator($creator);
+            $this->persistAndFlush($comment);
+        }
+
         return $this-> renderForm('book_review/book_review.twig', [
             'bookReview' => $bookReview,
             'removeBookReviewForm'=>$removeBookReviewForm,
-            'ratingForm' => $ratingForm
+            'ratingForm' => $ratingForm,
+            'commentForm'=>$commentForm
         ]);
     }
 
