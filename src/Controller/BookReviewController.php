@@ -81,7 +81,10 @@ class BookReviewController extends BaseController
             /** @var User $creator */
             $creator = $this->getUser();
             $comment -> setCreator($creator);
+            $comment->setCreationDate(new \DateTime());
+            $comment->setBookReview($bookReview);
             $this->persistAndFlush($comment);
+            return $this->redirectToRoute('get_book_review_by_id',['id'=>$bookReview->getId()]);
         }
 
         return $this-> renderForm('book_review/book_review.twig', [

@@ -95,192 +95,74 @@
                                 </div>
                             </div>
                         </div>
+
+
                         {{ form_start(ratingForm) }}
                         <div class="rating-block">
                             <div class="post-like">
-                             <span>{{ bookReview.rating.likes}} Likes</span>
-                             {{ form_widget(ratingForm.like_button)}}
+                                <span>{{ bookReview.rating.likes}} Likes</span>
+                                {{ form_widget(ratingForm.like_button)}}
                             </div>
                             <div class="post-dislike">
-                            <span>{{ bookReview.rating.dislikes}}  Dislikes</span>
+                                <span>{{ bookReview.rating.dislikes}}  Dislikes</span>
                                 {{ form_widget(ratingForm.dislike_button)}}
                             </div>
-                        {{ form_end(ratingForm) }}
+                        </div>
 
-                        <!-- Start Comment Form Area  -->
-                        <div class="axil-comment-area">
-                            <div class="axil-total-comment-post">
-                                <div class="title">
-                                    <h4 class="mb--0">30+ Comments</h4>
+                          {{ form_end(ratingForm) }}
+
+                            <!-- Start Comment Form Area  -->
+                            <div class="axil-comment-area">
+                                <div class="axil-total-comment-post">
+                                    <div class="title">
+                                        <h4 class="mb--0">30+ Comments</h4>
+                                    </div>
+                                    <div class="add-comment-button cerchio">
+                                        <a class="axil-button button-rounded" href="post-details.html" tabindex="0"><span>Add Your Comment</span></a>
+                                    </div>
                                 </div>
-                                <div class="add-comment-button cerchio">
-                                    <a class="axil-button button-rounded" href="post-details.html" tabindex="0"><span>Add Your Comment</span></a>
-                                </div>
-                            </div>
 
 
-                            {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            {{ form_start(commentForm) }}
-                            <div class="comment-respond">
-                                <h4 class="title">Post a comment</h4>
-                                    <div class="row row--10">
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                            {{ form_widget(commentForm.summary) }}
+                                {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    {{ form_start(commentForm) }}
+                                    <div class="comment-respond">
+                                        <h4 class="title">Post a comment</h4>
+                                        <div class="row row--10">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    {{ form_widget(commentForm.summary) }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="form-submit cerchio">
-                                                {{ form_widget(commentForm.post_comment_button) }}
+                                            <div class="col-lg-12">
+                                                <div class="form-submit cerchio">
+                                                    {{ form_widget(commentForm.post_comment_button) }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                            </div>
-                            {{ form_end(commentForm) }}
+                                    {{ form_end(commentForm) }}
 
-                            {% endif %}
-                            <!-- Start Comment Area  -->
-                            <div class="axil-comment-area">
-                                <h4 class="title">2 comments</h4>
-                                <ul class="comment-list">
-                                    <!-- Start Single Comment  -->
-                                    <li class="comment">
-                                        <div class="comment-body">
-                                            <div class="single-comment">
-                                                <div class="comment-img">
-                                                    <img src="assets/images/post-images/author/author-b2.png" alt="Author Images">
-                                                </div>
-                                                <div class="comment-inner">
-                                                    <h6 class="commenter">
-                                                        <a class="hover-flip-item-wrapper" href="#">
-                                                                <span class="hover-flip-item">
-                                                                    <span data-text="Cameron Williamson">Cameron
-                                                                        Williamson</span>
-                                                                </span>
-                                                        </a>
-                                                    </h6>
-                                                    <div class="comment-meta">
-                                                        <div class="time-spent">Nov 23, 2018 at 12:23 pm</div>
-                                                        <div class="reply-edit">
-                                                            <div class="reply">
-                                                                <a class="comment-reply-link hover-flip-item-wrapper" href="#">
-                                                                        <span class="hover-flip-item">
-                                                                            <span data-text="Reply">Reply</span>
-                                                                        </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-text">
-                                                        <p class="b2">Duis hendrerit velit scelerisque felis tempus,
-                                                            id porta
-                                                            libero venenatis. Nulla facilisi. Phasellus viverra
-                                                            magna commodo dui lacinia tempus. Donec malesuada nunc
-                                                            non dui posuere, fringilla vestibulum urna mollis.
-                                                            Integer condimentum ac sapien quis maximus. </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <ul class="children">
-                                            <!-- Start Single Comment  -->
-                                            <li class="comment">
-                                                <div class="comment-body">
-                                                    <div class="single-comment">
-                                                        <div class="comment-img">
-                                                            <img src="assets/images/post-images/author/author-b3.png" alt="Author Images">
-                                                        </div>
-                                                        <div class="comment-inner">
-                                                            <h6 class="commenter">
-                                                                <a class="hover-flip-item-wrapper" href="#">
-                                                                        <span class="hover-flip-item">
-                                                                            <span data-text="Rahabi Khan">Rahabi
-                                                                                Khan</span>
-                                                                        </span>
-                                                                </a>
-                                                            </h6>
-                                                            <div class="comment-meta">
-                                                                <div class="time-spent">Nov 23, 2018 at 12:23 pm
-                                                                </div>
-                                                                <div class="reply-edit">
-                                                                    <div class="reply">
-                                                                        <a class="comment-reply-link hover-flip-item-wrapper" href="#">
-                                                                                <span class="hover-flip-item">
-                                                                                    <span data-text="Reply">Reply</span>
-                                                                                </span>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="comment-text">
-                                                                <p class="b2">Pellentesque habitant morbi tristique
-                                                                    senectus et netus et malesuada fames ac turpis
-                                                                    egestas. Suspendisse lobortis cursus lacinia.
-                                                                    Vestibulum vitae leo id diam pellentesque
-                                                                    ornare.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <!-- End Single Comment  -->
-                                        </ul>
-                                    </li>
-                                    <!-- End Single Comment  -->
+                                {% endif %}
 
-                                    <!-- Start Single Comment  -->
-                                    <li class="comment">
-                                        <div class="comment-body">
-                                            <div class="single-comment">
-                                                <div class="comment-img">
-                                                    <img src="assets/images/post-images/author/author-b2.png" alt="Author Images">
-                                                </div>
-                                                <div class="comment-inner">
-                                                    <h6 class="commenter">
-                                                        <a class="hover-flip-item-wrapper" href="#">
-                                                                <span class="hover-flip-item">
-                                                                    <span data-text="Rahabi Khan">Rahabi Khan</span>
-                                                                </span>
-                                                        </a>
-                                                    </h6>
-                                                    <div class="comment-meta">
-                                                        <div class="time-spent">Nov 23, 2018 at 12:23 pm</div>
-                                                        <div class="reply-edit">
-                                                            <div class="reply">
-                                                                <a class="comment-reply-link hover-flip-item-wrapper" href="#">
-                                                                        <span class="hover-flip-item">
-                                                                            <span data-text="Reply">Reply</span>
-                                                                        </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-text">
-                                                        <p class="b2">Duis hendrerit velit scelerisque felis tempus,
-                                                            id porta
-                                                            libero venenatis. Nulla facilisi. Phasellus viverra
-                                                            magna commodo dui lacinia tempus. Donec malesuada nunc
-                                                            non dui posuere, fringilla vestibulum urna mollis.
-                                                            Integer condimentum ac sapien quis maximus. </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!-- End Single Comment  -->
-                                </ul>
+                                {% if bookReview.comments is not empty %}
+                                <!-- Start Comment Area  -->
+                                <div class="axil-comment-area">
+                                    <h4 class="title">2 comments</h4>
+                                    <ul class="comment-list">
+                                        {% for comment in bookReview.comments %}
+                                            {{ include('comment/comment_item.twig') }}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <!-- End Comment Area  -->
+
+                                {% endif %}
                             </div>
-                            <!-- End Comment Area  -->
 
                         </div>
-                        <!-- End Comment Form Area  -->
-
-
+                        <!-- End Blog Details  -->
                     </div>
-                    <!-- End Blog Details  -->
                 </div>
             </div>
         </div>
-        </div>
-    </div>
 {% endblock %}

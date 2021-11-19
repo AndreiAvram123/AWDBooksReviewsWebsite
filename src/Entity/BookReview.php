@@ -51,10 +51,14 @@ class BookReview
     #[ORM\JoinColumn(nullable: false)]
     private $rating;
 
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Comment::class, orphanRemoval: true)]
+    private $comments;
+
     #[Pure] public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
 
@@ -240,6 +244,36 @@ class BookReview
     public function setRating(Rating $rating): self
     {
         $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setBookReview($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getBookReview() === $this) {
+                $comment->setBookReview(null);
+            }
+        }
 
         return $this;
     }

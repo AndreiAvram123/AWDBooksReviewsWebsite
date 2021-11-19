@@ -11122,7 +11122,7 @@ blockquote p {
 }
 .comment-list .comment .single-comment .comment-img img {
   border-radius: 100%;
-  width: 100%;
+  max-width: 100px;
 }
 .comment-list .comment .commenter {
   margin-bottom: 4px;
