@@ -303,6 +303,7 @@ legend {
 
 button,
 input,
+.form-group select,
 select,
 textarea {
   font-size: 100%;
@@ -312,14 +313,19 @@ textarea {
 }
 
 button,
-input {
+input,
+.form-group select {
   line-height: normal;
 }
 
 button,
 html input[type=button],
+html .form-group select[type=button],
+.form-group html select[type=button],
 input[type=reset],
-input[type=submit] {
+.form-group select[type=reset],
+input[type=submit],
+.form-group select[type=submit] {
   -webkit-appearance: button;
   -moz-appearance: button;
   appearance: button;
@@ -327,16 +333,18 @@ input[type=submit] {
 }
 
 button[disabled],
-input[disabled] {
+input[disabled],
+.form-group select[disabled] {
   cursor: default;
 }
 
-input[type=checkbox],
-input[type=radio] {
+input[type=checkbox], .form-group select[type=checkbox],
+input[type=radio],
+.form-group select[type=radio] {
   padding: 0;
 }
 
-input[type=search] {
+input[type=search], .form-group select[type=search] {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
   appearance: textfield;
@@ -345,13 +353,14 @@ input[type=search] {
   width: 270px;
 }
 
-input[type=search]::-webkit-search-decoration {
+input[type=search]::-webkit-search-decoration, .form-group select[type=search]::-webkit-search-decoration {
   -webkit-appearance: none;
   appearance: none;
 }
 
 button::-moz-focus-inner,
-input::-moz-focus-inner {
+input::-moz-focus-inner,
+.form-group select::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
@@ -877,7 +886,7 @@ ul.axil-tab-button .nav-item a.nav-link.active {
 }
 
 .copyright-area .mainmenu li a, .instagram-post-list .single-post a .instagram-button, .comment-list .comment .reply-edit a.comment-reply-link, .tagcloud a, .about-author .media-body .author-info .title a, .axil-post-details .social-share-block .post-like a i, .axil-post-details .rating-block .post-like a i, .axil-post-details .social-share-block .post-dislike a i, .axil-post-details .rating-block .post-dislike a i, .axil-single-widget .tagcloud a, .axil-single-widget.widget_categories ul li.cat-item .inner .content .title, .post-meta .post-author-name a, .post-content .post-cat .post-cat-list a, .content-block.post-list-view .post-content, .content-block.post-grid.post-grid-transparent .post-grid-content .post-content .post-cat .post-cat-list a, .content-block.content-direction-column, .popup-mobilemenu-area .mainmenu .menu-item-has-children > a::after, .popup-mobilemenu-area .inner .buy-now-btn a, .mainmenu-nav ul.mainmenu > li.megamenu-wrapper .megamenu-sub-menu, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu li a, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu, .mainmenu-nav ul.mainmenu > li > a::after, .mainmenu-nav ul.mainmenu > li > a, .hamburger-menu .hamburger-inner .icon, .metabar-block li.icon a, .arrow-between-side .slide-arrow, ul.social-share-transparent li a, ul.social-with-text li a span, ul.social-with-text li a i, ul.social-icon li a, a.axil-button,
-button.axil-button, a.axil-link-button, input[type=submit], .form-group textarea, .form-group input, #scrollUp, ul li a, ol li a {
+button.axil-button, a.axil-link-button, input[type=submit], .form-group textarea, .form-group input, .form-group select, #scrollUp, ul li a, ol li a {
   transition: var(--transition);
 }
 
@@ -1464,25 +1473,25 @@ Custom Row
 /*===========================
     Input Placeholder
 =============================*/
-input:-moz-placeholder,
+input:-moz-placeholder, .form-group select:-moz-placeholder,
 textarea:-moz-placeholder {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-input::-webkit-input-placeholder,
+input::-webkit-input-placeholder, .form-group select::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-input::-moz-placeholder,
+input::-moz-placeholder, .form-group select::-moz-placeholder,
 textarea::-moz-placeholder {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-input:-ms-input-placeholder,
+input:-ms-input-placeholder, .form-group select:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -7243,7 +7252,7 @@ textarea:-ms-input-placeholder {
 }
 
 /* ========= Forms Styles ========= */
-input,
+input, .form-group select,
 button,
 select,
 textarea {
@@ -7271,7 +7280,7 @@ button,
   -webkit-appearance: button;
 }
 
-input {
+input, .form-group select {
   height: 40px;
   padding: 0 15px;
 }
@@ -7291,11 +7300,15 @@ select {
   padding-right: 32px;
 }
 
-input[type=text],
+input[type=text], .form-group select[type=text],
 input[type=password],
+.form-group select[type=password],
 input[type=email],
+.form-group select[type=email],
 input[type=number],
+.form-group select[type=number],
 input[type=tel],
+.form-group select[type=tel],
 textarea {
   font-size: var(--font-size-b2);
   font-weight: 400;
@@ -7310,213 +7323,375 @@ textarea {
   border-radius: var(--radius);
   /* -- Placeholder -- */
 }
-input[type=text]::placeholder,
+input[type=text]::placeholder, .form-group select[type=text]::placeholder,
 input[type=password]::placeholder,
+.form-group select[type=password]::placeholder,
 input[type=email]::placeholder,
+.form-group select[type=email]::placeholder,
 input[type=number]::placeholder,
+.form-group select[type=number]::placeholder,
 input[type=tel]::placeholder,
+.form-group select[type=tel]::placeholder,
 textarea::placeholder {
   color: var(--body-color);
   /* Firefox */
   opacity: 1;
 }
-input[type=text]:-ms-input-placeholder,
+input[type=text]:-ms-input-placeholder, .form-group select[type=text]:-ms-input-placeholder,
 input[type=password]:-ms-input-placeholder,
+.form-group select[type=password]:-ms-input-placeholder,
 input[type=email]:-ms-input-placeholder,
+.form-group select[type=email]:-ms-input-placeholder,
 input[type=number]:-ms-input-placeholder,
+.form-group select[type=number]:-ms-input-placeholder,
 input[type=tel]:-ms-input-placeholder,
+.form-group select[type=tel]:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: var(--body-color);
 }
-input[type=text]::-ms-input-placeholder,
+input[type=text]::-ms-input-placeholder, .form-group select[type=text]::-ms-input-placeholder,
 input[type=password]::-ms-input-placeholder,
+.form-group select[type=password]::-ms-input-placeholder,
 input[type=email]::-ms-input-placeholder,
+.form-group select[type=email]::-ms-input-placeholder,
 input[type=number]::-ms-input-placeholder,
+.form-group select[type=number]::-ms-input-placeholder,
 input[type=tel]::-ms-input-placeholder,
+.form-group select[type=tel]::-ms-input-placeholder,
 textarea::-ms-input-placeholder {
   /* Microsoft Edge */
   color: var(--body-color);
 }
-input[type=text].p-holder__active, .input-active input[type=text], input[type=text].input-active,
+input[type=text].p-holder__active, .form-group select[type=text].p-holder__active, .input-active input[type=text], .input-active .form-group select[type=text], .form-group .input-active select[type=text], input[type=text].input-active, .form-group select[type=text].input-active,
 input[type=password].p-holder__active,
+.form-group select[type=password].p-holder__active,
 .input-active input[type=password],
+.input-active .form-group select[type=password],
+.form-group .input-active select[type=password],
 input[type=password].input-active,
+.form-group select[type=password].input-active,
 input[type=email].p-holder__active,
+.form-group select[type=email].p-holder__active,
 .input-active input[type=email],
+.input-active .form-group select[type=email],
+.form-group .input-active select[type=email],
 input[type=email].input-active,
+.form-group select[type=email].input-active,
 input[type=number].p-holder__active,
+.form-group select[type=number].p-holder__active,
 .input-active input[type=number],
+.input-active .form-group select[type=number],
+.form-group .input-active select[type=number],
 input[type=number].input-active,
+.form-group select[type=number].input-active,
 input[type=tel].p-holder__active,
+.form-group select[type=tel].p-holder__active,
 .input-active input[type=tel],
+.input-active .form-group select[type=tel],
+.form-group .input-active select[type=tel],
 input[type=tel].input-active,
+.form-group select[type=tel].input-active,
 textarea.p-holder__active,
 textarea.input-active {
   border-color: var(--color-primary);
   /* -- Placeholder -- */
 }
-input[type=text].p-holder__active::placeholder, .input-active input[type=text]::placeholder, input[type=text].input-active::placeholder,
+input[type=text].p-holder__active::placeholder, .form-group select[type=text].p-holder__active::placeholder, .input-active input[type=text]::placeholder, .input-active .form-group select[type=text]::placeholder, .form-group .input-active select[type=text]::placeholder, input[type=text].input-active::placeholder, .form-group select[type=text].input-active::placeholder,
 input[type=password].p-holder__active::placeholder,
+.form-group select[type=password].p-holder__active::placeholder,
 .input-active input[type=password]::placeholder,
+.input-active .form-group select[type=password]::placeholder,
+.form-group .input-active select[type=password]::placeholder,
 input[type=password].input-active::placeholder,
+.form-group select[type=password].input-active::placeholder,
 input[type=email].p-holder__active::placeholder,
+.form-group select[type=email].p-holder__active::placeholder,
 .input-active input[type=email]::placeholder,
+.input-active .form-group select[type=email]::placeholder,
+.form-group .input-active select[type=email]::placeholder,
 input[type=email].input-active::placeholder,
+.form-group select[type=email].input-active::placeholder,
 input[type=number].p-holder__active::placeholder,
+.form-group select[type=number].p-holder__active::placeholder,
 .input-active input[type=number]::placeholder,
+.input-active .form-group select[type=number]::placeholder,
+.form-group .input-active select[type=number]::placeholder,
 input[type=number].input-active::placeholder,
+.form-group select[type=number].input-active::placeholder,
 input[type=tel].p-holder__active::placeholder,
+.form-group select[type=tel].p-holder__active::placeholder,
 .input-active input[type=tel]::placeholder,
+.input-active .form-group select[type=tel]::placeholder,
+.form-group .input-active select[type=tel]::placeholder,
 input[type=tel].input-active::placeholder,
+.form-group select[type=tel].input-active::placeholder,
 textarea.p-holder__active::placeholder,
 textarea.input-active::placeholder {
   color: var(--color-primary);
   /* Firefox */
   opacity: 1;
 }
-input[type=text].p-holder__active:-ms-input-placeholder, .input-active input[type=text]:-ms-input-placeholder, input[type=text].input-active:-ms-input-placeholder,
+input[type=text].p-holder__active:-ms-input-placeholder, .form-group select[type=text].p-holder__active:-ms-input-placeholder, .input-active input[type=text]:-ms-input-placeholder, .input-active .form-group select[type=text]:-ms-input-placeholder, .form-group .input-active select[type=text]:-ms-input-placeholder, input[type=text].input-active:-ms-input-placeholder, .form-group select[type=text].input-active:-ms-input-placeholder,
 input[type=password].p-holder__active:-ms-input-placeholder,
+.form-group select[type=password].p-holder__active:-ms-input-placeholder,
 .input-active input[type=password]:-ms-input-placeholder,
+.input-active .form-group select[type=password]:-ms-input-placeholder,
+.form-group .input-active select[type=password]:-ms-input-placeholder,
 input[type=password].input-active:-ms-input-placeholder,
+.form-group select[type=password].input-active:-ms-input-placeholder,
 input[type=email].p-holder__active:-ms-input-placeholder,
+.form-group select[type=email].p-holder__active:-ms-input-placeholder,
 .input-active input[type=email]:-ms-input-placeholder,
+.input-active .form-group select[type=email]:-ms-input-placeholder,
+.form-group .input-active select[type=email]:-ms-input-placeholder,
 input[type=email].input-active:-ms-input-placeholder,
+.form-group select[type=email].input-active:-ms-input-placeholder,
 input[type=number].p-holder__active:-ms-input-placeholder,
+.form-group select[type=number].p-holder__active:-ms-input-placeholder,
 .input-active input[type=number]:-ms-input-placeholder,
+.input-active .form-group select[type=number]:-ms-input-placeholder,
+.form-group .input-active select[type=number]:-ms-input-placeholder,
 input[type=number].input-active:-ms-input-placeholder,
+.form-group select[type=number].input-active:-ms-input-placeholder,
 input[type=tel].p-holder__active:-ms-input-placeholder,
+.form-group select[type=tel].p-holder__active:-ms-input-placeholder,
 .input-active input[type=tel]:-ms-input-placeholder,
+.input-active .form-group select[type=tel]:-ms-input-placeholder,
+.form-group .input-active select[type=tel]:-ms-input-placeholder,
 input[type=tel].input-active:-ms-input-placeholder,
+.form-group select[type=tel].input-active:-ms-input-placeholder,
 textarea.p-holder__active:-ms-input-placeholder,
 textarea.input-active:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: var(--color-primary);
 }
-input[type=text].p-holder__active::-ms-input-placeholder, .input-active input[type=text]::-ms-input-placeholder, input[type=text].input-active::-ms-input-placeholder,
+input[type=text].p-holder__active::-ms-input-placeholder, .form-group select[type=text].p-holder__active::-ms-input-placeholder, .input-active input[type=text]::-ms-input-placeholder, .input-active .form-group select[type=text]::-ms-input-placeholder, .form-group .input-active select[type=text]::-ms-input-placeholder, input[type=text].input-active::-ms-input-placeholder, .form-group select[type=text].input-active::-ms-input-placeholder,
 input[type=password].p-holder__active::-ms-input-placeholder,
+.form-group select[type=password].p-holder__active::-ms-input-placeholder,
 .input-active input[type=password]::-ms-input-placeholder,
+.input-active .form-group select[type=password]::-ms-input-placeholder,
+.form-group .input-active select[type=password]::-ms-input-placeholder,
 input[type=password].input-active::-ms-input-placeholder,
+.form-group select[type=password].input-active::-ms-input-placeholder,
 input[type=email].p-holder__active::-ms-input-placeholder,
+.form-group select[type=email].p-holder__active::-ms-input-placeholder,
 .input-active input[type=email]::-ms-input-placeholder,
+.input-active .form-group select[type=email]::-ms-input-placeholder,
+.form-group .input-active select[type=email]::-ms-input-placeholder,
 input[type=email].input-active::-ms-input-placeholder,
+.form-group select[type=email].input-active::-ms-input-placeholder,
 input[type=number].p-holder__active::-ms-input-placeholder,
+.form-group select[type=number].p-holder__active::-ms-input-placeholder,
 .input-active input[type=number]::-ms-input-placeholder,
+.input-active .form-group select[type=number]::-ms-input-placeholder,
+.form-group .input-active select[type=number]::-ms-input-placeholder,
 input[type=number].input-active::-ms-input-placeholder,
+.form-group select[type=number].input-active::-ms-input-placeholder,
 input[type=tel].p-holder__active::-ms-input-placeholder,
+.form-group select[type=tel].p-holder__active::-ms-input-placeholder,
 .input-active input[type=tel]::-ms-input-placeholder,
+.input-active .form-group select[type=tel]::-ms-input-placeholder,
+.form-group .input-active select[type=tel]::-ms-input-placeholder,
 input[type=tel].input-active::-ms-input-placeholder,
+.form-group select[type=tel].input-active::-ms-input-placeholder,
 textarea.p-holder__active::-ms-input-placeholder,
 textarea.input-active::-ms-input-placeholder {
   /* Microsoft Edge */
   color: var(--color-primary);
 }
-input[type=text].p-holder__error, .input-error input[type=text], input[type=text].input-error,
+input[type=text].p-holder__error, .form-group select[type=text].p-holder__error, .input-error input[type=text], .input-error .form-group select[type=text], .form-group .input-error select[type=text], input[type=text].input-error, .form-group select[type=text].input-error,
 input[type=password].p-holder__error,
+.form-group select[type=password].p-holder__error,
 .input-error input[type=password],
+.input-error .form-group select[type=password],
+.form-group .input-error select[type=password],
 input[type=password].input-error,
+.form-group select[type=password].input-error,
 input[type=email].p-holder__error,
+.form-group select[type=email].p-holder__error,
 .input-error input[type=email],
+.input-error .form-group select[type=email],
+.form-group .input-error select[type=email],
 input[type=email].input-error,
+.form-group select[type=email].input-error,
 input[type=number].p-holder__error,
+.form-group select[type=number].p-holder__error,
 .input-error input[type=number],
+.input-error .form-group select[type=number],
+.form-group .input-error select[type=number],
 input[type=number].input-error,
+.form-group select[type=number].input-error,
 input[type=tel].p-holder__error,
+.form-group select[type=tel].p-holder__error,
 .input-error input[type=tel],
+.input-error .form-group select[type=tel],
+.form-group .input-error select[type=tel],
 input[type=tel].input-error,
+.form-group select[type=tel].input-error,
 textarea.p-holder__error,
 textarea.input-error {
   border-color: #f4282d;
   /* -- Placeholder -- */
 }
-input[type=text].p-holder__error::placeholder, .input-error input[type=text]::placeholder, input[type=text].input-error::placeholder,
+input[type=text].p-holder__error::placeholder, .form-group select[type=text].p-holder__error::placeholder, .input-error input[type=text]::placeholder, .input-error .form-group select[type=text]::placeholder, .form-group .input-error select[type=text]::placeholder, input[type=text].input-error::placeholder, .form-group select[type=text].input-error::placeholder,
 input[type=password].p-holder__error::placeholder,
+.form-group select[type=password].p-holder__error::placeholder,
 .input-error input[type=password]::placeholder,
+.input-error .form-group select[type=password]::placeholder,
+.form-group .input-error select[type=password]::placeholder,
 input[type=password].input-error::placeholder,
+.form-group select[type=password].input-error::placeholder,
 input[type=email].p-holder__error::placeholder,
+.form-group select[type=email].p-holder__error::placeholder,
 .input-error input[type=email]::placeholder,
+.input-error .form-group select[type=email]::placeholder,
+.form-group .input-error select[type=email]::placeholder,
 input[type=email].input-error::placeholder,
+.form-group select[type=email].input-error::placeholder,
 input[type=number].p-holder__error::placeholder,
+.form-group select[type=number].p-holder__error::placeholder,
 .input-error input[type=number]::placeholder,
+.input-error .form-group select[type=number]::placeholder,
+.form-group .input-error select[type=number]::placeholder,
 input[type=number].input-error::placeholder,
+.form-group select[type=number].input-error::placeholder,
 input[type=tel].p-holder__error::placeholder,
+.form-group select[type=tel].p-holder__error::placeholder,
 .input-error input[type=tel]::placeholder,
+.input-error .form-group select[type=tel]::placeholder,
+.form-group .input-error select[type=tel]::placeholder,
 input[type=tel].input-error::placeholder,
+.form-group select[type=tel].input-error::placeholder,
 textarea.p-holder__error::placeholder,
 textarea.input-error::placeholder {
   color: #f4282d;
   /* Firefox */
   opacity: 1;
 }
-input[type=text].p-holder__error:-ms-input-placeholder, .input-error input[type=text]:-ms-input-placeholder, input[type=text].input-error:-ms-input-placeholder,
+input[type=text].p-holder__error:-ms-input-placeholder, .form-group select[type=text].p-holder__error:-ms-input-placeholder, .input-error input[type=text]:-ms-input-placeholder, .input-error .form-group select[type=text]:-ms-input-placeholder, .form-group .input-error select[type=text]:-ms-input-placeholder, input[type=text].input-error:-ms-input-placeholder, .form-group select[type=text].input-error:-ms-input-placeholder,
 input[type=password].p-holder__error:-ms-input-placeholder,
+.form-group select[type=password].p-holder__error:-ms-input-placeholder,
 .input-error input[type=password]:-ms-input-placeholder,
+.input-error .form-group select[type=password]:-ms-input-placeholder,
+.form-group .input-error select[type=password]:-ms-input-placeholder,
 input[type=password].input-error:-ms-input-placeholder,
+.form-group select[type=password].input-error:-ms-input-placeholder,
 input[type=email].p-holder__error:-ms-input-placeholder,
+.form-group select[type=email].p-holder__error:-ms-input-placeholder,
 .input-error input[type=email]:-ms-input-placeholder,
+.input-error .form-group select[type=email]:-ms-input-placeholder,
+.form-group .input-error select[type=email]:-ms-input-placeholder,
 input[type=email].input-error:-ms-input-placeholder,
+.form-group select[type=email].input-error:-ms-input-placeholder,
 input[type=number].p-holder__error:-ms-input-placeholder,
+.form-group select[type=number].p-holder__error:-ms-input-placeholder,
 .input-error input[type=number]:-ms-input-placeholder,
+.input-error .form-group select[type=number]:-ms-input-placeholder,
+.form-group .input-error select[type=number]:-ms-input-placeholder,
 input[type=number].input-error:-ms-input-placeholder,
+.form-group select[type=number].input-error:-ms-input-placeholder,
 input[type=tel].p-holder__error:-ms-input-placeholder,
+.form-group select[type=tel].p-holder__error:-ms-input-placeholder,
 .input-error input[type=tel]:-ms-input-placeholder,
+.input-error .form-group select[type=tel]:-ms-input-placeholder,
+.form-group .input-error select[type=tel]:-ms-input-placeholder,
 input[type=tel].input-error:-ms-input-placeholder,
+.form-group select[type=tel].input-error:-ms-input-placeholder,
 textarea.p-holder__error:-ms-input-placeholder,
 textarea.input-error:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: #f4282d;
 }
-input[type=text].p-holder__error::-ms-input-placeholder, .input-error input[type=text]::-ms-input-placeholder, input[type=text].input-error::-ms-input-placeholder,
+input[type=text].p-holder__error::-ms-input-placeholder, .form-group select[type=text].p-holder__error::-ms-input-placeholder, .input-error input[type=text]::-ms-input-placeholder, .input-error .form-group select[type=text]::-ms-input-placeholder, .form-group .input-error select[type=text]::-ms-input-placeholder, input[type=text].input-error::-ms-input-placeholder, .form-group select[type=text].input-error::-ms-input-placeholder,
 input[type=password].p-holder__error::-ms-input-placeholder,
+.form-group select[type=password].p-holder__error::-ms-input-placeholder,
 .input-error input[type=password]::-ms-input-placeholder,
+.input-error .form-group select[type=password]::-ms-input-placeholder,
+.form-group .input-error select[type=password]::-ms-input-placeholder,
 input[type=password].input-error::-ms-input-placeholder,
+.form-group select[type=password].input-error::-ms-input-placeholder,
 input[type=email].p-holder__error::-ms-input-placeholder,
+.form-group select[type=email].p-holder__error::-ms-input-placeholder,
 .input-error input[type=email]::-ms-input-placeholder,
+.input-error .form-group select[type=email]::-ms-input-placeholder,
+.form-group .input-error select[type=email]::-ms-input-placeholder,
 input[type=email].input-error::-ms-input-placeholder,
+.form-group select[type=email].input-error::-ms-input-placeholder,
 input[type=number].p-holder__error::-ms-input-placeholder,
+.form-group select[type=number].p-holder__error::-ms-input-placeholder,
 .input-error input[type=number]::-ms-input-placeholder,
+.input-error .form-group select[type=number]::-ms-input-placeholder,
+.form-group .input-error select[type=number]::-ms-input-placeholder,
 input[type=number].input-error::-ms-input-placeholder,
+.form-group select[type=number].input-error::-ms-input-placeholder,
 input[type=tel].p-holder__error::-ms-input-placeholder,
+.form-group select[type=tel].p-holder__error::-ms-input-placeholder,
 .input-error input[type=tel]::-ms-input-placeholder,
+.input-error .form-group select[type=tel]::-ms-input-placeholder,
+.form-group .input-error select[type=tel]::-ms-input-placeholder,
 input[type=tel].input-error::-ms-input-placeholder,
+.form-group select[type=tel].input-error::-ms-input-placeholder,
 textarea.p-holder__error::-ms-input-placeholder,
 textarea.input-error::-ms-input-placeholder {
   /* Microsoft Edge */
   color: #f4282d;
 }
-input[type=text].p-holder__error:focus, .input-error input[type=text]:focus, input[type=text].input-error:focus,
+input[type=text].p-holder__error:focus, .form-group select[type=text].p-holder__error:focus, .input-error input[type=text]:focus, .input-error .form-group select[type=text]:focus, .form-group .input-error select[type=text]:focus, input[type=text].input-error:focus, .form-group select[type=text].input-error:focus,
 input[type=password].p-holder__error:focus,
+.form-group select[type=password].p-holder__error:focus,
 .input-error input[type=password]:focus,
+.input-error .form-group select[type=password]:focus,
+.form-group .input-error select[type=password]:focus,
 input[type=password].input-error:focus,
+.form-group select[type=password].input-error:focus,
 input[type=email].p-holder__error:focus,
+.form-group select[type=email].p-holder__error:focus,
 .input-error input[type=email]:focus,
+.input-error .form-group select[type=email]:focus,
+.form-group .input-error select[type=email]:focus,
 input[type=email].input-error:focus,
+.form-group select[type=email].input-error:focus,
 input[type=number].p-holder__error:focus,
+.form-group select[type=number].p-holder__error:focus,
 .input-error input[type=number]:focus,
+.input-error .form-group select[type=number]:focus,
+.form-group .input-error select[type=number]:focus,
 input[type=number].input-error:focus,
+.form-group select[type=number].input-error:focus,
 input[type=tel].p-holder__error:focus,
+.form-group select[type=tel].p-holder__error:focus,
 .input-error input[type=tel]:focus,
+.input-error .form-group select[type=tel]:focus,
+.form-group .input-error select[type=tel]:focus,
 input[type=tel].input-error:focus,
+.form-group select[type=tel].input-error:focus,
 textarea.p-holder__error:focus,
 textarea.input-error:focus {
   border-color: #f4282d;
 }
-input[type=text]:focus,
+input[type=text]:focus, .form-group select[type=text]:focus,
 input[type=password]:focus,
+.form-group select[type=password]:focus,
 input[type=email]:focus,
+.form-group select[type=email]:focus,
 input[type=number]:focus,
+.form-group select[type=number]:focus,
 input[type=tel]:focus,
+.form-group select[type=tel]:focus,
 textarea:focus {
   border-color: var(--color-primary);
 }
 
-input[type=checkbox],
-input[type=radio] {
+input[type=checkbox], .form-group select[type=checkbox],
+input[type=radio],
+.form-group select[type=radio] {
   opacity: 0;
   position: absolute;
 }
-input[type=checkbox] ~ label,
-input[type=radio] ~ label {
+input[type=checkbox] ~ label, .form-group select[type=checkbox] ~ label,
+input[type=radio] ~ label,
+.form-group select[type=radio] ~ label {
   position: relative;
   font-size: 12px;
   line-height: 17px;
@@ -7525,8 +7700,9 @@ input[type=radio] ~ label {
   padding-left: 20px;
   cursor: pointer;
 }
-input[type=checkbox] ~ label::before,
-input[type=radio] ~ label::before {
+input[type=checkbox] ~ label::before, .form-group select[type=checkbox] ~ label::before,
+input[type=radio] ~ label::before,
+.form-group select[type=radio] ~ label::before {
   content: " ";
   position: absolute;
   top: 2px;
@@ -7538,8 +7714,9 @@ input[type=radio] ~ label::before {
   border-radius: 2px;
   transition: all 0.3s;
 }
-input[type=checkbox] ~ label::after,
-input[type=radio] ~ label::after {
+input[type=checkbox] ~ label::after, .form-group select[type=checkbox] ~ label::after,
+input[type=radio] ~ label::after,
+.form-group select[type=radio] ~ label::after {
   content: " ";
   position: absolute;
   top: 5px;
@@ -7554,20 +7731,22 @@ input[type=radio] ~ label::after {
   opacity: 0;
   transition: all 0.3s;
 }
-input[type=checkbox]:checked ~ label::before,
-input[type=radio]:checked ~ label::before {
+input[type=checkbox]:checked ~ label::before, .form-group select[type=checkbox]:checked ~ label::before,
+input[type=radio]:checked ~ label::before,
+.form-group select[type=radio]:checked ~ label::before {
   background-color: var(--color-primary);
   border: var(--border-width) solid var(--color-primary);
 }
-input[type=checkbox]:checked ~ label::after,
-input[type=radio]:checked ~ label::after {
+input[type=checkbox]:checked ~ label::after, .form-group select[type=checkbox]:checked ~ label::after,
+input[type=radio]:checked ~ label::after,
+.form-group select[type=radio]:checked ~ label::after {
   opacity: 1;
 }
 
-input[type=radio] ~ label::before {
+input[type=radio] ~ label::before, .form-group select[type=radio] ~ label::before {
   border-radius: 50%;
 }
-input[type=radio] ~ label::after {
+input[type=radio] ~ label::after, .form-group select[type=radio] ~ label::after {
   width: 8px;
   height: 8px;
   left: 3px;
@@ -7584,7 +7763,7 @@ input[type=radio] ~ label::after {
   line-height: 22px;
   font-weight: 500;
 }
-.form-group input {
+.form-group input, .form-group select {
   border: 0 none;
   border-radius: 4px;
   height: 50px;
@@ -7593,7 +7772,7 @@ input[type=radio] ~ label::after {
   background-color: var(--color-lightest);
   border: 1px solid transparent;
 }
-.form-group input:focus {
+.form-group input:focus, .form-group select:focus {
   border-color: var(--color-primary);
   box-shadow: none;
 }
@@ -7611,7 +7790,7 @@ input[type=radio] ~ label::after {
   border-color: var(--color-primary);
 }
 
-input[type=submit] {
+input[type=submit], .form-group select[type=submit] {
   width: auto;
   padding: 0 30px;
   border-radius: 500px;
@@ -7627,7 +7806,7 @@ input[type=submit] {
   height: 50px;
   border: 2px solid var(--color-primary);
 }
-input[type=submit]:hover {
+input[type=submit]:hover, .form-group select[type=submit]:hover {
   background: transparent;
   color: var(--color-primary);
   transform: translateY(-5px);
@@ -8541,28 +8720,28 @@ Header Styles
     flex-grow: 0;
   }
 }
-.axil-header .header-search .header-search-form .axil-search.form-group input {
+.axil-header .header-search .header-search-form .axil-search.form-group input, .axil-header .header-search .header-search-form .axil-search.form-group select {
   min-width: 245px;
   height: 40px;
 }
 @media only screen and (min-width: 1600px) and (max-width: 1800px) {
-  .axil-header .header-search .header-search-form .axil-search.form-group input {
+  .axil-header .header-search .header-search-form .axil-search.form-group input, .axil-header .header-search .header-search-form .axil-search.form-group select {
     min-width: 220px;
   }
 }
 @media only screen and (min-width: 1200px) and (max-width: 1599px) {
-  .axil-header .header-search .header-search-form .axil-search.form-group input {
+  .axil-header .header-search .header-search-form .axil-search.form-group input, .axil-header .header-search .header-search-form .axil-search.form-group select {
     min-width: 143px;
     height: 35px;
   }
 }
 @media only screen and (max-width: 767px) {
-  .axil-header .header-search .header-search-form .axil-search.form-group input {
+  .axil-header .header-search .header-search-form .axil-search.form-group input, .axil-header .header-search .header-search-form .axil-search.form-group select {
     min-width: 174px;
   }
 }
 @media only screen and (max-width: 575px) {
-  .axil-header .header-search .header-search-form .axil-search.form-group input {
+  .axil-header .header-search .header-search-form .axil-search.form-group input, .axil-header .header-search .header-search-form .axil-search.form-group select {
     display: none;
   }
 }
@@ -8589,7 +8768,7 @@ Header Styles
 .axil-header.header-dark {
   background: var(--color-extra04);
 }
-.axil-header.header-dark .axil-search.form-group input {
+.axil-header.header-dark .axil-search.form-group input, .axil-header.header-dark .axil-search.form-group select {
   background: var(--color-extra05);
   color: var(--color-white);
 }
@@ -8620,7 +8799,7 @@ Search Styles
   text-align: right;
   display: inline-block;
 }
-.axil-search.form-group input {
+.axil-search.form-group input, .axil-search.form-group select {
   background: var(--color-lightest);
   border-radius: 44px;
   padding-left: 46px;
@@ -8932,7 +9111,7 @@ button.search-button i {
 .axil-header.header-style-4 .header-search .header-search-form {
   flex-grow: 0;
 }
-.axil-header.header-style-4 .header-search .header-search-form .axil-search.form-group input {
+.axil-header.header-style-4 .header-search .header-search-form .axil-search.form-group input, .axil-header.header-style-4 .header-search .header-search-form .axil-search.form-group select {
   min-width: 180px;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -9339,14 +9518,14 @@ Navigation Css
 .subscription-form .form-group {
   position: relative;
 }
-.subscription-form .form-group input {
+.subscription-form .form-group input, .subscription-form .form-group select {
   border-radius: 100px;
   background: var(--color-white);
   padding-right: 130px;
   padding-left: 30px;
 }
 @media only screen and (max-width: 767px) {
-  .subscription-form .form-group input {
+  .subscription-form .form-group input, .subscription-form .form-group select {
     padding-right: 30px;
   }
 }
@@ -10532,7 +10711,7 @@ Sidebar Styles
 .axil-single-widget:last-child {
   margin-bottom: 0;
 }
-.axil-single-widget input {
+.axil-single-widget input, .axil-single-widget .form-group select, .form-group .axil-single-widget select {
   height: 40px;
   border-radius: 44px;
   font-size: var(--font-size-b3);
@@ -10621,7 +10800,7 @@ Sidebar Styles
 .axil-single-widget.widget_search .axil-search.form-group {
   display: block;
 }
-.axil-single-widget.widget_search .axil-search.form-group input {
+.axil-single-widget.widget_search .axil-search.form-group input, .axil-single-widget.widget_search .axil-search.form-group select {
   height: 40px;
   border: 0 none;
   max-width: 100%;
@@ -11900,7 +12079,7 @@ Instagram Styles
 .maintanence-area .content .subscription-form .form-group {
   max-width: 470px;
 }
-.maintanence-area .content .subscription-form .form-group input {
+.maintanence-area .content .subscription-form .form-group input, .maintanence-area .content .subscription-form .form-group select {
   background: #F0F2F5;
   color: #65676B;
 }
@@ -12156,7 +12335,7 @@ body.active-dark-mode figure figcaption {
   color: #c7c5c5;
 }
 
-body.active-dark-mode .form-group input {
+body.active-dark-mode .form-group input, body.active-dark-mode .form-group select {
   background-color: #242424;
   color: #ffffff;
 }
@@ -12172,7 +12351,7 @@ body.active-dark-mode .axil-header.header-style-3 .header-top .social-share-tran
 /*--------------------
  Header Area  
 ----------------------*/
-body.active-dark-mode .axil-search.form-group input {
+body.active-dark-mode .axil-search.form-group input, body.active-dark-mode .axil-search.form-group select {
   background: #242424;
   color: #ffffff;
 }
@@ -12519,8 +12698,10 @@ body.active-dark-mode .form-group textarea {
   background-color: #242424;
 }
 
-body.active-dark-mode input[type=checkbox] ~ label::before,
-body.active-dark-mode input[type=radio] ~ label::before {
+body.active-dark-mode input[type=checkbox] ~ label::before, body.active-dark-mode .form-group select[type=checkbox] ~ label::before, .form-group body.active-dark-mode select[type=checkbox] ~ label::before,
+body.active-dark-mode input[type=radio] ~ label::before,
+body.active-dark-mode .form-group select[type=radio] ~ label::before,
+.form-group body.active-dark-mode select[type=radio] ~ label::before {
   background-color: #050505;
   border-color: #050505;
 }
@@ -12564,7 +12745,7 @@ body.active-dark-mode .maintanence-area .content .logo a img.light-logo {
   display: block;
 }
 
-body.active-dark-mode .maintanence-area .content .subscription-form .form-group input {
+body.active-dark-mode .maintanence-area .content .subscription-form .form-group input, body.active-dark-mode .maintanence-area .content .subscription-form .form-group select {
   background: #333333;
 }
 
@@ -12622,6 +12803,10 @@ body.active-dark-mode .axil-footer-style-1 .footer-top .inner {
 
 .flex-media {
   display: flex !important;
+}
+
+.dashboard-card {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

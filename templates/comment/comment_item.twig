@@ -6,7 +6,7 @@
             </div>
             <div class="comment-inner">
                 <h6 class="commenter">
-                    <a class="hover-flip-item-wrapper" href="{{ url('get_user_by_id', {'id' : comment.creator.id}) }}">
+                    <a class="hover-flip-item-wrapper" href="{{ url('user_profile', {'id' : comment.creator.id}) }}">
                         <span class="hover-flip-item">
                          <span data-text="{{ comment.creator.username }}">{{ comment.creator.username }}</span>
                          </span>

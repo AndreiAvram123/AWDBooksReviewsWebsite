@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\BookReview;
 use App\Entity\Comment;
+use App\Entity\Rating;
+use App\Entity\ReviewSection;
 use App\Entity\User;
 use App\Form\BookReviewType;
 use App\Form\CommentType;
@@ -113,41 +115,63 @@ class BookReviewController extends BaseController
     #[Route('/reviews/create', name: 'create_book_review', methods: ["GET","POST"])]
     public function createBookReview(Request $request): Response
     {
-        $bookReview = new BookReview();
-        $form = $this->createBookReviewForm($bookReview);
+        $form = $this->createForm(BookReviewType::class);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            /** @var User $user */
-            $user = $this->getUser();
-            $bookReview = $form->getData();
-            $bookReview->setCreator($user);
-            $this->persistAndFlush($bookReview);
-            return $this->redirectToRoute('home');
 
+        if($form->isSubmitted() && $form->isValid()){
+            $bookReview = $this->createReviewFromFormData($form);
+            $this->createSections($request, $bookReview);
+            return $this->redirectToRoute('home');
         }
         return $this->renderForm('book_review/create_review.twig',[
             'form' => $form
         ]);
     }
-    private function createBookReviewForm(BookReview $bookReview): FormInterface
-    {
-       return $this->createForm(BookReviewType::class,$bookReview);
+
+    private function createReviewFromFormData(FormInterface $form):BookReview{
+        $user = $this->getUser();
+        $rating = new Rating();
+        $review = new BookReview();
+        $review->setRating($rating);
+        $review->setCreator($user);
+        $review->setBook($form->getData()['book']);
+        $review->setCreationDate(new \DateTime());
+        $review->setTitle("Something very cool");
+        $this->persistAndFlush($review);
+        return $review;
     }
+
+    private function createSections(Request $request, BookReview $bookReview){
+
+        $requestBag = $request->request;
+        $numberOfSections = $requestBag->get('book_review')['number_sections'];
+        for($sectionNumber= 1; $sectionNumber <= $numberOfSections; $sectionNumber ++){
+            $section = new ReviewSection();
+            $section->setBookReview($bookReview);
+            $sectionTitle = $requestBag->get('section_' . $sectionNumber ."_title");
+            $sectionSummary = $requestBag->get('section_' . $sectionNumber ."_summary");
+            $section->setHeading($sectionTitle);
+            $section->setText($sectionSummary);
+            $this->persistAndFlush($section);
+        }
+
+    }
+
 
     #[Route('/books/{id}', name: 'edit_book_review')]
     public function editBookReview(Request $request, BookReview $bookReview):Response{
-       if($bookReview -> getCreator() !==$this->getUser()){
-           $this->redirectToRoute('home');
-       }
-       $form = $this->createBookReviewForm($bookReview);
-       $form->handleRequest($request);
+        if($bookReview -> getCreator() !==$this->getUser()){
+            $this->redirectToRoute('home');
+        }
+        $form = $this->createBookReviewForm($bookReview);
+        $form->handleRequest($request);
 
-       if($form->isSubmitted() && $form->isValid()){
-           $bookReview = $form->getData();
-           $bookReview->setCreator($this->getUser());
-           $this->persistAndFlush($bookReview);
-           return $this->redirectToRoute('home');
-       }
+        if($form->isSubmitted() && $form->isValid()){
+            $bookReview = $form->getData();
+            $bookReview->setCreator($this->getUser());
+            $this->persistAndFlush($bookReview);
+            return $this->redirectToRoute('home');
+        }
         return $this->renderForm('book_review/book_review_edit.html.twig',[
             'form' => $form
         ]);

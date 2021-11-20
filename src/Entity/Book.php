@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-class Book
+class Book implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -102,5 +102,10 @@ class Book
         $this->pending = $pending;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+
     }
 }

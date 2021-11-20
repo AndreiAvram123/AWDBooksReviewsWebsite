@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BaseController extends AbstractController
 {
 
+
     protected function getManager(): ObjectManager
     {
         return $this->getDoctrine()->getManager();

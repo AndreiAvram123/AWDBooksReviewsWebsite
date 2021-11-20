@@ -35,9 +35,11 @@
 {% block body %}
 {{ include('base/navbar.html.twig') }}
 {{  include('components/theme_switcher.twig')}}
+<div class="main-wrapper">
         {% block mainContent %}
 
         {% endblock %}
+</div>
 {% endblock %}
 {{ include('components/copyright_area.twig') }}
 </body>

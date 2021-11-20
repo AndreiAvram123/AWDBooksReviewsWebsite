@@ -56,7 +56,6 @@ class BookReview
 
     #[Pure] public function __construct()
     {
-        $this->images = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
@@ -80,17 +79,6 @@ class BookReview
         return $this;
     }
 
-    public function getSummary(): string
-    {
-        return $this->summary;
-    }
-
-    public function setSummary(string $summary): self
-    {
-        $this->summary = $summary;
-
-        return $this;
-    }
 
     public function getCreator(): ?User
     {
@@ -128,35 +116,6 @@ class BookReview
         return $this;
     }
 
-    /**
-     * @return Collection|Image[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Image $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setBookReview($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): self
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getBookReview() === $this) {
-                $image->setBookReview(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getTitle(): ?string
     {

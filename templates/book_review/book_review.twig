@@ -97,6 +97,7 @@
                         </div>
 
 
+                        {% if ratingForm is defined %}
                         {{ form_start(ratingForm) }}
                         <div class="rating-block">
                             <div class="post-like">
@@ -110,9 +111,10 @@
                         </div>
 
                           {{ form_end(ratingForm) }}
-
+                          {% endif %}
 
                                 {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if commentForm is defined %}
                                     {{ form_start(commentForm) }}
                                     <div class="comment-respond">
                                         <h4 class="title">Post a comment</h4>
@@ -130,7 +132,7 @@
                                         </div>
                                     </div>
                                     {{ form_end(commentForm) }}
-
+                        {% endif %}
                                 {% endif %}
 
                                 {% if bookReview.comments is not empty %}

@@ -29,7 +29,7 @@ class ModeratorController extends BaseController
 
         return $this->render('moderator/moderator_index.twig', [
             'totalPendingReviews' => $totalPendingReviews,
-            'totalBooksPending' => $totalPendingBooks
+            'totalPendingBooks' => $totalPendingBooks
         ]);
     }
 
@@ -41,33 +41,15 @@ class ModeratorController extends BaseController
             ->findPending();
         return $this->render('moderator/moderator_pending_reviews.twig',
             [
-                'pendingReviews' => $pendingReviews]
+                'pendingReviews' => $pendingReviews
+            ]
         );
     }
 
     #[Route('moderator/bookReview/{id}', name: 'pending_book_review')]
     public function pendingBookReview(Request $request , BookReview $bookReview):Response{
-        $form = $this->createForm(PendingReviewType::class,$bookReview);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form-> isValid()){
-            /** @var SubmitButton $declineButton */
-            $declineButton = $form->get('Decline');
-            /** @var SubmitButton $approveButton */
-            $approveButton = $form->get("Approve");
-
-            if($declineButton->isClicked()){
-                $bookReview->setDeclined(true);
-                $bookReview->setPending(false);
-            }
-            if($approveButton ->isClicked()){
-                $bookReview->setPending(false);
-            }
-            $this->persistAndFlush($bookReview);
-            return $this->redirectToRoute('home');
-
-        }
-        return $this->renderForm('moderator/pending_book_review.twig', [
-                'form' => $form
+        return $this->render('book_review/book_review.twig', [
+            "bookReview" => $bookReview
             ]
         );
     }

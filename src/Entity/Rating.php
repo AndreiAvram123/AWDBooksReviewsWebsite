@@ -14,10 +14,10 @@ class Rating
     private $id;
 
     #[ORM\Column(type: 'integer')]
-    private $likes;
+    private $likes = 0;
 
     #[ORM\Column(type: 'integer')]
-    private $dislikes;
+    private $dislikes = 0;
 
     public function getId(): ?int
     {

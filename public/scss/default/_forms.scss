@@ -228,6 +228,9 @@ input[type="radio"] {
         line-height: 22px;
         font-weight: 500;
     }
+    select{
+        @extend input
+    }
     input {
         border: 0 none;
         border-radius: 4px;
