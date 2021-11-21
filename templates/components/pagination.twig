@@ -1,0 +1,25 @@
+
+{% if (app.request.get('page') is defined) and  (app.request.get('page') is not empty)  %}
+    {% set currentPageNumber = app.request.get('page') %}
+{% else %}
+    {% set currentPageNumber = 1 %}
+{% endif %}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {% if currentPageNumber == 1 %}{{ "disabled"}} {% endif %}">
+                <a class="page-link " tabindex="-1">Previous</a>
+
+        </li>
+        {% for pageNumber in 1..numberOfPages %}
+
+            <li class="page-item {% if pageNumber == currentPageNumber %} {{ "active"}}  {% endif %}">
+                <a class="page-link" href="{{ url('book_reviews_page',{'page' : pageNumber}) }}"> {{ pageNumber }}</a>
+            </li>
+        {% endfor %}
+
+        <li class="page-item {% if currentPageNumber == numberOfPages %}{{ "disabled"}} {% endif %}">
+            <a class="page-link" href="#">Next</a>
+        </li>
+    </ul>
+</nav>

@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookReviewRepository extends ServiceEntityRepository
 {
+    static int $itemsPerPage = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, BookReview::class);
@@ -28,10 +30,13 @@ class BookReviewRepository extends ServiceEntityRepository
                    ->getResult();
     }
 
-    public function findAvailableToUsers():array{
+    public function findPubliclyAvailable(int $page = 1):array{
+        $offset = self::$itemsPerPage * ($page-1);
         return $this->createQueryBuilder('br')
             ->andWhere('br.declined = false')
             ->andWhere('br.pending = false')
+            ->setFirstResult($offset)
+            ->setMaxResults(self::$itemsPerPage)
             ->getQuery()
             ->getResult();
     }

@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Form\BookReviewType;
 use App\Form\CommentType;
 use App\Form\RatingType;
+use App\Repository\BookReviewRepository;
 use App\utils\aws\AwsImageUtils;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,12 +24,26 @@ class BookReviewController extends BaseController
 
     #[Route("/", name: "home", methods: ["GET"])]
     public function index(): Response{
-        $allReviews = $this->getManager()
-            ->getRepository(BookReview::class)
-            ->findAvailableToUsers();
+        $repo = $this->getManager()
+            ->getRepository(BookReview::class);
+        $allReviews =  $repo->findPubliclyAvailable();
+        $numberOfPages =  intval($repo->count(array())/BookReviewRepository::$itemsPerPage);
+        return $this->render('reviews_list.twig', [
+            'allReviews' => $allReviews,
+            'numberOfPages' => $numberOfPages
+        ]);
+    }
 
-        return $this->render('index.html.twig', [
-            'allReviews' => $allReviews
+    #[Route("/reviews/page/{page}", name: "book_reviews_page", requirements:['page' => '\d+'])]
+    public function bookReviewsPage(int $page): Response{
+        $repo = $this->getManager()
+            ->getRepository(BookReview::class);
+        $allReviews = $repo->findPubliclyAvailable($page);
+
+        $numberOfPages =  intval($repo->count(array())/BookReviewRepository::$itemsPerPage);
+        return $this->render('reviews_list.twig', [
+            'allReviews' => $allReviews,
+             'numberOfPages' => $numberOfPages
         ]);
     }
 

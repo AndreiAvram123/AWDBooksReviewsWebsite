@@ -2,6 +2,7 @@
 
 
 {% block mainContent %}
+
 <div class="main-wrapper">
     <h1 class="d-none">Home Tech Blog</h1>
     <!-- Start Post List Wrapper  -->
@@ -12,13 +13,11 @@
                     {% for bookReview in allReviews %}
                         {{ include('book_review/book_review_card.html.twig') }}
                     {% endfor %}
+                    {{ include('components/pagination.twig') }}
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Post List Wrapper  -->
-
-
 
 </div>
 {% endblock %}
