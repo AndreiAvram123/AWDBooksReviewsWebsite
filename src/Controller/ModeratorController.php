@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\BookReview;
+use App\Form\ModeratorApproveType;
 use App\Form\PendingReviewType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -48,8 +49,21 @@ class ModeratorController extends BaseController
 
     #[Route('moderator/bookReview/{id}', name: 'pending_book_review')]
     public function pendingBookReview(Request $request , BookReview $bookReview):Response{
-        return $this->render('book_review/book_review.twig', [
-            "bookReview" => $bookReview
+        $moderatorForm = $this->createForm(ModeratorApproveType::class);
+        $moderatorForm->handleRequest($request);
+        if($this->canAccessFormData($moderatorForm)){
+            if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$approveButtonName)){
+                $bookReview->setPending(false);
+            }
+            if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$declineButtonName)){
+                $bookReview->setPending(false);
+                $bookReview->setDeclined(true);
+            }
+            $this->persistAndFlush($bookReview);
+            return $this->redirectToRoute('home');
+        }
+        return $this->renderForm('book_review/book_review_moderator.twig', [
+            "bookReview" => $bookReview, "moderatorForm" => $moderatorForm
             ]
         );
     }

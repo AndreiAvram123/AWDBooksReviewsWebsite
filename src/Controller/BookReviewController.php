@@ -45,8 +45,6 @@ class BookReviewController extends BaseController
     #[Route('/bookReview/{id}', name : "get_book_review_by_id")]
     public function displayBookReviewById(BookReview $bookReview, Request $request): Response
     {
-        $removeBookReviewForm = $this->createForm(RemoveBookReviewType::class);
-        $removeBookReviewForm->handleRequest($request);
 
         $ratingForm = $this->createForm(RatingType::class);
         $ratingForm->handleRequest($request);
@@ -55,16 +53,6 @@ class BookReviewController extends BaseController
         $commentForm = $this->createForm(CommentType::class,$comment);
         $commentForm->handleRequest($request);
 
-
-        if($removeBookReviewForm -> isSubmitted() && $removeBookReviewForm-> isValid()){
-            /** @var SubmitButton $removeButton */
-            $removeButton = $removeBookReviewForm->get('Remove_book_review');
-            if($removeButton->isClicked()){
-                $bookReview->setDeclined(true);
-                $this->persistAndFlush($bookReview);
-                return  $this->redirectToRoute('home');
-            }
-        }
         if($this->canAccessFormData($ratingForm)){
             $rating = $bookReview->getRating();
             if($this->isFormButtonClicked($ratingForm,"like_button")){
@@ -93,22 +81,9 @@ class BookReviewController extends BaseController
 
         return $this-> renderForm('book_review/book_review.twig', [
             'bookReview' => $bookReview,
-            'removeBookReviewForm'=>$removeBookReviewForm,
             'ratingForm' => $ratingForm,
             'commentForm'=>$commentForm
         ]);
-    }
-
-
-    private function canAccessFormData(FormInterface $form) : bool{
-        return $form-> isSubmitted() && $form->isValid();
-    }
-
-    private function isFormButtonClicked(FormInterface $form, string $buttonName): bool
-    {
-        /** @var SubmitButton $button */
-        $button = $form->get($buttonName);
-        return $button->isClicked();
     }
 
 
@@ -128,6 +103,9 @@ class BookReviewController extends BaseController
         ]);
     }
 
+
+    //todo
+    //maybe refactor some of the logic here
     private function createReviewFromFormData(FormInterface $form):BookReview{
         $user = $this->getUser();
         $rating = new Rating();

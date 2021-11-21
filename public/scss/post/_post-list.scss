@@ -911,6 +911,11 @@ Post Category
             flex-wrap: wrap;
             align-items: center;
             margin: -8px;
+
+            .item-pending{
+                @extend  a;
+                @extend %color-secondary;
+            }
             a {
                 @extend %color-secondary;
                 @extend %transition;

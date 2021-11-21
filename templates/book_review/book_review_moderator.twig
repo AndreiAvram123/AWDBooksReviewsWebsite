@@ -1,0 +1,18 @@
+{% extends 'book_review/book_review.twig' %}
+{% block additional_content %}
+        {{ form_start(moderatorForm) }}
+
+        <div class="mt-5">
+            <div class="row row--10">
+                <div class="col">
+                    <div class="form-submit cerchio">
+                        {{ form_widget(moderatorForm.Approve) }}
+                    </div>
+                    <div class="form-submit cerchio">
+                        {{ form_widget(moderatorForm.Decline) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(moderatorForm) }}
+{% endblock %}

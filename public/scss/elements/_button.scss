@@ -21,9 +21,8 @@ a {
 
 a,
 button {
-    &.axil-button {
-        background: var(--color-primary);
-        color: var(--color-white);
+
+    @mixin axil-button{
         font-weight: var(--p-medium);
         font-size: var(--font-size-b2);
         display: inline-block;
@@ -36,7 +35,7 @@ button {
             border-radius: 500px;
         }
         &:hover {
-            
+
         }
         &.color-secondary-alt {
             background: var(--color-secondary-alt);
@@ -54,6 +53,20 @@ button {
                 }
             }
         }
+    }
+
+
+    &.axil-button-red{
+        @include axil-button;
+        background : var(--color-danger);
+        color: var(--color-white);
+        border: none;
+    }
+
+    &.axil-button-primary {
+        @include  axil-button;
+        background: var(--color-primary);
+        color: var(--color-white);
 
     }
 }
