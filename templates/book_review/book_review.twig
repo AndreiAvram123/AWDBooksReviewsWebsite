@@ -27,9 +27,11 @@
                                                 </div>
                                             </div>
                                             <h1 class="title text-center">{{ bookReview.title }}</h1>
+                                            {% if bookReview.frontImage != null %}
                                             <figure class="wp-block-image alignwide text-center">
                                                 <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
                                             </figure>
+                                            {% endif%}
                                             <!-- Post Meta  -->
                                             <div class="post-meta-wrapper">
                                                 <div class="post-meta">

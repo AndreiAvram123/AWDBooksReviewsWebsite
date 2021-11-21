@@ -24,10 +24,14 @@ class BookReviewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('title',TextType::class,[
+                'label'=>"Add a title for the review"
+            ])
             ->add('book', EntityType::class, [
                 'class' => Book::class,
                 'choice_label'=> 'title',
-                'placeholder' => 'Choose a book',
+                'placeholder' => 'Click here to select a book',
+                'label' => "The book to review"
             ])
             ->add('find_book',ButtonType::class,
                 [
@@ -35,12 +39,12 @@ class BookReviewType extends AbstractType
                         'class'=> 'btn btn-link',
                         'onclick' =>'window.location="/books/create"'
                     ],
-                    'label'=>"Could not find your book? Click to add it"
+                    'label'=>"Could not find your book? Click here to add it"
                 ])
              ->add(self::$review_image_name,FileType::class,[
                  'label' => "The front image of the review",
                  'mapped' => false,
-                 'required' => false,
+                 'required' => true,
                  'constraints' => [
                      new File([
                          'mimeTypes' => [

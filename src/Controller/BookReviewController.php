@@ -129,7 +129,7 @@ class BookReviewController extends BaseController
         $review->setCreator($user);
         $review->setBook($form->getData()['book']);
         $review->setCreationDate(new \DateTime());
-        $review->setTitle("Something very cool");
+        $review->setTitle($form->getData()['title']);
         return $review;
     }
 
