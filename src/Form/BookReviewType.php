@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Button;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,9 +16,11 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\Validator\Constraints\File;
 class BookReviewType extends AbstractType
 {
+    static string $review_image_name = "review_image";
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -34,6 +37,20 @@ class BookReviewType extends AbstractType
                     ],
                     'label'=>"Could not find your book? Click to add it"
                 ])
+             ->add(self::$review_image_name,FileType::class,[
+                 'label' => "The front image of the review",
+                 'mapped' => false,
+                 'required' => false,
+                 'constraints' => [
+                     new File([
+                         'mimeTypes' => [
+                             'image/jpeg',
+                              'image/png'
+                         ],
+                         'mimeTypesMessage' => "Please upload a valid image"
+                     ])
+                 ]
+             ])
             ->add('number_sections',NumberType::class,
             [
                 'html5'=>true,
@@ -46,7 +63,7 @@ class BookReviewType extends AbstractType
             ->add('Save', SubmitType::class,
             [
                 'attr'=>[
-                    'class' => 'axil-button button-rounded'
+                    'class' => 'axil-button-primary button-rounded'
                 ]
             ]);
 

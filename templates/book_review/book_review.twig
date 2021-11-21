@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
+
 {% block mainContent %}
+    <div class="main-wrapper">
+
+
+    <!-- End Banner Area -->
     <div class="post-single-wrapper axil-section-gap bg-color-white">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
-                    <!-- Start Banner Area -->
                     <div class="banner banner-single-post post-formate post-layout pb--40">
                         <div class="container">
                             <div class="row">
@@ -22,7 +26,10 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <h1 class="title">{{ bookReview.title }}</h1>
+                                            <h1 class="title text-center">{{ bookReview.title }}</h1>
+                                            <figure class="wp-block-image alignwide text-center">
+                                                <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
+                                            </figure>
                                             <!-- Post Meta  -->
                                             <div class="post-meta-wrapper">
                                                 <div class="post-meta">
@@ -42,6 +49,8 @@
                                                         </ul>
                                                     </div>
                                                 </div>
+                                                {% set user = bookReview.creator %}
+                                                {{ include('user/user_social_hub.twig') }}
                                             </div>
                                         </div>
                                         <!-- End Post Content  -->
@@ -51,8 +60,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Banner Area -->
-
 
                     <!-- Start Blog Details  -->
                     <div class="axil-post-details">
@@ -151,6 +158,7 @@
                      {% endblock %}
                 </div>
             </div>
+    </div>
     </div>
     </div>
 {% endblock %}

@@ -59,6 +59,10 @@
                                 {% if is_granted('ROLE_MODERATOR')%}
                             <li class="menu-item-has-children"><a href="{{ url('moderator') }}">Content management</a>
                                 {% endif %}
+
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="menu-item-has-children"><a href="{{ url('create_book_review') }}">Create</a>
+                                {% endif %}
                             </li>
 
                             <li class="menu-item-has-children megamenu-wrapper"><a href="#">Mega Menu</a>
