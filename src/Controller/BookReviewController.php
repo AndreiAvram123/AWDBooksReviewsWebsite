@@ -58,7 +58,7 @@ class BookReviewController extends BaseController
                 'reviews' => $reviews
             ]);
     }
-    #[Route('/bookReview/{id}', name : "get_book_review_by_id")]
+    #[Route('/bookReview/{id}', name : "book_review")]
     public function displayBookReviewById(BookReview $bookReview,
                                           Request $request): Response
     {
@@ -79,7 +79,9 @@ class BookReviewController extends BaseController
                 $rating->addDislike();
             }
             $this->persistAndFlush($rating);
-            return $this->redirectToRoute('get_book_review_by_id',['id'=>$bookReview->getId()]);
+            return $this->redirectToRoute('book_review',[
+                'id'=>$bookReview->getId()
+                ]);
         }
 
         if($this->canAccessFormData($commentForm)){
@@ -91,7 +93,10 @@ class BookReviewController extends BaseController
             $comment->setCreationDate(new \DateTime());
             $comment->setBookReview($bookReview);
             $this->persistAndFlush($comment);
-            return $this->redirectToRoute('get_book_review_by_id',['id'=>$bookReview->getId()]);
+            return $this->redirectToRoute('book_review',[
+                'id'=>$bookReview->getId()
+                ]
+            );
         }
 
 
