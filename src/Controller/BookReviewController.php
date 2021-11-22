@@ -128,10 +128,7 @@ class BookReviewController extends BaseController
     private function handleImageData( AwsImageUtils $awsImageUtils,
                                       UploadedFile $imageFile,
                                       BookReview $bookReview){
-            $imagePath = $awsImageUtils->uploadToBucket($imageFile);
-            $image = new Image();
-            $image->setUrl($imagePath);
-            $this->getManager()->persist($image);
+            $image  = $awsImageUtils->uploadImageToBucketeer($imageFile);
             $bookReview->setFrontImage($image);
     }
     //todo

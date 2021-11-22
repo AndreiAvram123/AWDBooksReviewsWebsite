@@ -22,7 +22,7 @@ class BookRepository extends ServiceEntityRepository
     public function findByTitle(string $title):array{
         return $this->createQueryBuilder('b')
               ->where('LOWER(b.title) LIKE LOWER(:title)')
-              ->setParameter('title', $title)
+              ->setParameter('title', '%'.$title.'%')
                ->setMaxResults(100)
               ->getQuery()
               ->getResult();

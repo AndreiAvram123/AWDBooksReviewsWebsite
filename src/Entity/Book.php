@@ -26,7 +26,7 @@ class Book implements \JsonSerializable
     private  $bookReviews;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
-    private $pending;
+    private $pending = true;
 
     #[ORM\ManyToOne(targetEntity: BookAuthor::class, inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
