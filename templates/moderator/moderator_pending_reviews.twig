@@ -2,7 +2,10 @@
 
 
 {% block listItems %}
-    {% for bookReview in pendingReviews %}
-        {{ include('book_review/book_review_card_pending.twig') }}
-    {% endfor %}
+    {% if pendingReviews is empty %}
+        <h1>Hmm.. Seems that you are not that busy today</h1>
+    {% endif %}
+        {% for bookReview in pendingReviews %}
+            {{ include('book_review/book_review_card_pending.twig') }}
+        {% endfor %}
 {% endblock %}

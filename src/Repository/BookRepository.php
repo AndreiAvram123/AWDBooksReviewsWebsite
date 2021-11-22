@@ -42,7 +42,7 @@ class BookRepository extends ServiceEntityRepository
     public function findPending():array{
         return $this->createQueryBuilder('b')
                ->andWhere('b.pending = true')
-               ->andWhere('b.declined = true')
+               ->andWhere('b.declined = false')
                ->getQuery()
                ->getResult();
     }

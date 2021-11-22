@@ -1,6 +1,7 @@
 {%  extends 'book/abstract_book_card.twig' %}
 
 {% block card_content %}
+    {% set redirectURL = url('pending_book', {'id' : book.id}) %}
     {{ parent() }}
     <div class="alert alert-warning" role="alert">
         This is a warning alert—check it out!

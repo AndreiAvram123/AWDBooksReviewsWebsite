@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-xl-8">
                         {% for book in books %}
-                            {{ include('book/abstract_book_review_card.twig') }}
+                            {{ include('book/book_card.twig') }}
                         {% endfor %}
                         {% set paginationMethodName = 'books_page' %}
                         {{ include('components/pagination.twig') }}
