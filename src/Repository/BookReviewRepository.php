@@ -44,8 +44,8 @@ class BookReviewRepository extends ServiceEntityRepository
     public function countPubliclyAvailable():int{
         return $this->createQueryBuilder('br')
             ->select('count(br.id)')
-            ->andWhere('b.pending = false')
-            ->andWhere('b.declined = false')
+            ->andWhere('br.pending = false')
+            ->andWhere('br.declined = false')
             ->getQuery()
             ->getSingleScalarResult();
     }

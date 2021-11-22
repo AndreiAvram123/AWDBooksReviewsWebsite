@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Book;
 use App\Entity\BookReview;
+use App\Repository\BookRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Button;
@@ -31,7 +33,10 @@ class BookReviewType extends AbstractType
                 'class' => Book::class,
                 'choice_label'=> 'title',
                 'placeholder' => 'Click here to select a book',
-                'label' => "The book to review"
+                'label' => "The book to review",
+                'query_builder' => function(BookRepository $bookRepository){
+                  return $bookRepository->findPubliclyAvailableAsQB();
+                }
             ])
             ->add('find_book',ButtonType::class,
                 [

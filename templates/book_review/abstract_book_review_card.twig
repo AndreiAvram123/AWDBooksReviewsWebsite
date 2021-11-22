@@ -6,6 +6,7 @@
         </div>
     {% endif %}
     <div class="post-content">
+        {% block card_content %}
         <div class="post-cat">
             <div class="post-cat-list">
                 <a class="hover-flip-item-wrapper" href="#">
@@ -15,7 +16,7 @@
                 </a>
             </div>
         </div>
-            <h4 class="title"><a href="{{ url('get_book_review_by_id', {'id' : bookReview.id }) }}">{{ bookReview.title }}</a></h4>
+            <h4 class="title"><a href="{{ redirectURL }}">{{ bookReview.title }}</a></h4>
 
 
         <div class="post-meta-wrapper">
@@ -37,5 +38,6 @@
                 </div>
             </div>
         </div>
+        {% endblock %}
     </div>
 </div>

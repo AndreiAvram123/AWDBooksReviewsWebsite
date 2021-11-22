@@ -40,12 +40,23 @@ class ModeratorController extends BaseController
             ->getDoctrine()
             ->getRepository(BookReview::class)
             ->findPending();
+
         return $this->render('moderator/moderator_pending_reviews.twig',
             [
                 'pendingReviews' => $pendingReviews
             ]
         );
     }
+
+    #[Route('moderator/pending/books')]
+    public function pendingBook():Response{
+        $pendingBook = $this
+            ->getDoctrine()
+            ->getRepository(Book::class)
+            ->findPending();
+        return $this->render('mode');
+    }
+
 
     #[Route('moderator/bookReview/{id}', name: 'pending_book_review')]
     public function pendingBookReview(Request $request , BookReview $bookReview):Response{
