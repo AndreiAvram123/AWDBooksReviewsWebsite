@@ -9,7 +9,7 @@ Post List Style
 }
 
 .content-block {
-    background: var(--color-lightest);
+    background: var(--white);
     .post-thumbnail {
         position: relative;
         a {
@@ -628,6 +628,7 @@ Post List Style
             }
         }
         .post-content {
+            background: var(--color-lightest);
             border: 1px solid var(--color-lightest);
             padding: 32px 30px;
             @extend %radius;
@@ -906,7 +907,6 @@ Post Category
 -----------------------*/
 .post-content {
     .post-cat {
-        margin-bottom: 10px;
         .post-cat-list {
             display: flex;
             flex-wrap: wrap;

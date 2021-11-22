@@ -9755,7 +9755,7 @@ Post List Style
 }
 
 .content-block {
-  background: var(--color-lightest);
+  background: var(--white);
 }
 .content-block .post-thumbnail {
   position: relative;
@@ -10301,6 +10301,7 @@ Post List Style
   }
 }
 .content-block.post-list-view .post-content {
+  background: var(--color-lightest);
   border: 1px solid var(--color-lightest);
   padding: 32px 30px;
   flex-grow: 1;
@@ -10512,9 +10513,6 @@ Post List Style
 /* --------------------
 Post Category  
 -----------------------*/
-.post-content .post-cat {
-  margin-bottom: 10px;
-}
 .post-content .post-cat .post-cat-list {
   display: flex;
   flex-wrap: wrap;

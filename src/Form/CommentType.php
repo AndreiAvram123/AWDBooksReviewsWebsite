@@ -24,7 +24,7 @@ class CommentType extends AbstractType
              ->add('post_comment_button', SubmitType::class,[
                  'label' => "Post comment",
                  'attr'=>[
-                     'class' => 'axil-button button-rounded'
+                     'class' => 'axil-button-primary button-rounded'
                  ]
              ])
         ;
