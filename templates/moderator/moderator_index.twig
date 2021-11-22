@@ -13,7 +13,7 @@
                 {{ include('moderator/dashboard_card.twig') }}
             {% endblock %}
             {% block pending_books %}
-                {% set redirect_url = url('home') %}
+                {% set redirect_url = url('pending_books') %}
                 {% set card_title = "Total pending books" %}
                 {% set card_content = totalPendingBooks %}
                 {% set text_class = 'text-warning' %}

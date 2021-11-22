@@ -21,13 +21,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookReviewController extends BaseController
 {
+    static int $itemsPerPage = 10;
 
-    #[Route("/", name: "home", methods: ["GET"])]
+    #[Route("/", name: "home")]
     public function index(): Response{
         $repo = $this->getManager()
             ->getRepository(BookReview::class);
         $allReviews =  $repo->findPubliclyAvailable();
-        $numberOfPages =  intval($repo->count(array())/BookReviewRepository::$itemsPerPage);
+        $numberOfPages =  intval($repo->countPubliclyAvailable()/self::$itemsPerPage);
         return $this->render('reviews_list.twig', [
             'allReviews' => $allReviews,
             'numberOfPages' => $numberOfPages
@@ -40,7 +41,7 @@ class BookReviewController extends BaseController
             ->getRepository(BookReview::class);
         $allReviews = $repo->findPubliclyAvailable($page);
 
-        $numberOfPages =  intval($repo->count(array())/BookReviewRepository::$itemsPerPage);
+        $numberOfPages =  intval($repo->count(array())/self::$itemsPerPage);
         return $this->render('reviews_list.twig', [
             'allReviews' => $allReviews,
              'numberOfPages' => $numberOfPages

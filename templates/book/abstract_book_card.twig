@@ -1,21 +1,22 @@
 
 <div class="content-block post-list-view mt--30">
-    {% if bookReview.frontImage != null %}
+    {% if book.image != null %}
         <div class="post-thumbnail">
-                <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
+            <img src="{{ book.image.url }}" alt="Book image">
         </div>
     {% endif %}
     <div class="post-content">
+        {% block card_content %}
         <div class="post-cat">
             <div class="post-cat-list">
                 <a class="hover-flip-item-wrapper" href="#">
                                             <span class="hover-flip-item">
-                                                <span data-text="CREATIVE">CREATIVE</span>
+                                                <span data-text="{{ book.category.name }}">{{ book.category.name }}</span>
                                             </span>
                 </a>
             </div>
         </div>
-            <h4 class="title"><a href="{{ url('get_book_review_by_id', {'id' : bookReview.id }) }}">{{ bookReview.title }}</a></h4>
+        <h4 class="title"><a href="{{ redirectURL }}">{{ book.title }}</a></h4>
 
 
         <div class="post-meta-wrapper">
@@ -24,18 +25,13 @@
                     <h6 class="post-author-name">
                         <a class="hover-flip-item-wrapper" href="author.html">
                                                     <span class="hover-flip-item">
-                                                        <span data-text="{{ bookReview.creator.username }}">{{ bookReview.creator.username}}</span>
+                                                        <span data-text="{{ book.author.fullName }}">{{book.author.fullName}}</span>
                                                     </span>
                         </a>
                     </h6>
-                    <ul class="post-meta-list">
-                        <li>{{ bookReview.creationDate|date('d-m-Y') }}</li>
-                        {% if bookReview.estimatedReadTime != null %}
-                            <li>{{ bookReview.estimatedReadTime}} min read</li>
-                        {% endif %}
-                    </ul>
                 </div>
             </div>
         </div>
+        {% endblock %}
     </div>
 </div>

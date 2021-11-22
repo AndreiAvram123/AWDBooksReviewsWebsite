@@ -1,23 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'base/list_page.twig' %}
 
+{% block listItems %}
+    {% for bookReview in allReviews %}
+        {{ include('book_review/book_review_card.twig') }}
+    {% endfor %}
+{% endblock %}
 
-{% block mainContent %}
-
-<div class="main-wrapper">
-    <h1 class="d-none">Home Tech Blog</h1>
-    <!-- Start Post List Wrapper  -->
-    <div class="axil-post-list-area axil-section-gap bg-color-white">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-xl-8">
-                    {% for bookReview in allReviews %}
-                        {{ include('book_review/book_review_card.html.twig') }}
-                    {% endfor %}
-                    {{ include('components/pagination.twig') }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
+{% block pagination %}
+    {% set paginationMethodName = 'book_reviews_page' %}
+    {{ include('components/pagination.twig') }}
 {% endblock %}

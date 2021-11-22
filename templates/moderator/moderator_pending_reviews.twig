@@ -1,18 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'base/list_page.twig' %}
 
-{% block mainContent %}
-    <div class="main-wrapper">
-        <h1 class="d-none">Home Tech Blog</h1><!-- Start Post List Wrapper  -->
-        <div class="axil-post-list-area axil-section-gap bg-color-white">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-xl-8">
-                        {% for bookReview in pendingReviews %}
-                            {{ include('book_review/book_review_card_pending.twig') }}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+{% block listItems %}
+    {% if pendingReviews is empty %}
+        <h1>Hmm.. Seems that you are not that busy today</h1>
+    {% endif %}
+        {% for bookReview in pendingReviews %}
+            {{ include('book_review/book_review_card_pending.twig') }}
+        {% endfor %}
 {% endblock %}

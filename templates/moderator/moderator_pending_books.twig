@@ -1,0 +1,11 @@
+{% extends 'base/list_page.twig' %}
+
+
+{% block listItems %}
+    {% if pendingBooks is empty %}
+        <h1>Hmm.. Seems that you are not that busy today</h1>
+    {% endif %}
+    {% for book in pendingBooks %}
+        {{ include('book/book_card_pending.twig') }}
+    {% endfor %}
+{% endblock %}
