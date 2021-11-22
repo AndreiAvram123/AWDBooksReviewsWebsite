@@ -9,6 +9,7 @@ Post List Style
 }
 
 .content-block {
+    background: var(--color-lightest);
     .post-thumbnail {
         position: relative;
         a {
@@ -911,6 +912,11 @@ Post Category
             flex-wrap: wrap;
             align-items: center;
             margin: -8px;
+
+            .item-pending{
+                @extend  a;
+                @extend %color-secondary;
+            }
             a {
                 @extend %color-secondary;
                 @extend %transition;
@@ -983,25 +989,26 @@ Post Category
         }
     }
 }
+.post-author-avatar {
+    min-width: 50px;
+    max-width: 150px;
 
+
+    margin-right: 15px;
+    img {
+        width: 100%;
+    }
+    &.border-rounded {
+        border-radius: 100%;
+        img {
+            border-radius: 100%;
+        }
+    }
+}
 .post-meta {
     display: flex;
     align-items: center;
-    .post-author-avatar {
-        min-width: 50px;
-        max-width: 150px;
 
-        margin-right: 15px;
-        img {
-            width: 100%;
-        }
-        &.border-rounded {
-            border-radius: 100%;
-            img {
-                border-radius: 100%;
-            }
-        }
-    }
     .post-author-name {
         margin-bottom: 4px;
         font-weight: var(--p-medium);

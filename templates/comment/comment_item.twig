@@ -1,0 +1,32 @@
+<li class="comment">
+    <div class="comment-body">
+        <div class="single-comment">
+            <div class="comment-img">
+                <img src="{{ comment.creator.profileImage.url }}" alt="Author Image">
+            </div>
+            <div class="comment-inner">
+                <h6 class="commenter">
+                    <a class="hover-flip-item-wrapper" href="{{ url('user_profile', {'id' : comment.creator.id}) }}">
+                        <span class="hover-flip-item">
+                         <span data-text="{{ comment.creator.username }}">{{ comment.creator.username }}</span>
+                         </span>
+                    </a>
+                </h6>
+                <div class="comment-meta">
+                    <div class="time-spent">{{ comment.creationDate|date('d-m-Y') }}</div>
+                    <div class="reply-edit">
+                        <div class="reply">
+                            <a class="comment-reply-link hover-flip-item-wrapper" data-bs-target="#subcommentModal"
+                               data-bs-toggle="modal">
+                                <span class="hover-flip-item"><span data-text="Reply">Reply</span></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-text">
+                    <p class="b2">{{ comment.summary}} </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

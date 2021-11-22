@@ -7,8 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
 class BookReview
@@ -35,13 +33,13 @@ class BookReview
 
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $title;
+    private ?string $title;
 
     #[ORM\Column(type: 'datetime')]
     private $creationDate;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $estimatedReadTime;
+    private ?int $estimatedReadTime;
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, orphanRemoval: true)]
     private $sections;
@@ -49,10 +47,17 @@ class BookReview
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private $frontImage;
 
+    #[ORM\OneToOne(targetEntity: Rating::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $rating;
+
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Comment::class, orphanRemoval: true)]
+    private $comments;
+
     #[Pure] public function __construct()
     {
-        $this->images = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
 
@@ -74,17 +79,6 @@ class BookReview
         return $this;
     }
 
-    public function getSummary(): string
-    {
-        return $this->summary;
-    }
-
-    public function setSummary(string $summary): self
-    {
-        $this->summary = $summary;
-
-        return $this;
-    }
 
     public function getCreator(): ?User
     {
@@ -122,35 +116,6 @@ class BookReview
         return $this;
     }
 
-    /**
-     * @return Collection|Image[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Image $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setBookReview($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): self
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getBookReview() === $this) {
-                $image->setBookReview(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getTitle(): ?string
     {
@@ -226,6 +191,48 @@ class BookReview
     public function setFrontImage(?Image $frontImage): self
     {
         $this->frontImage = $frontImage;
+
+        return $this;
+    }
+
+    public function getRating(): Rating
+    {
+        return $this->rating;
+    }
+
+    public function setRating(Rating $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setBookReview($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getBookReview() === $this) {
+                $comment->setBookReview(null);
+            }
+        }
 
         return $this;
     }

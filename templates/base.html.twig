@@ -14,7 +14,6 @@
         <link href="{{ asset('css/vendor/slick.css') }}" rel="stylesheet"/>
         <link href="{{ asset('css/vendor/slick-theme.css') }}" rel="stylesheet"/>
         <link href="{{ asset('css/vendor/base.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('css/plugins/plugins.css') }}" rel="stylesheet"/>
         <link href="{{ asset('css/style.css') }}" rel="stylesheet"/>
 
     {% endblock %}
@@ -35,9 +34,12 @@
 <body>
 {% block body %}
 {{ include('base/navbar.html.twig') }}
+{{  include('components/theme_switcher.twig')}}
+<div class="main-wrapper">
         {% block mainContent %}
 
         {% endblock %}
+</div>
 {% endblock %}
 {{ include('components/copyright_area.twig') }}
 </body>

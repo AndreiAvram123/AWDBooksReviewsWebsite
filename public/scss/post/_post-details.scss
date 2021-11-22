@@ -81,16 +81,34 @@ blockquote {
     .tagcloud {
         margin-bottom: 40px;
     }
+
+    .rating-block{
+        @extend .social-share-block;
+        justify-content: left !important;
+    }
+
     .social-share-block {
         border-bottom: 1px solid var(--color-lighter);
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
+
+        .post-dislike {
+            @extend .post-like;
+
+        }
+
         .post-like {
+            display: inline;
             padding-bottom: 20px;
+            padding-right: 20px;
+            span {
+                font-size: 12px;
+                line-height: 16px;
+                color: var(--color-gray);
+            }
             a {
-                display: flex;
                 align-items: center;
                 i {
                     width: 40px;
@@ -102,11 +120,6 @@ blockquote {
                     text-align: center;
                     margin-right: 20px;
                     @extend %transition;
-                }
-                span {
-                    font-size: 12px;
-                    line-height: 16px;
-                    color: var(--color-gray);
                 }
                 &:hover {
                     i {

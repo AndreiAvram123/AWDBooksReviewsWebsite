@@ -2,25 +2,6 @@
 {% extends 'base.html.twig' %}
 
 {% block mainContent %}
-    <div class="main-wrapper">
-        <div class="mouse-cursor cursor-outer"></div>
-        <div class="mouse-cursor cursor-inner"></div>
-
-        <div id="my_switcher" class="my_switcher">
-            <ul>
-                <li>
-                    <a href="javascript: void(0);" data-theme="light" class="setColor light">
-                        <span title="Light Mode">Light</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" data-theme="dark" class="setColor dark">
-                        <span title="Dark Mode">Dark</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
 
         <!-- Start Mobile Menu Area  -->
         <div class="popup-mobilemenu-area">
@@ -100,11 +81,11 @@
                         <div class="about-author">
                             <div class="media" style="display: flex">
                                 <div class="thumbnail">
-                                    <img class="author-thumb" src="https://robohash.org/138.246.253.15.png?size=200x200" alt="Author Images">
+                                    <img class="author-thumbnail" src="{{ user.profileImage.url }}" alt="Author Images">
                                 </div>
                                 <div class="media-body">
                                     <div class="author-info">
-                                        <h1 class="title"><a href="#">{{ user.username }}</a></h1>
+                                        <h1 class="title">{{ user.username }} </h1>
                                         <span class="b3 subtitle">{{ user.nickname }}</span>
                                     </div>
                                     <div class="content">
@@ -115,19 +96,7 @@
                                             {{ "It is often hard to describe ourselves" }}
                                        {% endif %}
                                         </p>
-                                         {% if user.socialHub != null %}
-                                        <ul class="social-share-transparent size-md">
-                                            {% if user.socialHub.facebookURL != null %}
-                                                <li><a href="{{ user.socialHub.facebookURL }}"><i class="fab fa-facebook"></i></a></li>
-                                            {% endif %}
-                                            {% if user.socialHub.instagramURL != null %}
-                                                <li><a href="{{ user.socialHub.instagramURL }}"><i class="fab fa-instagram"></i></a></li>
-                                            {% endif %}
-                                            {% if user.socialHub.linkedIn != null %}
-                                            <li><a href="{{ user.socialHub.linkedIn }}"><i class="fab fa-linkedin-in"></i></a></li>
-                                            {% endif %}
-                                        </ul>
-                                        {% endif %}
+
                                     </div>
                                 </div>
                             </div>

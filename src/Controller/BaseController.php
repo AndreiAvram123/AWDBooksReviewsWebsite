@@ -6,9 +6,22 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\SubmitButton;
 
 class BaseController extends AbstractController
 {
+    protected function isFormButtonClicked(FormInterface $form, string $buttonName): bool
+    {
+        /** @var SubmitButton $button */
+        $button = $form->get($buttonName);
+        return $button->isClicked();
+    }
+    protected function canAccessFormData(FormInterface $form) : bool{
+        return $form-> isSubmitted() && $form->isValid();
+    }
+
+
 
     protected function getManager(): ObjectManager
     {
@@ -19,13 +32,4 @@ class BaseController extends AbstractController
         $this->getManager()->flush();
     }
 
-    protected function provideAuthenticatedUser():User{
-        $genericUser = $this->getUser();
-        if(is_null($genericUser)){
-            //if this is reached then there is a security flaw
-        }
-        return $this->getManager()
-            ->getRepository(User::class)
-            ->findByEmail($genericUser->getUserIdentifier());
-    }
 }

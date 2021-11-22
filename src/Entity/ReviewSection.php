@@ -23,8 +23,6 @@ class ReviewSection
     #[ORM\JoinColumn(nullable: false)]
     private $bookReview;
 
-    #[ORM\ManyToOne(targetEntity: Image::class)]
-    private $image;
 
     public function getId(): ?int
     {
@@ -67,15 +65,4 @@ class ReviewSection
         return $this;
     }
 
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
 }

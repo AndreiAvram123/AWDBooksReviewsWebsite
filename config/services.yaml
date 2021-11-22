@@ -1,11 +1,15 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
 
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+        app.bucketeer_region : '%env(BUCKETEER_REGION)%'
+        app.bucketeer_access_key : '%env(BUCKETEER_ACCESS_KEY)%'
+        app.bucketeer_secret_key : '%env(BUCKETEER_SECRET_KEY)%'
+        app.bucketeer_public_url : '%env(BUCKETEER_PUBLIC_URL)%'
 
 services:
+    foobar.form_extension.icon:
+        class: App\Form\ButtonTypeIconExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ButtonType }
 
     # default configuration for services in *this* file
     _defaults:
@@ -22,4 +26,13 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
+
+    App\utils\aws\AwsClientWrapper:
+        arguments: [ '%env(BUCKETEER_REGION)%' ]
+
+    App\utils\aws\AwsImageUtils:
+      arguments:
+             $bucketName : '%env(BUCKETEER_BUCKET_NAME)%'
+             $publicUploadPath : '%env(BUCKETEER_PUBLIC_UPLOAD_PATH)%'
+             $publicFileURL : '%env(BUCKETEER_AWS_PUBLIC_URL)%'
 

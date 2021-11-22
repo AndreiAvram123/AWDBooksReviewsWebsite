@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookController extends BaseController
 {
-    #[Route("/books/create", name: "create_book",methods: ["GET","POST"])]
+    #[Route("/books/create", name: "create_book")]
     public function createBook(Request $request):Response{
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);

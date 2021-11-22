@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
+
 {% block mainContent %}
+    <div class="main-wrapper">
+
+
+    <!-- End Banner Area -->
     <div class="post-single-wrapper axil-section-gap bg-color-white">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
-                    <!-- Start Banner Area -->
                     <div class="banner banner-single-post post-formate post-layout pb--40">
                         <div class="container">
                             <div class="row">
@@ -22,7 +26,12 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <h1 class="title">{{ bookReview.title }}</h1>
+                                            <h1 class="title text-center">{{ bookReview.title }}</h1>
+                                            {% if bookReview.frontImage != null %}
+                                            <figure class="wp-block-image alignwide text-center">
+                                                <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
+                                            </figure>
+                                            {% endif%}
                                             <!-- Post Meta  -->
                                             <div class="post-meta-wrapper">
                                                 <div class="post-meta">
@@ -31,24 +40,19 @@
                                                     </div>
                                                     <div class="content">
                                                         <h6 class="post-author-name">
-                                                            <a class="hover-flip-item-wrapper" href="author.html">
+                                                            <a class="hover-flip-item-wrapper" href="{{ url('user_profile',{'id' : bookReview.creator.id}) }}">
                                                                     <span class="hover-flip-item">
-                                                                        <span data-text="Ismat Jahan">Ismat Jahan</span>
+                                                                        <span data-text="{{ bookReview.creator.username }}">{{ bookReview.creator.username }}</span>
                                                                     </span>
                                                             </a>
                                                         </h6>
                                                         <ul class="post-meta-list">
-                                                            <li>Feb 17, 2019</li>
-                                                            <li>300k Views</li>
+                                                            <li>{{ bookReview.creationDate|date('d-m-Y') }}</li>
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <ul class="social-share-transparent justify-content-end">
-                                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                                    <li><a href="#"><i class="fas fa-link"></i></a></li>
-                                                </ul>
+                                                {% set user = bookReview.creator %}
+                                                {{ include('user/user_social_hub.twig') }}
                                             </div>
                                         </div>
                                         <!-- End Post Content  -->
@@ -58,8 +62,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Banner Area -->
-
 
                     <!-- Start Blog Details  -->
                     <div class="axil-post-details">
@@ -76,256 +78,89 @@
                             <a href="#">Life Style</a>
                         </div>
 
-                        <div class="social-share-block">
-                            <div class="post-like">
-                                <a href="#"><i class="fal fa-thumbs-up"></i><span>2.2k Like</span></a>
-                            </div>
-                            <ul class="social-icon icon-rounded-transparent md-size">
-                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                            </ul>
-                        </div>
 
-                        <!-- Start Author  -->
+
                         <div class="about-author">
-                            <div class="media">
-                                <div class="thumbnail">
-                                    <a href="#">
-                                        <img src="assets/images/post-images/author/author-b1.png" alt="Author Images">
-                                    </a>
+                            <div class="flex-media">
+                                <div class="post-author-avatar border-rounded">
+                                    <img src="{{ bookReview.creator.profileImage.url }}" alt="Author Images">
                                 </div>
                                 <div class="media-body">
                                     <div class="author-info">
                                         <h5 class="title">
                                             <a class="hover-flip-item-wrapper" href="#">
                                                     <span class="hover-flip-item">
-                                                        <span data-text="Rahabi Ahmed Khan">Rahabi Ahmed Khan</span>
+                                                        <span data-text= {{ bookReview.creator.username}}>{{ bookReview.creator.username}}</span>
                                                     </span>
                                             </a>
                                         </h5>
-                                        <span class="b3 subtitle">Sr. UX Designer</span>
+                                        <span class="b3 subtitle">{{ bookReview.creator.nickname }}</span>
                                     </div>
                                     <div class="content">
-                                        <p class="b1 description">At 29 years old, my favorite compliment is being
-                                            told that I look like my mom. Seeing myself in her image, like this
-                                            daughter up top, makes me so proud of how far I’ve come, and so thankful
-                                            for where I come from.</p>
-                                        <ul class="social-share-transparent size-md">
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="far fa-envelope"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
+                                        <p class="b1 description">{{ bookReview.creator.description }}</p>
+                                        {% set user = bookReview.creator %}
+                                        {{ include('user/user_social_hub.twig') }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Author  -->
 
-                        <!-- Start Comment Form Area  -->
-                        <div class="axil-comment-area">
-                            <div class="axil-total-comment-post">
-                                <div class="title">
-                                    <h4 class="mb--0">30+ Comments</h4>
+
+                        {% if ratingForm is defined %}
+                            {{ form_start(ratingForm) }}
+                            <div class="rating-block">
+                                <div class="post-like">
+                                    <span>{{ bookReview.rating.likes}} Likes</span>
+                                    {{ form_widget(ratingForm.like_button)}}
                                 </div>
-                                <div class="add-comment-button cerchio">
-                                    <a class="axil-button button-rounded" href="post-details.html" tabindex="0"><span>Add Your Comment</span></a>
+                                <div class="post-dislike">
+                                    <span>{{ bookReview.rating.dislikes}}  Dislikes</span>
+                                    {{ form_widget(ratingForm.dislike_button)}}
                                 </div>
                             </div>
 
-                            <!-- Start Comment Respond  -->
-                            <div class="comment-respond">
-                                <h4 class="title">Post a comment</h4>
-                                <form action="#">
-                                    <p class="comment-notes"><span id="email-notes">Your email address will not be
-                                                published.</span> Required fields are marked <span
-                                                class="required">*</span></p>
+                            {{ form_end(ratingForm) }}
+                        {% endif %}
+
+                        {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if commentForm is defined %}
+                                {{ form_start(commentForm) }}
+                                <div class="comment-respond">
+                                    <h4 class="title">Post a comment</h4>
                                     <div class="row row--10">
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label>Your Name</label>
-                                                <input id="name" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label>Your Email</label>
-                                                <input id="email" type="email">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label>Your Website</label>
-                                                <input id="website" type="text">
-                                            </div>
-                                        </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Leave a Reply</label>
-                                                <textarea name="message"></textarea>
+                                                {{ form_widget(commentForm.summary) }}
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <p class="comment-form-cookies-consent">
-                                                <input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes">
-                                                <label for="wp-comment-cookies-consent">Save my name, email, and
-                                                    website in this browser for the next time I comment.</label>
-                                            </p>
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-submit cerchio">
-                                                <input name="submit" type="submit" id="submit" class="axil-button button-rounded" value="Post Comment">
+                                                {{ form_widget(commentForm.post_comment_button) }}
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <!-- End Comment Respond  -->
+                                </div>
+                                {{ form_end(commentForm) }}
+                            {% endif %}
+                        {% endif %}
 
+                        {% if bookReview.comments is not empty %}
                             <!-- Start Comment Area  -->
                             <div class="axil-comment-area">
-                                <h4 class="title">2 comments</h4>
+                                <h4 class="title">{{ bookReview.comments|length}} comments</h4>
                                 <ul class="comment-list">
-                                    <!-- Start Single Comment  -->
-                                    <li class="comment">
-                                        <div class="comment-body">
-                                            <div class="single-comment">
-                                                <div class="comment-img">
-                                                    <img src="assets/images/post-images/author/author-b2.png" alt="Author Images">
-                                                </div>
-                                                <div class="comment-inner">
-                                                    <h6 class="commenter">
-                                                        <a class="hover-flip-item-wrapper" href="#">
-                                                                <span class="hover-flip-item">
-                                                                    <span data-text="Cameron Williamson">Cameron
-                                                                        Williamson</span>
-                                                                </span>
-                                                        </a>
-                                                    </h6>
-                                                    <div class="comment-meta">
-                                                        <div class="time-spent">Nov 23, 2018 at 12:23 pm</div>
-                                                        <div class="reply-edit">
-                                                            <div class="reply">
-                                                                <a class="comment-reply-link hover-flip-item-wrapper" href="#">
-                                                                        <span class="hover-flip-item">
-                                                                            <span data-text="Reply">Reply</span>
-                                                                        </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-text">
-                                                        <p class="b2">Duis hendrerit velit scelerisque felis tempus,
-                                                            id porta
-                                                            libero venenatis. Nulla facilisi. Phasellus viverra
-                                                            magna commodo dui lacinia tempus. Donec malesuada nunc
-                                                            non dui posuere, fringilla vestibulum urna mollis.
-                                                            Integer condimentum ac sapien quis maximus. </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <ul class="children">
-                                            <!-- Start Single Comment  -->
-                                            <li class="comment">
-                                                <div class="comment-body">
-                                                    <div class="single-comment">
-                                                        <div class="comment-img">
-                                                            <img src="assets/images/post-images/author/author-b3.png" alt="Author Images">
-                                                        </div>
-                                                        <div class="comment-inner">
-                                                            <h6 class="commenter">
-                                                                <a class="hover-flip-item-wrapper" href="#">
-                                                                        <span class="hover-flip-item">
-                                                                            <span data-text="Rahabi Khan">Rahabi
-                                                                                Khan</span>
-                                                                        </span>
-                                                                </a>
-                                                            </h6>
-                                                            <div class="comment-meta">
-                                                                <div class="time-spent">Nov 23, 2018 at 12:23 pm
-                                                                </div>
-                                                                <div class="reply-edit">
-                                                                    <div class="reply">
-                                                                        <a class="comment-reply-link hover-flip-item-wrapper" href="#">
-                                                                                <span class="hover-flip-item">
-                                                                                    <span data-text="Reply">Reply</span>
-                                                                                </span>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="comment-text">
-                                                                <p class="b2">Pellentesque habitant morbi tristique
-                                                                    senectus et netus et malesuada fames ac turpis
-                                                                    egestas. Suspendisse lobortis cursus lacinia.
-                                                                    Vestibulum vitae leo id diam pellentesque
-                                                                    ornare.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <!-- End Single Comment  -->
-                                        </ul>
-                                    </li>
-                                    <!-- End Single Comment  -->
-
-                                    <!-- Start Single Comment  -->
-                                    <li class="comment">
-                                        <div class="comment-body">
-                                            <div class="single-comment">
-                                                <div class="comment-img">
-                                                    <img src="assets/images/post-images/author/author-b2.png" alt="Author Images">
-                                                </div>
-                                                <div class="comment-inner">
-                                                    <h6 class="commenter">
-                                                        <a class="hover-flip-item-wrapper" href="#">
-                                                                <span class="hover-flip-item">
-                                                                    <span data-text="Rahabi Khan">Rahabi Khan</span>
-                                                                </span>
-                                                        </a>
-                                                    </h6>
-                                                    <div class="comment-meta">
-                                                        <div class="time-spent">Nov 23, 2018 at 12:23 pm</div>
-                                                        <div class="reply-edit">
-                                                            <div class="reply">
-                                                                <a class="comment-reply-link hover-flip-item-wrapper" href="#">
-                                                                        <span class="hover-flip-item">
-                                                                            <span data-text="Reply">Reply</span>
-                                                                        </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-text">
-                                                        <p class="b2">Duis hendrerit velit scelerisque felis tempus,
-                                                            id porta
-                                                            libero venenatis. Nulla facilisi. Phasellus viverra
-                                                            magna commodo dui lacinia tempus. Donec malesuada nunc
-                                                            non dui posuere, fringilla vestibulum urna mollis.
-                                                            Integer condimentum ac sapien quis maximus. </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!-- End Single Comment  -->
+                                    {% for comment in bookReview.comments %}
+                                        {{ include('comment/comment_item.twig') }}
+                                    {% endfor %}
                                 </ul>
                             </div>
-                            <!-- End Comment Area  -->
-
-                        </div>
-                        <!-- End Comment Form Area  -->
-
-
+                        {% endif %}
                     </div>
-                    <!-- End Blog Details  -->
+                    {% block additional_content %}
+                     {% endblock %}
                 </div>
             </div>
-        </div>
+    </div>
+    </div>
     </div>
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\BookReview;
+use App\Form\ModeratorApproveType;
 use App\Form\PendingReviewType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,7 +30,7 @@ class ModeratorController extends BaseController
 
         return $this->render('moderator/moderator_index.twig', [
             'totalPendingReviews' => $totalPendingReviews,
-            'totalBooksPending' => $totalPendingBooks
+            'totalPendingBooks' => $totalPendingBooks
         ]);
     }
 
@@ -41,33 +42,28 @@ class ModeratorController extends BaseController
             ->findPending();
         return $this->render('moderator/moderator_pending_reviews.twig',
             [
-                'pendingReviews' => $pendingReviews]
+                'pendingReviews' => $pendingReviews
+            ]
         );
     }
 
     #[Route('moderator/bookReview/{id}', name: 'pending_book_review')]
     public function pendingBookReview(Request $request , BookReview $bookReview):Response{
-        $form = $this->createForm(PendingReviewType::class,$bookReview);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form-> isValid()){
-            /** @var SubmitButton $declineButton */
-            $declineButton = $form->get('Decline');
-            /** @var SubmitButton $approveButton */
-            $approveButton = $form->get("Approve");
-
-            if($declineButton->isClicked()){
-                $bookReview->setDeclined(true);
+        $moderatorForm = $this->createForm(ModeratorApproveType::class);
+        $moderatorForm->handleRequest($request);
+        if($this->canAccessFormData($moderatorForm)){
+            if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$approveButtonName)){
                 $bookReview->setPending(false);
             }
-            if($approveButton ->isClicked()){
+            if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$declineButtonName)){
                 $bookReview->setPending(false);
+                $bookReview->setDeclined(true);
             }
             $this->persistAndFlush($bookReview);
             return $this->redirectToRoute('home');
-
         }
-        return $this->renderForm('moderator/pending_book_review.twig', [
-                'form' => $form
+        return $this->renderForm('book_review/book_review_moderator.twig', [
+            "bookReview" => $bookReview, "moderatorForm" => $moderatorForm
             ]
         );
     }

@@ -26,5 +26,13 @@ class UserRepository extends ServiceEntityRepository
                ->getQuery()
               ->getOneOrNullResult();
     }
+    public function findByUsernameQuery(string $query):array{
+        return $this->createQueryBuilder('u')
+                ->andWhere('LOWER(u.username) LIKE LOWER(:query)')
+                ->setParameter('query','%'.$query.'%')
+                 ->setMaxResults(100)
+                ->getQuery()
+                ->getResult();
+    }
 
 }
