@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Controller\BookReviewController;
 use App\Entity\BookReview;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,7 +15,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookReviewRepository extends ServiceEntityRepository
 {
-    static int $itemsPerPage = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -31,16 +31,24 @@ class BookReviewRepository extends ServiceEntityRepository
     }
 
     public function findPubliclyAvailable(int $page = 1):array{
-        $offset = self::$itemsPerPage * ($page-1);
+        $offset = BookReviewController::$itemsPerPage * ($page-1);
         return $this->createQueryBuilder('br')
             ->andWhere('br.declined = false')
             ->andWhere('br.pending = false')
             ->setFirstResult($offset)
-            ->setMaxResults(self::$itemsPerPage)
+            ->setMaxResults(BookReviewController::$itemsPerPage)
             ->getQuery()
             ->getResult();
     }
 
+    public function countPubliclyAvailable():int{
+        return $this->createQueryBuilder('br')
+            ->select('count(br.id)')
+            ->andWhere('b.pending = false')
+            ->andWhere('b.declined = false')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     public function findAllByTitle(string $query):array{
         return $this->createQueryBuilder('br')
             ->andWhere('LOWER(br.title) LIKE LOWER(:title)')

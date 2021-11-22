@@ -13,6 +13,7 @@
                         <!-- Start Mainmanu Nav -->
                         <ul class="mainmenu">
                             <li class="menu-item-has-children"><a href="{{ url('home') }}">Home</a>
+                            <li class="menu-item-has-children"><a href="{{ url('books_page') }}">Books</a>
                                 {% if is_granted('ROLE_MODERATOR')%}
                             <li class="menu-item-has-children"><a href="{{ url('moderator') }}">Content management</a>
                                 {% endif %}

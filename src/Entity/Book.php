@@ -39,6 +39,9 @@ class Book implements \JsonSerializable
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
+    #[ORM\Column(type: 'boolean')]
+    private $declined = false;
+
     #[Pure] public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
@@ -152,6 +155,18 @@ class Book implements \JsonSerializable
     public function setCategory(?BookCategory $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getDeclined(): ?bool
+    {
+        return $this->declined;
+    }
+
+    public function setDeclined(bool $declined): self
+    {
+        $this->declined = $declined;
 
         return $this;
     }

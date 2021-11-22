@@ -7,19 +7,20 @@
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-        <li class="page-item {% if currentPageNumber == 1 %}{{ "disabled"}} {% endif %}">
+        <li class="page-item {% if currentPageNumber == 1 or currentPageNumber >= numberOfPages %}{{ "disabled"}} {% endif %}">
                 <a class="page-link " tabindex="-1">Previous</a>
 
         </li>
-        {% for pageNumber in 1..numberOfPages %}
+        {% if numberOfPages > 0 %}
+            {% for pageNumber in 1..numberOfPages%}
+                <li class="page-item {% if pageNumber == currentPageNumber %} {{ "active"}}  {% endif %}">
+                    <a class="page-link" href="{{ url(paginationMethodName,{'page' : pageNumber}) }}"> {{ pageNumber }}</a>
+                </li>
+            {% endfor %}
+        {% endif %}
 
-            <li class="page-item {% if pageNumber == currentPageNumber %} {{ "active"}}  {% endif %}">
-                <a class="page-link" href="{{ url('book_reviews_page',{'page' : pageNumber}) }}"> {{ pageNumber }}</a>
-            </li>
-        {% endfor %}
-
-        <li class="page-item {% if currentPageNumber == numberOfPages %}{{ "disabled"}} {% endif %}">
-            <a class="page-link" href="#">Next</a>
+        <li class="page-item {% if currentPageNumber >= numberOfPages %}{{ "disabled"}} {% endif %}">
+            <a class="page-link" href="{{ url(paginationMethodName, {'page' : currentPageNumber + 1}) }}">Next</a>
         </li>
     </ul>
 </nav>

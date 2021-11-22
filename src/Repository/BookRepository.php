@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Controller\BookController;
+use App\Controller\BookReviewController;
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -27,5 +29,25 @@ class BookRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
 
+    }
+    public function countPubliclyAvailable():int{
+      return $this->createQueryBuilder('b')
+             ->select('count(b.id)')
+             ->andWhere('b.pending = false')
+             ->andWhere('b.declined = false')
+             ->getQuery()
+             ->getSingleScalarResult();
+
+    }
+
+    public function findPubliclyAvailable(int $page = 1):array{
+        $offset = BookController::$itemsPerPage * ($page-1);
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.pending = false')
+            ->andWhere('b.pending = false')
+            ->setFirstResult($offset)
+            ->setMaxResults(BookReviewController::$itemsPerPage)
+            ->getQuery()
+            ->getResult();
     }
 }
