@@ -33,15 +33,4 @@ class Image
         return $this;
     }
 
-    public function getBookReview(): ?BookReview
-    {
-        return $this->bookReview;
-    }
-
-    public function setBookReview(?BookReview $bookReview): self
-    {
-        $this->bookReview = $bookReview;
-
-        return $this;
-    }
 }

@@ -35,4 +35,5 @@ services:
              $bucketName : '%env(BUCKETEER_BUCKET_NAME)%'
              $publicUploadPath : '%env(BUCKETEER_PUBLIC_UPLOAD_PATH)%'
              $publicFileURL : '%env(BUCKETEER_AWS_PUBLIC_URL)%'
+             $entityManager : '@doctrine.orm.entity_manager'
 
