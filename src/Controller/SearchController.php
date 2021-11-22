@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,10 +23,14 @@ class SearchController extends BaseController
                 ->getRepository(User::class)
                 ->findByUsernameQuery($query);
 
+        $books = $this->getDoctrine()
+                ->getRepository(Book::class)
+                 ->findByTitle($query);
 
         return $this->render('search/search_results.twig',
         [
             'bookReviews' => $bookReviews,
+            'books' => $books,
             'users' => $users
         ]);
     }

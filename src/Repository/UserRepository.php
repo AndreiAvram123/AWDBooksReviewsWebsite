@@ -30,6 +30,7 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
                 ->andWhere('LOWER(u.username) LIKE LOWER(:query)')
                 ->setParameter('query','%'.$query.'%')
+                 ->setMaxResults(100)
                 ->getQuery()
                 ->getResult();
     }

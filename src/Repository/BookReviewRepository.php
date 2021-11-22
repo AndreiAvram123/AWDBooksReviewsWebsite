@@ -45,6 +45,7 @@ class BookReviewRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('br')
             ->andWhere('LOWER(br.title) LIKE LOWER(:title)')
             ->setParameter('title','%'.$query.'%')
+            ->setMaxResults(100)
             ->getQuery()
             ->getResult();
     }

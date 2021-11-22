@@ -28,6 +28,17 @@ class Book implements \JsonSerializable
     #[ORM\Column(type: 'boolean', nullable: false)]
     private $pending;
 
+    #[ORM\ManyToOne(targetEntity: BookAuthor::class, inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
+
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    private $image;
+
+    #[ORM\ManyToOne(targetEntity: BookCategory::class, inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $category;
+
     #[Pure] public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
@@ -107,5 +118,41 @@ class Book implements \JsonSerializable
     public function jsonSerialize()
     {
 
+    }
+
+    public function getAuthor(): ?BookAuthor
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?BookAuthor $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCategory(): ?BookCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?BookCategory $category): self
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }
