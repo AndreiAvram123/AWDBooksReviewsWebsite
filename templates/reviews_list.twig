@@ -1,0 +1,12 @@
+{% extends 'base/list_page.twig' %}
+
+{% block listItems %}
+    {% for bookReview in allReviews %}
+        {{ include('book_review/book_review_card.twig') }}
+    {% endfor %}
+{% endblock %}
+
+{% block pagination %}
+    {% set paginationMethodName = 'book_reviews_page' %}
+    {{ include('components/pagination.twig') }}
+{% endblock %}

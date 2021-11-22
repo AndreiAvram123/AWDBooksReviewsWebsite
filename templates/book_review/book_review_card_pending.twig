@@ -1,0 +1,10 @@
+{% extends 'book_review/abstract_book_review_card.twig' %}
+
+{% set redirectURL = url('pending_book_review', {'id' : bookReview.id }) %}
+
+{% block card_content %}
+  {{ parent() }}
+<div class="alert alert-warning mt-5" role="alert">
+   Pending
+</div>
+{% endblock %}

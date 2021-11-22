@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block mainContent %}
+    <div class="main-wrapper">
+        <div class="post-single-wrapper axil-section-gap bg-color-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <div class="banner banner-single-post post-formate post-layout pb--40">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <!-- Start Single Slide  -->
+                                        <div class="content-block">
+                                            <!-- Start Post Content  -->
+                                            <div class="post-content">
+                                                <div class="post-cat">
+                                                    <div class="post-cat-list">
+                                                        <a class="hover-flip-item-wrapper" href="#">
+                                                            <span class="hover-flip-item">
+                                                                <span data-text="FEATURED POST">FEATURED POST</span>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <h1 class="title text-center">{{ bookReview.title }}</h1>
+                                                {% if bookReview.frontImage != null %}
+                                                    <figure class="wp-block-image alignwide text-center">
+                                                        <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
+                                                    </figure>
+                                                {% endif%}
+
+                                                <div class="post-meta-wrapper">
+                                                    <div class="post-meta">
+                                                        <div class="post-author-avatar border-rounded">
+                                                            <img src="{{ bookReview.creator.profileImage.url }}" alt="Author Images">
+                                                        </div>
+                                                        <div class="content">
+                                                            <h6 class="post-author-name">
+                                                                <a class="hover-flip-item-wrapper" href="{{ url('user_profile',{'id' : bookReview.creator.id}) }}">
+                                                                    <span class="hover-flip-item">
+                                                                        <span data-text="{{ bookReview.creator.username }}">{{ bookReview.creator.username }}</span>
+                                                                    </span>
+                                                                </a>
+                                                            </h6>
+                                                            <ul class="post-meta-list">
+                                                                <li>{{ bookReview.creationDate|date('d-m-Y') }}</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    {% set user = bookReview.creator %}
+                                                    {{ include('user/user_social_hub.twig') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Start Blog Details  -->
+                        <div class="axil-post-details">
+                            {% for bookSection in bookReview.sections %}
+                                {{ include('book_review/book_review_section.twig') }}
+                            {% endfor %}
+
+
+                            <div class="about-author">
+                                <div class="flex-media">
+                                    <div class="post-author-avatar border-rounded">
+                                        <img src="{{ bookReview.creator.profileImage.url }}" alt="Author Images">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="author-info">
+                                            <h5 class="title">
+                                                <a class="hover-flip-item-wrapper" href="#">
+                                                    <span class="hover-flip-item">
+                                                        <span data-text= {{ bookReview.creator.username}}>{{ bookReview.creator.username}}</span>
+                                                    </span>
+                                                </a>
+                                            </h5>
+                                            <span class="b3 subtitle">{{ bookReview.creator.nickname }}</span>
+                                        </div>
+                                        <div class="content">
+                                            <p class="b1 description">{{ bookReview.creator.description }}</p>
+                                            {% set user = bookReview.creator %}
+                                            {{ include('user/user_social_hub.twig') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            {% if ratingForm is defined %}
+                                {{ form_start(ratingForm) }}
+                                <div class="rating-block">
+                                    <div class="post-like">
+                                        <span>{{ bookReview.rating.likes}} Likes</span>
+                                        {{ form_widget(ratingForm.like_button)}}
+                                    </div>
+                                    <div class="post-dislike">
+                                        <span>{{ bookReview.rating.dislikes}}  Dislikes</span>
+                                        {{ form_widget(ratingForm.dislike_button)}}
+                                    </div>
+                                </div>
+
+                                {{ form_end(ratingForm) }}
+                            {% endif %}
+
+                            {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {% if commentForm is defined %}
+                                    {{ form_start(commentForm) }}
+                                    <div class="comment-respond">
+                                        <h4 class="title">Post a comment</h4>
+                                        <div class="row row--10">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    {{ form_widget(commentForm.summary) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-submit cerchio">
+                                                    {{ form_widget(commentForm.post_comment_button) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ form_end(commentForm) }}
+                                {% endif %}
+                            {% endif %}
+
+                            {% if bookReview.comments is not empty %}
+                                <!-- Start Comment Area  -->
+                                <div class="axil-comment-area">
+                                    <h4 class="title">{{ bookReview.comments|length}} comments</h4>
+                                    <ul class="comment-list">
+                                        {% for comment in bookReview.comments %}
+                                            {{ include('comment/comment_item.twig') }}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% block additional_content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

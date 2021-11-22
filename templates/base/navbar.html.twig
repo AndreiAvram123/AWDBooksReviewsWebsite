@@ -1,0 +1,61 @@
+
+<header class="header axil-header  header-light header-sticky header-with-shadow">
+    <div class="header-wrap">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-3 col-12">
+                <div class="logo">
+                </div>
+            </div>
+
+            <div class="col-xl-6 d-none d-xl-block">
+                <div class="mainmenu-wrapper">
+                    <nav class="mainmenu-nav">
+                        <!-- Start Mainmanu Nav -->
+                        <ul class="mainmenu">
+                            <li class="menu-item-has-children"><a href="{{ url('home') }}">Home</a>
+                            <li class="menu-item-has-children"><a href="{{ url('books_page') }}">Books</a>
+                                {% if is_granted('ROLE_MODERATOR')%}
+                            <li class="menu-item-has-children"><a href="{{ url('moderator') }}">Content management</a>
+                                {% endif %}
+
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="menu-item-has-children"><a href="{{ url('create_book_review') }}">Create review</a>
+                                {% endif %}
+
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="menu-item-has-children"><a href="{{ url('create_book') }}">Add book</a>
+                                {% endif %}
+                            </li>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-8 col-md-8 col-sm-9 col-12">
+                <div class="header-search text-right d-flex align-items-center">
+                    <form class="header-search-form" action="{{ url('search') }}" name="searchForm">
+                        <div class="axil-search form-group">
+                            <button type="submit" class="search-button"><i class="fal fa-search"></i></button>
+                            <input type="text" class="form-control" placeholder="Search" name="_search_query">
+                        </div>
+                    </form>
+                    <ul class="metabar-block">
+                        <li class="icon"><a href="#"><i class="fas fa-bookmark"></i></a></li>
+                        <li class="icon"><a href="#"><i class="fas fa-bell"></i></a></li>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li><img src="{{ app.user.profileImage.url}}" alt="Author Image"></li>
+                        {% else %}
+                            <li class="icon"><a href="{{ url('login_path') }}"><i class="fas fa-user"></i></a></li>
+                        {% endif %}
+                    </ul>
+                    <!-- Start Hamburger Menu  -->
+                    <div class="hamburger-menu d-block d-xl-none">
+                        <div class="hamburger-inner">
+                            <div class="icon"><i class="fal fa-bars"></i></div>
+                        </div>
+                    </div>
+                    <!-- End Hamburger Menu  -->
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

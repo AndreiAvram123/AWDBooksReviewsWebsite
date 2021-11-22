@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create book{% endblock %}
+
+{% block mainContent %}
+<div class="axil-post-list-area axil-section-gap bg-color-white">
+    <div class="container">
+        <div class="row form-group">
+            {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.author) }}
+            {{ form_widget(form.find_author) }}
+            {{ form_row(form.category) }}
+            {{ form_row(form.numberOfPages) }}
+            {{ form_row(form.image) }}
+            <div id="container-sections" class="mt-4"></div>
+            <div class="form-submit cerchio mt-5">
+                {{ form_widget(form.save) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

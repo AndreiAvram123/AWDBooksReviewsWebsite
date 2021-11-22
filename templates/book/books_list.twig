@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block mainContent %}
+    <div class="main-wrapper">
+        <h1 class="d-none">Home Tech Blog</h1>
+        <!-- Start Post List Wrapper  -->
+        <div class="axil-post-list-area axil-section-gap bg-color-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-xl-8">
+                        {% for book in books %}
+                            {{ include('book/book_card.twig') }}
+                        {% endfor %}
+                        {% set paginationMethodName = 'books_page' %}
+                        {{ include('components/pagination.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
