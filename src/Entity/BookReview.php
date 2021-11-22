@@ -20,11 +20,6 @@ class BookReview
     #[ORM\JoinColumn(nullable: false)]
     private Book $book;
 
-    
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $creator;
-
     #[ORM\Column(type: 'boolean')]
     private bool $pending = true;
 
@@ -47,17 +42,24 @@ class BookReview
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private $frontImage;
 
-    #[ORM\OneToOne(targetEntity: Rating::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $rating;
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Comment::class, orphanRemoval: true)]
     private $comments;
+
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $creator;
+
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: UserRating::class, orphanRemoval: true)]
+    private $ratings;
+
 
     #[Pure] public function __construct()
     {
         $this->sections = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
     }
 
 
@@ -195,17 +197,6 @@ class BookReview
         return $this;
     }
 
-    public function getRating(): Rating
-    {
-        return $this->rating;
-    }
-
-    public function setRating(Rating $rating): self
-    {
-        $this->rating = $rating;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Comment[]
@@ -236,4 +227,56 @@ class BookReview
 
         return $this;
     }
+
+    /**
+     * @return Collection|UserRating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function addRating(UserRating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setBookReview($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(UserRating $rating): self
+    {
+        if ($this->ratings->removeElement($rating)) {
+            // set the owning side to null (unless already changed)
+            if ($rating->getBookReview() === $this) {
+                $rating->setBookReview(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPositiveRatings(): ArrayCollection
+    {
+        return $this->ratings->filter(function ( UserRating $rating){
+            return $rating->getIsPositiveRating() == true;
+        });
+    }
+    public function getNegativeRatings(): ArrayCollection
+    {
+        return $this->ratings->filter(function ( UserRating $rating){
+            return $rating->getIsPositiveRating() == false;
+        });
+    }
+
+    public function hasUserRating(User $user): bool
+    {
+        $filteredArray =  $this->ratings->filter(function (UserRating $userRating) use ($user) {
+            return $userRating->getCreator()->getId() === $user->getID();
+        });
+        return sizeof($filteredArray) > 0;
+    }
+
 }

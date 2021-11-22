@@ -95,12 +95,16 @@
                                 {{ form_start(ratingForm) }}
                                 <div class="rating-block">
                                     <div class="post-like">
-                                        <span>{{ bookReview.rating.likes}} Likes</span>
+                                        <span>{{ bookReview.positiveRatings|length}} Likes</span>
+                                        {% if ratingForm.like_button is defined %}
                                         {{ form_widget(ratingForm.like_button)}}
+                                        {% endif %}
                                     </div>
                                     <div class="post-dislike">
-                                        <span>{{ bookReview.rating.dislikes}}  Dislikes</span>
+                                        <span>{{ bookReview.negativeRatings|length}}  Dislikes</span>
+                                        {% if ratingForm.dislike_button is defined %}
                                         {{ form_widget(ratingForm.dislike_button)}}
+                                        {% endif %}
                                     </div>
                                 </div>
 

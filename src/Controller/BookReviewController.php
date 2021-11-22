@@ -5,14 +5,14 @@ namespace App\Controller;
 use App\Entity\BookReview;
 use App\Entity\Comment;
 use App\Entity\Image;
-use App\Entity\Rating;
+use App\Entity\UserRating;
 use App\Entity\ReviewSection;
 use App\Entity\User;
 use App\Form\BookReviewType;
 use App\Form\CommentType;
 use App\Form\RatingType;
-use App\Repository\BookReviewRepository;
 use App\utils\aws\AwsImageUtils;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,22 +48,12 @@ class BookReviewController extends BaseController
         ]);
     }
 
-    #[Route("/reviews/user-reviews",name: "get_user_reviews",methods: ["GET"])]
-    public function getUserReviews():Response{
-        /** @var User $user */
-        $user = $this->getUser();
-        $reviews  = $user->getBookReviews() ;
-        return $this->render('book_review/user_book_reviews.html.twig',
-            [
-                'reviews' => $reviews
-            ]);
-    }
     #[Route('/bookReview/{id}', name : "book_review")]
     public function displayBookReviewById(BookReview $bookReview,
                                           Request $request): Response
     {
 
-        $ratingForm = $this->createForm(RatingType::class);
+        $ratingForm = $this->createForm(RatingType::class, $bookReview);
         $ratingForm->handleRequest($request);
 
         $comment = new Comment();
@@ -71,14 +61,11 @@ class BookReviewController extends BaseController
         $commentForm->handleRequest($request);
 
         if($this->canAccessFormData($ratingForm)){
-            $rating = $bookReview->getRating();
-            if($this->isFormButtonClicked($ratingForm,"like_button")){
-                $rating->addLike();
-            }
-            if($this->isFormButtonClicked($ratingForm,"dislike_button")){
-                $rating->addDislike();
-            }
-            $this->persistAndFlush($rating);
+
+            $bookReview->addRating(
+                $this->buildUserRating($this->isFormButtonClicked($ratingForm,"like_button"))
+            );
+            $this->persistAndFlush($bookReview);
             return $this->redirectToRoute('book_review',[
                 'id'=>$bookReview->getId()
                 ]);
@@ -108,6 +95,13 @@ class BookReviewController extends BaseController
         ]);
     }
 
+    private function buildUserRating(bool $positive):UserRating{
+        $rating = new UserRating();
+        $rating->setIsPositiveRating($positive);
+        $rating->setCreator($this->getUser());
+        $this->getManager()->persist($rating);
+        return  $rating;
+    }
 
     #[Route('/reviews/create', name: 'create_book_review')]
     public function createBookReview(Request $request, AwsImageUtils $awsImageUtils): Response
@@ -141,9 +135,7 @@ class BookReviewController extends BaseController
     //maybe refactor some of the logic here
     private function createReviewFromFormData(FormInterface $form):BookReview{
         $user = $this->getUser();
-        $rating = new Rating();
         $review = new BookReview();
-        $review->setRating($rating);
         $review->setCreator($user);
         $review->setBook($form->getData()['book']);
         $review->setCreationDate(new \DateTime());
@@ -168,23 +160,5 @@ class BookReviewController extends BaseController
     }
 
 
-    #[Route('/books/{id}', name: 'edit_book_review')]
-    public function editBookReview(Request $request, BookReview $bookReview):Response{
-        if($bookReview -> getCreator() !==$this->getUser()){
-            $this->redirectToRoute('home');
-        }
-        $form = $this->createBookReviewForm($bookReview);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $bookReview = $form->getData();
-            $bookReview->setCreator($this->getUser());
-            $this->persistAndFlush($bookReview);
-            return $this->redirectToRoute('home');
-        }
-        return $this->renderForm('book_review/book_review_edit.html.twig',[
-            'form' => $form
-        ]);
-    }
 
 }

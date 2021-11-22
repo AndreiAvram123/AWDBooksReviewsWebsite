@@ -56,11 +56,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private ?Image $profileImage;
 
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: UserRating::class, orphanRemoval: true)]
+    private $userRatings;
+
 
 
     #[Pure] public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
+        $this->userRatings = new ArrayCollection();
     }
 
     public function setRoles($roles){
@@ -207,6 +211,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfileImage(?Image $profileImage): self
     {
         $this->profileImage = $profileImage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserRating[]
+     */
+    public function getUserRatings(): Collection
+    {
+        return $this->userRatings;
+    }
+
+    public function addUserRating(UserRating $userRating): self
+    {
+        if (!$this->userRatings->contains($userRating)) {
+            $this->userRatings[] = $userRating;
+            $userRating->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRating(UserRating $userRating): self
+    {
+        if ($this->userRatings->removeElement($userRating)) {
+            // set the owning side to null (unless already changed)
+            if ($userRating->getCreator() === $this) {
+                $userRating->setCreator(null);
+            }
+        }
 
         return $this;
     }

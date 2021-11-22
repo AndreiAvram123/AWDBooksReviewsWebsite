@@ -43,6 +43,8 @@ class BookController extends BaseController
             'form'=> $form
         ]);
     }
+
+
     #[Route("/books/{page}", name: 'books_page',  requirements:['page' => '\d+'])]
     public function showAllBooks(int $page = 1 ): Response
     {
