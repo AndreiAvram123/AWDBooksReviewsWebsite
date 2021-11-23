@@ -1,0 +1,7 @@
+{% extends 'base/list_page.twig' %}
+
+  {% block listItems %}
+      {% for category in categories %}
+          {{ include('category/category_card.twig') }}
+      {% endfor %}
+  {% endblock %}
