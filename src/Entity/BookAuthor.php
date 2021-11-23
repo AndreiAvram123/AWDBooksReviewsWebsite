@@ -64,7 +64,7 @@ class BookAuthor
     }
 
     /**
-     * @return Collection|Book[]
+     * @return C\ollection|Book[]
      */
     public function getBooks(): Collection
     {

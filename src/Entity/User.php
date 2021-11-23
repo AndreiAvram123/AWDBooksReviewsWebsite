@@ -202,7 +202,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if(is_null($this->profileImage )){
             $image = new Image();
-            $image->setUrl("https://robohash.org/138.246.253.15.png");
+            $image->setUrl("https://robohash.oƒrg/138.246.253.15.png");
             return $image;
         }
         return $this->profileImage;

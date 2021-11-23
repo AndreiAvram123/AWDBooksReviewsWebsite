@@ -46,7 +46,7 @@ class BookReviewType extends AbstractType
                     ],
                     'label'=>"Could not find your book? Click here to add it"
                 ])
-             ->add(self::$review_image_name,FileType::class,[
+             ->add('profile_image',FileType::class,[
                  'label' => "The front image of the review",
                  'mapped' => false,
                  'required' => true,
