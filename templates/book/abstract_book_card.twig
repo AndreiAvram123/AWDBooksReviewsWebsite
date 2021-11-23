@@ -9,9 +9,10 @@
         {% block card_content %}
         <div class="post-cat">
             <div class="post-cat-list">
-                <a class="hover-flip-item-wrapper" href="#">
+                {% set categoryName = book.category.name %}
+                <a class="hover-flip-item-wrapper" href="{{ url('category', {'name' : categoryName}) }}">
                                             <span class="hover-flip-item">
-                                                <span data-text="{{ book.category.name }}">{{ book.category.name }}</span>
+                                                <span data-text="{{ categoryName }}">{{categoryName }}</span>
                                             </span>
                 </a>
             </div>
@@ -23,7 +24,7 @@
             <div class="post-meta">
                 <div class="content">
                     <h6 class="post-author-name">
-                        <a class="hover-flip-item-wrapper" href="author.html">
+                        <a class="hover-flip-item-wrapper">
                                                     <span class="hover-flip-item">
                                                         <span data-text="{{ book.author.fullName }}">{{book.author.fullName}}</span>
                                                     </span>

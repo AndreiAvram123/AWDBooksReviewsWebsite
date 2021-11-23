@@ -46,10 +46,10 @@ class BookController extends BaseController
 
 
     #[Route("/books/{page}", name: 'books_page',  requirements:['page' => '\d+'])]
-    public function showAllBooks(int $page = 1 ): Response
+    public function showAllBooks( int $page = 1): Response
     {
           $repo = $this->getManager()->getRepository(Book::class);
-          $numberOfPages =  intval($repo->countPubliclyAvailable()/self::$itemsPerPage);
+          $numberOfPages =  intval($repo->countAvailable()/self::$itemsPerPage);
           $books = $repo->findPubliclyAvailable($page);
           return $this->render('book/books_list.twig',[
                'books' =>$books,

@@ -125,12 +125,6 @@ class BookReviewController extends BaseController
     }
 
 
-    private function handleImageData( AwsImageUtils $awsImageUtils,
-                                      UploadedFile $imageFile,
-                                      BookReview $bookReview){
-            $image  = $awsImageUtils->uploadImageToBucketeer($imageFile);
-            $bookReview->setFrontImage($image);
-    }
     //todo
     //maybe refactor some of the logic here
     private function createReviewFromFormData(FormInterface $form):BookReview{

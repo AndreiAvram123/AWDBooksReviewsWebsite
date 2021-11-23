@@ -1,0 +1,12 @@
+{% extends 'base/list_page.twig' %}
+
+
+ {% block heading %}
+     <h1 class="title">Total books : {{ category.books| length}}</h1>
+ {% endblock %}
+
+{% block listItems %}
+    {% for book in category.books %}
+       {{ include('book/book_card.twig') }}
+    {% endfor %}
+{% endblock %}

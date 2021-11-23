@@ -14,6 +14,7 @@
                         <ul class="mainmenu">
                             <li class="menu-item-has-children"><a href="{{ url('home') }}">Home</a>
                             <li class="menu-item-has-children"><a href="{{ url('books_page') }}">Books</a>
+                            <li class="menu-item-has-children"><a href="{{ url('categories') }}">Categories</a>
                                 {% if is_granted('ROLE_MODERATOR')%}
                             <li class="menu-item-has-children"><a href="{{ url('moderator') }}">Content management</a>
                                 {% endif %}
@@ -26,6 +27,7 @@
                             <li class="menu-item-has-children"><a href="{{ url('create_book') }}">Add book</a>
                                 {% endif %}
                             </li>
+                        </ul>
                     </nav>
                 </div>
             </div>
@@ -39,10 +41,8 @@
                         </div>
                     </form>
                     <ul class="metabar-block">
-                        <li class="icon"><a href="#"><i class="fas fa-bookmark"></i></a></li>
-                        <li class="icon"><a href="#"><i class="fas fa-bell"></i></a></li>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <li><img src="{{ app.user.profileImage.url}}" alt="Author Image"></li>
+                            <li ><a href="{{ url('my_profile') }}"><img src="{{ app.user.profileImage.url}}" alt="Author Image"></a></li>
                         {% else %}
                             <li class="icon"><a href="{{ url('login_path') }}"><i class="fas fa-user"></i></a></li>
                         {% endif %}

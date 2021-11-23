@@ -30,7 +30,7 @@ class BookRepository extends ServiceEntityRepository
               ->getResult();
 
     }
-    public function countPubliclyAvailable():int{
+    public function countAvailable():int{
       return $this->createQueryBuilder('b')
              ->select('count(b.id)')
              ->andWhere('b.pending = false')
@@ -39,6 +39,12 @@ class BookRepository extends ServiceEntityRepository
              ->getSingleScalarResult();
 
     }
+
+
+    public function findAvailalableByCategory(){
+
+    }
+
     public function findPending():array{
         return $this->createQueryBuilder('b')
                ->andWhere('b.pending = true')
