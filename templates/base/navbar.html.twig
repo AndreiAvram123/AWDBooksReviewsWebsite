@@ -41,8 +41,6 @@
                         </div>
                     </form>
                     <ul class="metabar-block">
-                        <li class="icon"><a href="#"><i class="fas fa-bookmark"></i></a></li>
-                        <li class="icon"><a href="#"><i class="fas fa-bell"></i></a></li>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li ><a href="{{ url('my_profile') }}"><img src="{{ app.user.profileImage.url}}" alt="Author Image"></a></li>
                         {% else %}

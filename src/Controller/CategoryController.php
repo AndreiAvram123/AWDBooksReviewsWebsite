@@ -18,4 +18,11 @@ class CategoryController extends BaseController
             'categories' => $categories
         ]);
     }
+    #[Route('/category/{name}', name: 'category')]
+    public function category(BookCategory $category): Response{
+
+        return $this->render('category/category_books.twig',[
+            'category' => $category
+        ]);
+    }
 }

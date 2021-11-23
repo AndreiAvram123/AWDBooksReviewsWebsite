@@ -10,7 +10,7 @@
                     </a>
                 </div>
             </div>
-            <h4 class="title"><a href="{{ url('categories') }}">Total books : {{ category.books|filter(book => book.pending == false)|length }}</a></h4>
+            <h4 class="title"><a href="{{ url('category', { 'name' : category.name}) }}">Total books : {{ category.books|filter(book => book.pending == false)|length }}</a></h4>
 
     </div>
 </div>
