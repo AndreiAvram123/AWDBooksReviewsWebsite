@@ -19,8 +19,8 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->add('username',
-                TextType::class,
-                array('invalid_message' => "The username is not valid"))
+                TextType::class, ['invalid_message' => "The username is not valid"]
+            )
             ->add('email', EmailType::class)
             ->add('password',RepeatedType::class,
                 [    'invalid_message' => "Ooops...It seems like the passwords do not match",

@@ -27,10 +27,11 @@ class AuthController extends BaseController
     }
 
     #[Route('/register', name: 'register_path')]
-    public function register (Request $request, UserPasswordHasherInterface $hasher):Response{
+    public function register (
+        UserPasswordHasherInterface $hasher
+    ):Response{
         $user = new User();
         $form = $this->createForm(RegistrationType::class,$user);
-        $form->handleRequest($request);
         if($form->isSubmitted() && $form-> isValid()){
             /** @var $user User**/
             $user = $form->getData();

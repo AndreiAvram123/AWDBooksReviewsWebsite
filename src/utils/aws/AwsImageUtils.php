@@ -23,7 +23,6 @@ class AwsImageUtils
     )
     {
         $this->awsClient = $awsClientWrapper->getS3Client();
-
     }
 
     /**

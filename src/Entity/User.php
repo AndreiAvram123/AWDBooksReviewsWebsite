@@ -18,6 +18,7 @@ use function PHPUnit\Framework\isNull;
 #[ORM\Table(name: 'users')]
 #[UniqueEntity(fields: 'username', message: "The username is already taken")]
 #[UniqueEntity(fields: 'email', message: "The email is already taken")]
+#[UniqueEntity(fields: 'nickname', message: "The nickname is already taken")]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -38,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password;
 
     #[ORM\Column(type : 'json')]
-    private array $roles = [];
+    private array $roles = array("ROLE_USER");
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: BookReview::class, orphanRemoval: true)]
     private $bookReviews;
@@ -54,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $description;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    private ?Image $profileImage;
+    private ?Image $profileImage ;
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: UserRating::class, orphanRemoval: true)]
     private $userRatings;
@@ -202,7 +203,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if(is_null($this->profileImage )){
             $image = new Image();
-            $image->setUrl("https://robohash.oƒrg/138.246.253.15.png");
+            $image->setUrl("https://robohash.org/138.246.253.15.png");
             return $image;
         }
         return $this->profileImage;

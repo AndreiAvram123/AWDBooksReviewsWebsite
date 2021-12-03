@@ -33,8 +33,6 @@ class BookReview
     #[ORM\Column(type: 'datetime')]
     private $creationDate;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $estimatedReadTime;
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, orphanRemoval: true)]
     private $sections;
@@ -55,11 +53,12 @@ class BookReview
     private $ratings;
 
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->sections = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
+        $this->creationDate = new \DateTime();
     }
 
 
@@ -139,18 +138,6 @@ class BookReview
     public function setCreationDate(?\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    public function getEstimatedReadTime(): ?int
-    {
-        return $this->estimatedReadTime;
-    }
-
-    public function setEstimatedReadTime(?int $estimatedReadTime): self
-    {
-        $this->estimatedReadTime = $estimatedReadTime;
 
         return $this;
     }

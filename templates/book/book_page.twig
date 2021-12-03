@@ -19,6 +19,7 @@
                                                     </div>
                                                 </div>
                                                 <h1 class="title text-center">{{ book.title}}</h1>
+                                                <h3 class="title text-center">By {{ book.author.getFullName()}}</h3>
                                                 {% set categoryName = book.category.name %}
                                                 <a class="hover-flip-item-wrapper" href="{{ url('category', {'name' : categoryName}) }}">
                                                             <span class="hover-flip-item">
@@ -30,14 +31,15 @@
                                                         <img src="{{ book.image.url }}" alt="Post Images">
                                                     </figure>
                                                 {% endif %}
+                                                <div class="mt-5">
                                                 {{ form(moderatorForm) }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

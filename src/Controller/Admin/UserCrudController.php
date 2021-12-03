@@ -9,6 +9,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
+/**
+ * Obtain user data for the admin dashboard
+ */
 class UserCrudController extends AbstractCrudController
 {
 

@@ -30,6 +30,11 @@ class Comment
     private $creationDate;
 
 
+    public function __construct()
+    {
+        $this->creationDate = new \DateTime();
+    }
+
 
     public function getId(): ?int
     {
@@ -80,10 +85,7 @@ class Comment
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
-
         return $this;
     }
-
-
 
 }

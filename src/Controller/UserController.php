@@ -13,34 +13,36 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends BaseController
 {
+
     #[Route('/user/{id}', name: 'user_profile')]
-    public function getUserById(User $user): Response
-    {
+    public function getUserById(
+        User $user,
+        AwsImageUtils $awsImageUtils
+    ): Response{
+        /** @var User $currentSessionUser */
+        $currentSessionUser = $this->getUser();
+        if(!is_null($currentSessionUser)){
+            $userProfileForm = $this->createForm(UserProfileType::class, $currentSessionUser);
+
+            if($this->canAccessFormData($userProfileForm)){
+                $currentSessionUser = $userProfileForm->getData();
+                $imageFile = $userProfileForm->get(UserProfileType::$user_profile_image_field)->getData();
+                if($imageFile){
+                    $image  = $awsImageUtils->uploadImageToBucketeer($imageFile);
+                    $currentSessionUser->setProfileImage($image);
+                    $this->persistAndFlush($currentSessionUser);
+                    return $this->redirectToRoute('user_profile',['id' => $user->getId()]);
+                }
+
+            }
+            return $this->renderForm('user/user_profile.twig', [
+                'user' => $user,
+                'userProfileForm' => $userProfileForm
+            ]);
+        }
         return $this->render('user/user_profile.twig', [
             'user' => $user
         ]);
     }
 
-    #[Route('/myProfile', name: 'my_profile')]
-    public function getCurrentProfile(Request $request, AwsImageUtils $awsImageUtils): Response
-    {
-        /** @var User $currentLoggedInUser */
-        $currentLoggedInUser = $this->getUser();
-        $userForm = $this->createForm(UserProfileType::class, $currentLoggedInUser);
-        $userForm->handleRequest($request);
-        if($this->canAccessFormData($userForm)){
-            $currentLoggedInUser = $userForm->getData();
-            $imageFile = $userForm->get(UserProfileType::$user_profile_image_field)->getData();
-            if($imageFile){
-                $image  = $awsImageUtils->uploadImageToBucketeer($imageFile);
-                $currentLoggedInUser->setProfileImage($image);
-            }
-            $this->persistAndFlush($currentLoggedInUser);
-            return $this->redirectToRoute('my_profile');
-        }
-        return $this->renderForm('user/my_profile.twig', [
-            'user' => $currentLoggedInUser,
-             'userForm' => $userForm
-        ]);
-    }
 }
