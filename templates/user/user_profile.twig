@@ -69,9 +69,15 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-xl-8">
+                    {% if user.bookReviews is not empty %}
                     {% for bookReview in user.bookReviews %}
                         {{ include('book_review/book_review_card.twig') }}
                     {% endfor %}
+                    {% else %}
+                        <div class="alert alert-warning">
+                            The user does not have any review yet
+                        </div>
+                    {% endif %}
                 </div>
 
             </div>

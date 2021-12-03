@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\SubmitButton;
@@ -33,14 +34,10 @@ class BaseController extends AbstractController
     }
 
 
-
-    protected function getManager(): ObjectManager
-    {
-        return $this->getDoctrine()->getManager();
-    }
     protected function persistAndFlush($object){
-        $this->getManager()->persist($object);
-        $this->getManager()->flush();
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($object);
+        $manager->flush();
     }
 
 }

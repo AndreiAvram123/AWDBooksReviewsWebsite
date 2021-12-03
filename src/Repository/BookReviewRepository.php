@@ -37,6 +37,7 @@ class BookReviewRepository extends ServiceEntityRepository
             ->andWhere('br.pending = false')
             ->setFirstResult($offset)
             ->setMaxResults(BookReviewController::$itemsPerPage)
+            ->orderBy('br.creationDate', 'DESC')
             ->getQuery()
             ->getResult();
     }

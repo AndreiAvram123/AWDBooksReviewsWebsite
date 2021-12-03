@@ -18,7 +18,7 @@ class BookController extends BaseController
 
     static int $itemsPerPage = 10;
 
-    #[Route("/books/create", name: "create_book")]
+    #[Route("/books/create", name: "create_book_path")]
     public function createBook(
         AwsImageUtils $awsImageUtils
     ):Response{
@@ -46,8 +46,8 @@ class BookController extends BaseController
     #[Route("/books/{page}", name: 'books_page',  requirements:['page' => '\d+'])]
     public function showAllBooks( int $page = 1): Response
     {
-          $repo = $this->getManager()->getRepository(Book::class);
-          $numberOfPages =  intval($repo->countAvailable()/self::$itemsPerPage);
+          $repo =  $this->getDoctrine()->getRepository(Book::class);
+          $numberOfPages =  intval($repo->countPubliclyAvailable()/self::$itemsPerPage);
           $books = $repo->findPubliclyAvailable($page);
           return $this->render('book/books_list.twig',[
                'books' =>$books,

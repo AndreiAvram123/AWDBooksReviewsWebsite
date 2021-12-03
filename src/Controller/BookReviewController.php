@@ -23,6 +23,7 @@ class BookReviewController extends BaseController
     #[Route("/", name: "home")]
     public function index(): Response{
         $repo = $this
+            ->getDoctrine()
             ->getManager()
             ->getRepository(BookReview::class);
         $allReviews =  $repo->findPubliclyAvailable();
@@ -37,20 +38,21 @@ class BookReviewController extends BaseController
     #[Route("/reviews/page/{page}", name: "book_reviews_page", requirements:['page' => '\d+'])]
     public function bookReviewsPage(int $page): Response{
         $repo = $this
-             ->getManager()
+            ->getDoctrine()
+            ->getManager()
             ->getRepository(BookReview::class);
         $allReviews = $repo->findPubliclyAvailable($page);
 
         $numberOfPages =  intval($repo->count(array())/self::$itemsPerPage);
         return $this->render('reviews_list.twig', [
-             'allReviews' => $allReviews,
-             'numberOfPages' => $numberOfPages
+            'allReviews' => $allReviews,
+            'numberOfPages' => $numberOfPages
         ]);
     }
 
+
     #[Route('/bookReview/{id}', name : "book_review")]
-    public function displayBookReviewById(BookReview $bookReview,
-                                          Request $request): Response
+    public function displayBookReviewById(BookReview $bookReview): Response
     {
 
         $comment = new Comment();
@@ -61,11 +63,11 @@ class BookReviewController extends BaseController
         if($this->canAccessFormData($ratingForm)){
             $isRatingPositive = $this->isFormButtonClicked($ratingForm,"like_button");
             $rating = $this->createUserRating($isRatingPositive);
-            $this->getManager()->persist($rating);
+            $this->getDoctrine()->getManager()->persist($rating);
             $bookReview->addRating($rating);
             $this->persistAndFlush($bookReview);
             return $this->redirectToRoute('book_review',[
-                'id'=>$bookReview->getId()]
+                    'id'=>$bookReview->getId()]
             );
         }
 
@@ -78,7 +80,7 @@ class BookReviewController extends BaseController
             $comment->setBookReview($bookReview);
             $this->persistAndFlush($comment);
             return $this->redirectToRoute('book_review',[
-                'id'=>$bookReview->getId()
+                    'id'=>$bookReview->getId()
                 ]
             );
         }
@@ -144,7 +146,7 @@ class BookReviewController extends BaseController
             $sectionSummary = $requestBag->get('section_' . $sectionNumber ."_summary");
             $section->setHeading($sectionTitle);
             $section->setText($sectionSummary);
-            $this->getManager()->persist($section);
+            $this->getDoctrine()->getManager()->persist($section);
         }
 
     }

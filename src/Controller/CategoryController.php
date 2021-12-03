@@ -12,8 +12,9 @@ class CategoryController extends BaseController
     public function index(): Response
     {
         $categories = $this
-            ->getManager()
-            ->getRepository(BookCategory::class)
+            ->getDoctrine()
+             ->getManager()
+             ->getRepository(BookCategory::class)
              ->findAll();
 
         return $this->render('category/categories.twig',[

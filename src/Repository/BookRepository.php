@@ -6,6 +6,7 @@ use App\Controller\BookController;
 use App\Controller\BookReviewController;
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,11 +31,9 @@ class BookRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
     }
-    public function countAvailable():int{
-      return $this->createQueryBuilder('b')
+    public function countPubliclyAvailable():int{
+      return $this->getPubliclyAvailableBuilder()
              ->select('count(b.id)')
-             ->andWhere('b.pending = false')
-             ->andWhere('b.declined = false')
              ->getQuery()
              ->getSingleScalarResult();
 
@@ -49,17 +48,28 @@ class BookRepository extends ServiceEntityRepository
                ->getResult();
     }
 
-    public function findPubliclyAvailable(int $page = 1):array{
-        return $this->findPubliclyAvailableAsQB($page)-> getQuery()->getResult();
-    }
 
-    public function findPubliclyAvailableAsQB(int $page = 1): QueryBuilder
+    public function findPubliclyAvailable(int $page = 1): array
     {
         $offset = BookController::$itemsPerPage * ($page-1);
+        return $this->getPubliclyAvailableBuilder()
+            ->setFirstResult($offset)
+            ->setMaxResults(BookReviewController::$itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    private function getPubliclyAvailableBuilder(): QueryBuilder
+    {
         return $this->createQueryBuilder('b')
             ->andWhere('b.pending = false')
-            ->andWhere('b.declined = false')
-            ->setFirstResult($offset)
+            ->andWhere('b.declined = false');
+    }
+
+    public function findAllPubliclyAvailableAsBuilder(): QueryBuilder
+    {
+       return $this->getPubliclyAvailableBuilder()
             ->setMaxResults(BookReviewController::$itemsPerPage);
     }
+
 }

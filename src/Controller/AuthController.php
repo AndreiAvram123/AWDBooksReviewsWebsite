@@ -28,7 +28,6 @@ class AuthController extends BaseController
 
     #[Route('/register', name: 'register_path')]
     public function register (
-        Request $request,
         UserPasswordHasherInterface $hasher
     ):Response{
         $user = new User();
