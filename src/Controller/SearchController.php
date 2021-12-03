@@ -19,6 +19,7 @@ class SearchController extends BaseController
         $bookReviews = $this ->getDoctrine()
             ->getRepository(BookReview::class)
             ->findAllByTitle($query);
+
         $users = $this->getDoctrine()
                 ->getRepository(User::class)
                 ->findByUsernameQuery($query);

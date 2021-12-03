@@ -42,7 +42,7 @@
                     </form>
                     <ul class="metabar-block">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <li ><a href="{{ url('my_profile') }}"><img src="{{ app.user.profileImage.url}}" alt="Author Image"></a></li>
+                            <li ><a href="{{ url('user_profile',{'id' : app.user.id}) }}"><img src="{{ app.user.profileImage.url}}" alt="Author Image"></a></li>
                         {% else %}
                             <li class="icon"><a href="{{ url('login_path') }}"><i class="fas fa-user"></i></a></li>
                         {% endif %}

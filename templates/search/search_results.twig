@@ -11,7 +11,7 @@
                     {% if bookReviews is not empty %}
                     <h1>Total reviews :  {{ bookReviews|length }}</h1>
                     {% for bookReview in bookReviews %}
-                        {{ include('book_review/abstract_book_review_card.twig') }}
+                        {{ include('book_review/book_review_card.twig') }}
                     {% endfor %}
                     {% endif %}
                 </div>
@@ -28,7 +28,7 @@
                 {% if books is not empty %}
                     <h1>Total books : {{ books | length }}</h1>
                     {% for book in books %}
-                        {{ include('book/abstract_book_review_card.twig')}}
+                        {{ include('book/book_card.twig')}}
                     {% endfor %}
                 {% endif %}
             </div>

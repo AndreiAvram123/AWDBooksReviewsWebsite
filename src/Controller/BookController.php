@@ -57,29 +57,4 @@ class BookController extends BaseController
           ]);
     }
 
-    #[Route('/moderator/reviews/pending', name: 'pending_book_reviews')]
-    public function pendingBookReviews():Response{
-        $pendingReviews = $this
-            ->getDoctrine()
-            ->getRepository(BookReview::class)
-            ->findPending();
-
-        return $this->render('moderator/moderator_pending_reviews.twig', [
-                'pendingReviews' => $pendingReviews
-            ]
-        );
-    }
-
-    #[Route('/moderator/books/pending', name: 'pending_books')]
-    public function pendingBooks():Response{
-        $pendingBooks = $this
-            ->getDoctrine()
-            ->getRepository(Book::class)
-            ->findPending();
-        return $this->render('moderator/moderator_pending_books.twig', [
-            'pendingBooks' => $pendingBooks
-        ]);
-    }
-
-
 }
