@@ -21,7 +21,6 @@ class UserController extends BaseController
     ): Response{
         /** @var User $currentSessionUser */
         $currentSessionUser = $this->getUser();
-        $userProfileForm = null;
         if(!is_null($currentSessionUser)){
             $userProfileForm = $this->createForm(UserProfileType::class, $currentSessionUser);
 

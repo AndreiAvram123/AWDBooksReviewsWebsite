@@ -25,10 +25,12 @@ class BookReviewController extends BaseController
 
     #[Route("/", name: "home")]
     public function index(): Response{
-        $repo = $this->getManager()
+        $repo = $this
+            ->getManager()
             ->getRepository(BookReview::class);
         $allReviews =  $repo->findPubliclyAvailable();
         $numberOfPages =  intval($repo->countPubliclyAvailable()/self::$itemsPerPage);
+
         return $this->render('reviews_list.twig', [
             'allReviews' => $allReviews,
             'numberOfPages' => $numberOfPages
@@ -43,7 +45,7 @@ class BookReviewController extends BaseController
 
         $numberOfPages =  intval($repo->count(array())/self::$itemsPerPage);
         return $this->render('reviews_list.twig', [
-            'allReviews' => $allReviews,
+             'allReviews' => $allReviews,
              'numberOfPages' => $numberOfPages
         ]);
     }
@@ -67,8 +69,8 @@ class BookReviewController extends BaseController
             );
             $this->persistAndFlush($bookReview);
             return $this->redirectToRoute('book_review',[
-                'id'=>$bookReview->getId()
-                ]);
+                'id'=>$bookReview->getId()]
+            );
         }
 
         if($this->canAccessFormData($commentForm)){

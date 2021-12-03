@@ -12,10 +12,10 @@ class ModeratorApproveType extends AbstractType
 
     static string $approveButtonName = "Approve";
     static string $declineButtonName = "Decline";
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(self::$approveButtonName, SubmitType::class,
+        $builder->add(self::$approveButtonName, SubmitType::class,
                 [
                     'attr' => [
                         'class' => 'axil-button-primary button-rounded'

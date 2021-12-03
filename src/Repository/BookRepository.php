@@ -6,6 +6,7 @@ use App\Controller\BookController;
 use App\Controller\BookReviewController;
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,7 +29,6 @@ class BookRepository extends ServiceEntityRepository
                ->setMaxResults(100)
               ->getQuery()
               ->getResult();
-
     }
     public function countAvailable():int{
       return $this->createQueryBuilder('b')
@@ -41,10 +41,6 @@ class BookRepository extends ServiceEntityRepository
     }
 
 
-    public function findAvailalableByCategory(){
-
-    }
-
     public function findPending():array{
         return $this->createQueryBuilder('b')
                ->andWhere('b.pending = true')
@@ -56,7 +52,9 @@ class BookRepository extends ServiceEntityRepository
     public function findPubliclyAvailable(int $page = 1):array{
         return $this->findPubliclyAvailableAsQB($page)-> getQuery()->getResult();
     }
-    public function findPubliclyAvailableAsQB(int $page = 1){
+
+    public function findPubliclyAvailableAsQB(int $page = 1): QueryBuilder
+    {
         $offset = BookController::$itemsPerPage * ($page-1);
         return $this->createQueryBuilder('b')
             ->andWhere('b.pending = false')

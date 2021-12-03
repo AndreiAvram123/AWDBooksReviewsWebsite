@@ -80,10 +80,7 @@ class Comment
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
-
         return $this;
     }
-
-
 
 }
