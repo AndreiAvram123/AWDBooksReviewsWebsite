@@ -9,7 +9,9 @@
             {{ form_start(form) }}
             {{ form_row(form.title) }}
             {{ form_row(form.author) }}
-            {{ form_widget(form.find_author) }}
+            <div onclick="window.location.href = '{{ url('create_author_path') }}'">
+                {{ form_widget(form.find_author }) }}
+            </div>
             {{ form_row(form.category) }}
             {{ form_row(form.numberOfPages) }}
             {{ form_row(form.image) }}
