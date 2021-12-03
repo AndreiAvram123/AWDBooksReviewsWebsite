@@ -26,6 +26,10 @@
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="menu-item-has-children"><a href="{{ url('create_book') }}">Add book</a>
                                 {% endif %}
+
+                                {% if  is_granted('ROLE_ADMIN') %}
+                            <li class="menu-item-has-children"><a href="{{ url('admin') }}">Admin</a>
+                                {% endif %}
                             </li>
                         </ul>
                     </nav>

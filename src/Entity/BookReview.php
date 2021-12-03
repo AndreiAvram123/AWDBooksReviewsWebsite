@@ -60,6 +60,7 @@ class BookReview
         $this->sections = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
+        $this->creationDate = new \DateTime();
     }
 
 

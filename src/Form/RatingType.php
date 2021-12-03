@@ -15,6 +15,8 @@ use function PHPUnit\Framework\isNull;
 
 class RatingType extends AbstractType
 {
+
+
     public function __construct(private Security $security){
 
     }

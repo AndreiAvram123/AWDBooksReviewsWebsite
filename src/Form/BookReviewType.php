@@ -3,9 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Book;
-use App\Entity\BookReview;
 use App\Repository\BookRepository;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -16,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\File;
+
 class BookReviewType extends AbstractType
 {
     static string $review_image_name = "review_image";
@@ -43,7 +42,7 @@ class BookReviewType extends AbstractType
                     ],
                     'label'=>"Could not find your book? Click here to add it"
                 ])
-             ->add('profile_image',FileType::class,[
+             ->add('review_image',FileType::class,[
                  'label' => "The front image of the review",
                  'mapped' => false,
                  'required' => true,

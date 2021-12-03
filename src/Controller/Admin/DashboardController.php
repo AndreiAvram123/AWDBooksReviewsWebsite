@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Book;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -16,10 +17,21 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        $totalUsers = $this->getDoctrine()->getRepository(User::class)->count(array());
+        $totalUsers = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->count(array());
+        $totalPublicBooks = $this->getDoctrine()
+            ->getRepository(Book::class)
+            ->count(array('pending' => false));
+        $totalPublicReviews = $this->getDoctrine()
+            ->getRepository(Book::class)
+            ->count(array('pending' => false));
+
        return $this->render('admin/dashboard.html.twig',
         [
-            "totalUsers" => $totalUsers
+            "totalUsers" => $totalUsers,
+            "totalPublicReviews"=>$totalPublicReviews,
+            "totalPublicBooks" => $totalPublicBooks
         ]
        );
     }

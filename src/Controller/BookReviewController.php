@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\BookReview;
 use App\Entity\Comment;
-use App\Entity\Image;
 use App\Entity\UserRating;
 use App\Entity\ReviewSection;
 use App\Entity\User;
@@ -12,9 +11,7 @@ use App\Form\BookReviewType;
 use App\Form\CommentType;
 use App\Form\RatingType;
 use App\utils\aws\AwsImageUtils;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +36,8 @@ class BookReviewController extends BaseController
 
     #[Route("/reviews/page/{page}", name: "book_reviews_page", requirements:['page' => '\d+'])]
     public function bookReviewsPage(int $page): Response{
-        $repo = $this->getManager()
+        $repo = $this
+             ->getManager()
             ->getRepository(BookReview::class);
         $allReviews = $repo->findPubliclyAvailable($page);
 
@@ -55,18 +53,16 @@ class BookReviewController extends BaseController
                                           Request $request): Response
     {
 
-        $ratingForm = $this->createForm(RatingType::class, $bookReview);
-        $ratingForm->handleRequest($request);
-
         $comment = new Comment();
+
+        $ratingForm = $this->createForm(RatingType::class, $bookReview);
         $commentForm = $this->createForm(CommentType::class,$comment);
-        $commentForm->handleRequest($request);
 
         if($this->canAccessFormData($ratingForm)){
-
-            $bookReview->addRating(
-                $this->buildUserRating($this->isFormButtonClicked($ratingForm,"like_button"))
-            );
+            $isRatingPositive = $this->isFormButtonClicked($ratingForm,"like_button");
+            $rating = $this->createUserRating($isRatingPositive);
+            $this->getManager()->persist($rating);
+            $bookReview->addRating($rating);
             $this->persistAndFlush($bookReview);
             return $this->redirectToRoute('book_review',[
                 'id'=>$bookReview->getId()]
@@ -79,7 +75,6 @@ class BookReviewController extends BaseController
             /** @var User $creator */
             $creator = $this->getUser();
             $comment -> setCreator($creator);
-            $comment->setCreationDate(new \DateTime());
             $comment->setBookReview($bookReview);
             $this->persistAndFlush($comment);
             return $this->redirectToRoute('book_review',[
@@ -89,7 +84,6 @@ class BookReviewController extends BaseController
         }
 
 
-
         return $this-> renderForm('book_review/book_review.twig', [
             'bookReview' => $bookReview,
             'ratingForm' => $ratingForm,
@@ -97,11 +91,11 @@ class BookReviewController extends BaseController
         ]);
     }
 
-    private function buildUserRating(bool $positive):UserRating{
+
+    private function createUserRating(bool $positive):UserRating{
         $rating = new UserRating();
         $rating->setIsPositiveRating($positive);
         $rating->setCreator($this->getUser());
-        $this->getManager()->persist($rating);
         return  $rating;
     }
 
@@ -109,13 +103,14 @@ class BookReviewController extends BaseController
     public function createBookReview(Request $request, AwsImageUtils $awsImageUtils): Response
     {
         $form = $this->createForm(BookReviewType::class);
-        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
             $bookReview = $this->createReviewFromFormData($form);
             $imageFile = $form->get(BookReviewType::$review_image_name)->getData();
             if($imageFile){
-                $this->handleImageData(awsImageUtils: $awsImageUtils,imageFile: $imageFile, bookReview: $bookReview);
+                $image  = $awsImageUtils->uploadImageToBucketeer($imageFile);
+                $bookReview->setFrontImage($image);
+                $this->persistAndFlush($bookReview);
             }
             $this->createSections($request, $bookReview);
             $this->persistAndFlush($bookReview);
@@ -127,14 +122,13 @@ class BookReviewController extends BaseController
     }
 
 
-    //todo
-    //maybe refactor some of the logic here
+
     private function createReviewFromFormData(FormInterface $form):BookReview{
+        /** @var User $user*/
         $user = $this->getUser();
         $review = new BookReview();
         $review->setCreator($user);
         $review->setBook($form->getData()['book']);
-        $review->setCreationDate(new \DateTime());
         $review->setTitle($form->getData()['title']);
         return $review;
     }

@@ -20,12 +20,11 @@ class BookController extends BaseController
 
     #[Route("/books/create", name: "create_book")]
     public function createBook(
-        Request $request,
         AwsImageUtils $awsImageUtils
     ):Response{
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
-        $form->handleRequest($request);
+
         if($this->canAccessFormData($form)){
             /** @var Book $book */
             $book = $form->getData();
@@ -34,7 +33,6 @@ class BookController extends BaseController
                 $image = $awsImageUtils->uploadImageToBucketeer($uploadedImage);
                 $book->setImage($image);
             }
-
             $this->persistAndFlush($book);
             return $this->redirectToRoute('home');
         }

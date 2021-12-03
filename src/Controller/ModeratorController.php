@@ -39,7 +39,6 @@ class ModeratorController extends BaseController
     #[Route('moderator/pending/books/{id}', name: "pending_book")]
     public function pendingBook(Request $request, Book $book):Response{
         $moderatorForm = $this->createForm(ModeratorApproveType::class);
-        $moderatorForm->handleRequest($request);
         if($this->canAccessFormData($moderatorForm)){
             if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$approveButtonName)){
                 $book->setPending(false);
@@ -59,9 +58,8 @@ class ModeratorController extends BaseController
 
 
     #[Route('moderator/bookReview/{id}', name: 'pending_book_review')]
-    public function pendingBookReview(Request $request , BookReview $bookReview):Response{
+    public function pendingBookReview(BookReview $bookReview):Response{
         $moderatorForm = $this->createForm(ModeratorApproveType::class);
-        $moderatorForm->handleRequest($request);
         if($this->canAccessFormData($moderatorForm)){
             if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$approveButtonName)){
                 $bookReview->setPending(false);
@@ -100,7 +98,8 @@ class ModeratorController extends BaseController
             ->getDoctrine()
             ->getRepository(Book::class)
             ->findPending();
-        return $this->render('moderator/moderator_pending_books.twig', [
+        return $this->render(
+            'moderator/moderator_pending_books.twig', [
             'pendingBooks' => $pendingBooks
         ]);
     }
