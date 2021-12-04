@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\BookReview;
 use App\Entity\Comment;
+use App\Entity\NegativeRating;
+use App\Entity\PositiveRating;
 use App\Entity\UserRating;
 use App\Entity\ReviewSection;
 use App\Entity\User;
@@ -27,10 +29,13 @@ class BookReviewController extends BaseController
             ->getManager()
             ->getRepository(BookReview::class);
         $allReviews =  $repo->findPubliclyAvailable();
+        $featuredReviews = $repo->findFeaturedReviews();
+
         $numberOfPages =  intval($repo->countPubliclyAvailable()/self::$itemsPerPage);
 
-        return $this->render('reviews_list.twig', [
+        return $this->render('index.twig', [
             'allReviews' => $allReviews,
+            'featuredReviews'=>$featuredReviews,
             'numberOfPages' => $numberOfPages
         ]);
     }
@@ -44,7 +49,7 @@ class BookReviewController extends BaseController
         $allReviews = $repo->findPubliclyAvailable($page);
 
         $numberOfPages =  intval($repo->count(array())/self::$itemsPerPage);
-        return $this->render('reviews_list.twig', [
+        return $this->render('index.twig', [
             'allReviews' => $allReviews,
             'numberOfPages' => $numberOfPages
         ]);
@@ -54,7 +59,6 @@ class BookReviewController extends BaseController
     #[Route('/bookReviews/{id}', name : "book_review")]
     public function displayBookReviewById(BookReview $bookReview): Response
     {
-
         $comment = new Comment();
 
         $ratingForm = $this->createForm(RatingType::class, $bookReview);
@@ -62,9 +66,10 @@ class BookReviewController extends BaseController
 
         if($this->canAccessFormData($ratingForm)){
             $isRatingPositive = $this->isFormButtonClicked($ratingForm,"like_button");
-            $rating = $this->createUserRating($isRatingPositive);
-            $this->getDoctrine()->getManager()->persist($rating);
-            $bookReview->addRating($rating);
+            $this->addRatingToBookReview(
+                isPositive: $isRatingPositive,
+                bookReview: $bookReview
+            );
             $this->persistAndFlush($bookReview);
             return $this->redirectToRoute('book_review',[
                     'id'=>$bookReview->getId()]
@@ -93,10 +98,26 @@ class BookReviewController extends BaseController
         ]);
     }
 
+    private function addRatingToBookReview(bool $isPositive, BookReview $bookReview){
+        $manager = $this->getDoctrine()->getManager();
+        if($isPositive === true){
+            $rating = $this->createPositiveRating();
+            $manager->persist($rating);
+            $bookReview->addPositiveRating($rating);
+        }else{
+            $rating = $this->createNegativeRating();
+            $manager->persist($rating);
+            $bookReview->addNegativeRating($rating);
+        }
+    }
 
-    private function createUserRating(bool $positive):UserRating{
-        $rating = new UserRating();
-        $rating->setIsPositiveRating($positive);
+    private function createPositiveRating():PositiveRating{
+        $rating = new PositiveRating();
+        $rating->setCreator($this->getUser());
+        return  $rating;
+    }
+    private function createNegativeRating():NegativeRating{
+        $rating = new NegativeRating();
         $rating->setCreator($this->getUser());
         return  $rating;
     }

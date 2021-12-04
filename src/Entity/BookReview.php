@@ -49,16 +49,20 @@ class BookReview
     #[ORM\JoinColumn(nullable: false)]
     private $creator;
 
-    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: UserRating::class, orphanRemoval: true)]
-    private $ratings;
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: PositiveRating::class, orphanRemoval: true)]
+    private $positiveRatings;
+
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
+    private $negativeRatings;
 
 
     public function __construct()
     {
         $this->sections = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->ratings = new ArrayCollection();
         $this->creationDate = new \DateTime();
+        $this->positiveRatings = new ArrayCollection();
+        $this->negativeRatings = new ArrayCollection();
     }
 
 
@@ -215,55 +219,77 @@ class BookReview
         return $this;
     }
 
-    /**
-     * @return Collection|UserRating[]
-     */
-    public function getRatings(): Collection
-    {
-        return $this->ratings;
-    }
-
-    public function addRating(UserRating $rating): self
-    {
-        if (!$this->ratings->contains($rating)) {
-            $this->ratings[] = $rating;
-            $rating->setBookReview($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRating(UserRating $rating): self
-    {
-        if ($this->ratings->removeElement($rating)) {
-            // set the owning side to null (unless already changed)
-            if ($rating->getBookReview() === $this) {
-                $rating->setBookReview(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getPositiveRatings(): ArrayCollection
-    {
-        return $this->ratings->filter(function ( UserRating $rating){
-            return $rating->getIsPositiveRating() == true;
-        });
-    }
-    public function getNegativeRatings(): ArrayCollection
-    {
-        return $this->ratings->filter(function ( UserRating $rating){
-            return $rating->getIsPositiveRating() == false;
-        });
-    }
 
     public function hasUserRating(User $user): bool
     {
-        $filteredArray =  $this->ratings->filter(function (UserRating $userRating) use ($user) {
+        $hasPositiveRating =  sizeof($this->positiveRatings->filter(function (UserRating $userRating) use ($user) {
             return $userRating->getCreator()->getId() === $user->getID();
-        });
-        return sizeof($filteredArray) > 0;
+        })) > 0;
+        $hasNegativeRating =  sizeof($this->negativeRatings->filter(function (UserRating $userRating) use ($user) {
+                return $userRating->getCreator()->getId() === $user->getID();
+            })) > 0;
+
+        return $hasNegativeRating === true || $hasPositiveRating === true;
     }
+
+/**
+ * @return Collection|PositiveRating[]
+ */
+public function getPositiveRatings(): Collection
+{
+    return $this->positiveRatings;
+}
+
+public function addPositiveRating(PositiveRating $positiveRating): self
+{
+    if (!$this->positiveRatings->contains($positiveRating)) {
+        $this->positiveRatings[] = $positiveRating;
+        $positiveRating->setBookReview($this);
+    }
+
+    return $this;
+}
+
+public function removePositiveRating(PositiveRating $positiveRating): self
+{
+    if ($this->positiveRatings->removeElement($positiveRating)) {
+        // set the owning side to null (unless already changed)
+        if ($positiveRating->getBookReview() === $this) {
+            $positiveRating->setBookReview(null);
+        }
+    }
+
+    return $this;
+}
+
+/**
+ * @return Collection|NegativeRating[]
+ */
+public function getNegativeRatings(): Collection
+{
+    return $this->negativeRatings;
+}
+
+public function addNegativeRating(NegativeRating $negativeRating): self
+{
+    if (!$this->negativeRatings->contains($negativeRating)) {
+        $this->negativeRatings[] = $negativeRating;
+        $negativeRating->setBookReview($this);
+    }
+
+    return $this;
+}
+
+public function removeNegativeRating(NegativeRating $negativeRating): self
+{
+    if ($this->negativeRatings->removeElement($negativeRating)) {
+        // set the owning side to null (unless already changed)
+        if ($negativeRating->getBookReview() === $this) {
+            $negativeRating->setBookReview(null);
+        }
+    }
+
+    return $this;
+}
 
 }
