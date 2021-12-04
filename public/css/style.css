@@ -840,12 +840,12 @@ ul.axil-tab-button .nav-item a.nav-link.active, ul.axil-tab-button .nav-item .po
   box-shadow: var(--shadow-primary);
 }
 
-.instagram-post-list .single-post a img, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending img, .instagram-post-list .single-post a, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending, .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list a img, .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list .item-pending img, .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list a, .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list .item-pending, .axil-single-widget.widget_categories ul li.cat-item .inner, .axil-single-widget, .content-block.post-medium .post-thumbnail a img, .content-block.post-medium .post-thumbnail .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .content-block.post-medium .post-thumbnail .item-pending img, .content-block.post-medium .post-thumbnail, .content-block.post-list-view .post-content, .content-block.post-list-view .post-thumbnail a img, .content-block.post-list-view .post-thumbnail .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .content-block.post-list-view .post-thumbnail .item-pending img, .content-block.post-list-view .post-thumbnail, .content-block.post-grid .post-grid-content .post-content, .content-block.post-grid .post-thumbnail a img, .content-block.post-grid .post-thumbnail .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .content-block.post-grid .post-thumbnail .item-pending img, .content-block.trend-post .post-thumbnail img, .content-block.image-rounded .post-thumbnail img, .content-block.image-rounded .post-thumbnail, .list-categories .single-cat .inner::before, .list-categories .single-cat .thumbnail img, .post-scale, .radius {
+.axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list a img, .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list .item-pending img, .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list a, .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .axil-single-widget.widget_instagram .instagram-post-list-wrapper .instagram-post-list .item-pending, .axil-single-widget.widget_categories ul li.cat-item .inner, .axil-single-widget, .content-block.post-medium .post-thumbnail a img, .content-block.post-medium .post-thumbnail .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .content-block.post-medium .post-thumbnail .item-pending img, .content-block.post-medium .post-thumbnail, .content-block.post-list-view .post-content, .content-block.post-list-view .post-thumbnail a img, .content-block.post-list-view .post-thumbnail .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .content-block.post-list-view .post-thumbnail .item-pending img, .content-block.post-list-view .post-thumbnail, .content-block.post-grid .post-grid-content .post-content, .content-block.post-grid .post-thumbnail a img, .content-block.post-grid .post-thumbnail .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .content-block.post-grid .post-thumbnail .item-pending img, .content-block.trend-post .post-thumbnail img, .content-block.image-rounded .post-thumbnail img, .content-block.image-rounded .post-thumbnail, .post-scale, .radius {
   border-radius: var(--radius);
 }
 
 /*=============== Style Css =============*/
-.footer-mainmenu .footer-widget ul.ft-menu-list, .copyright-area .mainmenu, .instagram-post-list, .comment-list ul.children, .comment-list, .axil-single-widget.widget_instagram .instagram-post-list-wrapper, .axil-single-widget.widget_categories ul, ul.post-meta-list, .popup-mobilemenu-area .mainmenu .menu-item-has-children .axil-submenu, .popup-mobilemenu-area .mainmenu, .mainmenu-nav ul.mainmenu > li.megamenu-wrapper .megamenu-sub-menu .megamenu-item .axil-vertical-nav, .mainmenu-nav ul.mainmenu > li.megamenu-wrapper .megamenu-sub-menu, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu, .mainmenu-nav ul.mainmenu, .metabar-block, ul.social-share-transparent, ul.social-with-text, ul.social-icon, ul.axil-tab-button {
+.footer-mainmenu .footer-widget ul.ft-menu-list, .copyright-area .mainmenu, .comment-list ul.children, .comment-list, .axil-single-widget.widget_instagram .instagram-post-list-wrapper, .axil-single-widget.widget_categories ul, ul.post-meta-list, .popup-mobilemenu-area .mainmenu .menu-item-has-children .axil-submenu, .popup-mobilemenu-area .mainmenu, .mainmenu-nav ul.mainmenu > li.megamenu-wrapper .megamenu-sub-menu .megamenu-item .axil-vertical-nav, .mainmenu-nav ul.mainmenu > li.megamenu-wrapper .megamenu-sub-menu, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu, .mainmenu-nav ul.mainmenu, .metabar-block, ul.social-share-transparent, ul.social-with-text, ul.social-icon, ul.axil-tab-button {
   padding: 0;
   margin: 0;
   list-style: none;
@@ -857,7 +857,7 @@ ul.axil-tab-button .nav-item a.nav-link.active, ul.axil-tab-button .nav-item .po
   list-style: none;
 }
 
-.copyright-area .mainmenu li a, .instagram-post-list .single-post a .instagram-button, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending .instagram-button, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending .instagram-button, .comment-list .comment .reply-edit a.comment-reply-link, .comment-list .comment .reply-edit .post-content .post-cat .post-cat-list .comment-reply-link.item-pending, .post-content .post-cat .post-cat-list .comment-list .comment .reply-edit .comment-reply-link.item-pending, .tagcloud a, .about-author .media-body .author-info .title a, .about-author .media-body .author-info .title .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .about-author .media-body .author-info .title .item-pending, .axil-post-details .social-share-block .post-like a i, .axil-post-details .rating-block .post-like a i, .axil-post-details .social-share-block .post-dislike a i, .axil-post-details .rating-block .post-dislike a i, .axil-post-details .social-share-block .post-like .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list .axil-post-details .social-share-block .post-like .item-pending i, .axil-post-details .rating-block .post-like .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list .axil-post-details .rating-block .post-like .item-pending i, .axil-post-details .social-share-block .post-dislike .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list .axil-post-details .social-share-block .post-dislike .item-pending i, .axil-post-details .rating-block .post-dislike .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list .axil-post-details .rating-block .post-dislike .item-pending i, .axil-single-widget .tagcloud a, .axil-single-widget.widget_categories ul li.cat-item .inner .content .title, .post-meta .post-author-name a, .post-content .post-cat .post-cat-list a, .post-content .post-cat .post-cat-list .item-pending, .content-block.post-list-view .post-content, .content-block.post-grid.post-grid-transparent .post-grid-content .post-content .post-cat .post-cat-list a, .content-block.post-grid.post-grid-transparent .post-grid-content .post-content .post-cat .post-cat-list .item-pending, .content-block.content-direction-column, .popup-mobilemenu-area .mainmenu .menu-item-has-children > a::after, .popup-mobilemenu-area .mainmenu .post-content .post-cat .post-cat-list .menu-item-has-children > .item-pending::after, .post-content .post-cat .post-cat-list .popup-mobilemenu-area .mainmenu .menu-item-has-children > .item-pending::after, .popup-mobilemenu-area .inner .buy-now-btn a, .mainmenu-nav ul.mainmenu > li.megamenu-wrapper .megamenu-sub-menu, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu li a, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu li .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu li .item-pending, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu, .mainmenu-nav ul.mainmenu > li > a::after, .mainmenu-nav .post-content .post-cat .post-cat-list ul.mainmenu > li > .item-pending::after, .post-content .post-cat .post-cat-list .mainmenu-nav ul.mainmenu > li > .item-pending::after, .mainmenu-nav ul.mainmenu > li > a, .hamburger-menu .hamburger-inner .icon, .metabar-block li.icon a, .arrow-between-side .slide-arrow, ul.social-share-transparent li a, ul.social-with-text li a span, ul.social-with-text li .post-content .post-cat .post-cat-list .item-pending span, .post-content .post-cat .post-cat-list ul.social-with-text li .item-pending span, ul.social-with-text li a i, ul.social-with-text li .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list ul.social-with-text li .item-pending i, ul.social-icon li a, a.axil-button-primary,
+.copyright-area .mainmenu li a, .comment-list .comment .reply-edit a.comment-reply-link, .comment-list .comment .reply-edit .post-content .post-cat .post-cat-list .comment-reply-link.item-pending, .post-content .post-cat .post-cat-list .comment-list .comment .reply-edit .comment-reply-link.item-pending, .tagcloud a, .about-author .media-body .author-info .title a, .about-author .media-body .author-info .title .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .about-author .media-body .author-info .title .item-pending, .axil-post-details .social-share-block .post-like a i, .axil-post-details .rating-block .post-like a i, .axil-post-details .social-share-block .post-dislike a i, .axil-post-details .rating-block .post-dislike a i, .axil-post-details .social-share-block .post-like .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list .axil-post-details .social-share-block .post-like .item-pending i, .axil-post-details .rating-block .post-like .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list .axil-post-details .rating-block .post-like .item-pending i, .axil-post-details .social-share-block .post-dislike .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list .axil-post-details .social-share-block .post-dislike .item-pending i, .axil-post-details .rating-block .post-dislike .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list .axil-post-details .rating-block .post-dislike .item-pending i, .axil-single-widget .tagcloud a, .axil-single-widget.widget_categories ul li.cat-item .inner .content .title, .post-meta .post-author-name a, .post-content .post-cat .post-cat-list a, .post-content .post-cat .post-cat-list .item-pending, .content-block.post-list-view .post-content, .content-block.post-grid.post-grid-transparent .post-grid-content .post-content .post-cat .post-cat-list a, .content-block.post-grid.post-grid-transparent .post-grid-content .post-content .post-cat .post-cat-list .item-pending, .content-block.content-direction-column, .popup-mobilemenu-area .mainmenu .menu-item-has-children > a::after, .popup-mobilemenu-area .mainmenu .post-content .post-cat .post-cat-list .menu-item-has-children > .item-pending::after, .post-content .post-cat .post-cat-list .popup-mobilemenu-area .mainmenu .menu-item-has-children > .item-pending::after, .popup-mobilemenu-area .inner .buy-now-btn a, .mainmenu-nav ul.mainmenu > li.megamenu-wrapper .megamenu-sub-menu, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu li a, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu li .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu li .item-pending, .mainmenu-nav ul.mainmenu > li.menu-item-has-children .axil-submenu, .mainmenu-nav ul.mainmenu > li > a::after, .mainmenu-nav .post-content .post-cat .post-cat-list ul.mainmenu > li > .item-pending::after, .post-content .post-cat .post-cat-list .mainmenu-nav ul.mainmenu > li > .item-pending::after, .mainmenu-nav ul.mainmenu > li > a, .hamburger-menu .hamburger-inner .icon, .metabar-block li.icon a, .arrow-between-side .slide-arrow, ul.social-share-transparent li a, ul.social-with-text li a span, ul.social-with-text li .post-content .post-cat .post-cat-list .item-pending span, .post-content .post-cat .post-cat-list ul.social-with-text li .item-pending span, ul.social-with-text li a i, ul.social-with-text li .post-content .post-cat .post-cat-list .item-pending i, .post-content .post-cat .post-cat-list ul.social-with-text li .item-pending i, ul.social-icon li a, a.axil-button-primary,
 button.axil-button-primary, a.axil-button-red,
 button.axil-button-red, a.axil-link-button, input[type=submit], .form-group textarea, .form-group input, .form-group select, #scrollUp, ul li a, ol li a {
   transition: var(--transition);
@@ -7197,14 +7197,6 @@ textarea:-ms-input-placeholder {
   padding-right: 100px;
 }
 
-/*======================== 
-    Common Style Css
-==========================*/
-/* Theme Gradient */
-.list-categories .single-cat .inner::before {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
-}
-
 /* ========= Forms Styles ========= */
 input, .form-group select,
 button,
@@ -7242,16 +7234,12 @@ input, .form-group select {
 select {
   transition: 0.3s;
   height: 40px;
-  padding: 0 20px;
   outline: none;
   color: var(--color-body);
-  -moz-appearance: none;
-  -webkit-appearance: none;
   appearance: none;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  background: url(../images/icons/arrow-icon.png) 95% center no-repeat transparent;
-  padding-right: 32px;
+  padding: 0 32px 0 20px;
 }
 
 input[type=text], .form-group select[type=text],
@@ -7999,99 +7987,6 @@ ul.axil-tab-button .nav-item a.nav-link.active, ul.axil-tab-button .nav-item .po
 
 .trend-tab-content {
   margin-top: 10px;
-}
-
-.list-categories {
-  margin: -15px;
-  margin-bottom: -30px;
-}
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-  .list-categories {
-    margin: -10px;
-  }
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .list-categories {
-    margin: -10px;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .list-categories {
-    margin: -10px;
-  }
-}
-.list-categories .single-cat {
-  padding: 15px;
-  position: relative;
-  z-index: 1;
-  flex-basis: 16.666%;
-}
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-  .list-categories .single-cat {
-    padding: 10px;
-    flex-basis: 16.66%;
-  }
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .list-categories .single-cat {
-    padding: 10px;
-    flex-basis: 25%;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .list-categories .single-cat {
-    padding: 10px;
-    flex-basis: 33.33%;
-  }
-}
-@media only screen and (max-width: 575px) {
-  .list-categories .single-cat {
-    padding: 10px;
-    flex-basis: 50%;
-  }
-}
-.list-categories .single-cat a, .list-categories .single-cat .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .list-categories .single-cat .item-pending {
-  display: block;
-}
-.list-categories .single-cat .thumbnail img {
-  width: 100%;
-  transition: all 0.5s;
-}
-.list-categories .single-cat .content {
-  padding-left: 5px;
-  padding-right: 5px;
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  bottom: 0;
-  padding-bottom: 22px;
-  z-index: 2;
-}
-.list-categories .single-cat .content .title {
-  margin-bottom: 0;
-  color: var(--color-white);
-}
-.list-categories .single-cat .inner {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius);
-}
-.list-categories .single-cat .inner::before {
-  position: absolute;
-  content: "";
-  opacity: 0.4;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 75px;
-  transition: all 0.5s;
-  z-index: 2;
-}
-.list-categories .single-cat .inner:hover::before {
-  transform: scale(1.1);
-}
-.list-categories .single-cat .inner:hover .thumbnail img {
-  transform: scale(1.1);
 }
 
 /*------------------------
@@ -9066,9 +8961,6 @@ button.search-button i {
   display: none;
 }
 
-/*--------------------------
-Navigation Css  
----------------------------*/
 .mainmenu-nav ul.mainmenu {
   display: flex;
   margin: 0;
@@ -9092,7 +8984,6 @@ Navigation Css
 }
 .mainmenu-nav ul.mainmenu > li > a, .mainmenu-nav .post-content .post-cat .post-cat-list ul.mainmenu > li > .item-pending, .post-content .post-cat .post-cat-list .mainmenu-nav ul.mainmenu > li > .item-pending {
   font-size: var(--font-size-b2);
-  line-height: var(--line-height-b2);
   color: var(--color-midgray);
   font-weight: var(--p-medium);
   height: 80px;
@@ -9154,7 +9045,6 @@ Navigation Css
   position: absolute;
   background: #fff;
   width: 100%;
-  left: 0;
   right: 0;
   opacity: 0;
   visibility: hidden;
@@ -11138,99 +11028,6 @@ blockquote p {
   color: var(--color-tertiary);
 }
 
-/* ---------------------
-Instagram Styles  
--------------------------*/
-.instagram-post-list {
-  margin: -9px;
-  display: flex;
-  flex-wrap: wrap;
-}
-.instagram-post-list .single-post {
-  padding: 9px;
-  flex-basis: 16.66%;
-  margin: 0;
-}
-@media only screen and (max-width: 767px) {
-  .instagram-post-list .single-post {
-    flex-basis: 33.33%;
-  }
-}
-@media only screen and (max-width: 575px) {
-  .instagram-post-list .single-post {
-    flex-basis: 50%;
-  }
-}
-.instagram-post-list .single-post a, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending {
-  display: block;
-  position: relative;
-  overflow: hidden;
-}
-.instagram-post-list .single-post a img, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending img {
-  width: 100%;
-  transition: 0.5s;
-}
-.instagram-post-list .single-post a .instagram-button, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending .instagram-button, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending .instagram-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  border-radius: 100%;
-  background: var(--color-lightest);
-  display: block;
-  text-align: center;
-  font-size: 14px;
-  color: var(--color-gray);
-  opacity: 0;
-}
-.instagram-post-list .single-post a .instagram-button:hover, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending .instagram-button:hover, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending .instagram-button:hover {
-  background: var(--color-primary);
-  color: var(--color-white);
-}
-.instagram-post-list .single-post a:hover .instagram-button, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending:hover .instagram-button, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending:hover .instagram-button {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-.instagram-post-list .single-post a:hover img, .instagram-post-list .single-post .post-content .post-cat .post-cat-list .item-pending:hover img, .post-content .post-cat .post-cat-list .instagram-post-list .single-post .item-pending:hover img {
-  transform: scale(1.1);
-}
-
-/*--------------------
-    Dark Version  
---------------------*/
-.bg-color-black h1,
-.bg-color-black h2,
-.bg-color-black h3,
-.bg-color-black h4,
-.bg-color-black h5,
-.bg-color-black h6,
-.bg-color-black .h1,
-.bg-color-black .h2,
-.bg-color-black .h3,
-.bg-color-black .h4,
-.bg-color-black .h5,
-.bg-color-black .h6 {
-  color: var(--color-white);
-}
-.bg-color-black ul.post-meta-list li {
-  color: var(--color-midgray);
-}
-.bg-color-black ul.social-share-transparent li a, .bg-color-black ul.social-share-transparent li .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .bg-color-black ul.social-share-transparent li .item-pending {
-  color: var(--color-midgray);
-}
-.bg-color-black ul.social-share-transparent li a:hover, .bg-color-black ul.social-share-transparent li .post-content .post-cat .post-cat-list .item-pending:hover, .post-content .post-cat .post-cat-list .bg-color-black ul.social-share-transparent li .item-pending:hover {
-  color: var(--color-primary);
-}
-.bg-color-black .content-block .post-meta .hover-flip-item span::before {
-  color: var(--color-white);
-}
-.bg-color-black .content-block .post-meta .hover-flip-item span::after {
-  color: var(--color-primary);
-}
-
 /*---------------------------
     Animation Images Css  
 -----------------------------*/
@@ -11318,106 +11115,6 @@ Instagram Styles
 .error-area .inner p {
   margin-bottom: 30px;
 }
-/* ----------------------
-    Maintanence Area  
-------------------------*/
-.maintanence-area {
-  display: flex;
-  align-items: center;
-  height: 770px;
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .maintanence-area {
-    height: auto;
-    padding: 100px 0;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .maintanence-area {
-    height: auto;
-    padding: 100px 0;
-  }
-}
-.maintanence-area .content .logo {
-  margin-bottom: 40px;
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .maintanence-area .content .logo {
-    margin-bottom: 20px;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .maintanence-area .content .logo {
-    margin-bottom: 20px;
-  }
-}
-.maintanence-area .content .logo a, .maintanence-area .content .logo .post-content .post-cat .post-cat-list .item-pending, .post-content .post-cat .post-cat-list .maintanence-area .content .logo .item-pending {
-  display: block;
-}
-.maintanence-area .content .logo a img, .maintanence-area .content .logo .post-content .post-cat .post-cat-list .item-pending img, .post-content .post-cat .post-cat-list .maintanence-area .content .logo .item-pending img {
-  max-height: 40px;
-}
-.maintanence-area .content .title {
-  margin-bottom: 30px;
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .maintanence-area .content .title {
-    margin-bottom: 20px;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .maintanence-area .content .title {
-    margin-bottom: 20px;
-  }
-}
-.maintanence-area .content h5 {
-  margin-bottom: 16px;
-}
-.maintanence-area .content p {
-  margin-bottom: 40px;
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .maintanence-area .content p {
-    margin-bottom: 20px;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .maintanence-area .content p {
-    margin-bottom: 20px;
-  }
-}
-.maintanence-area .content .inner {
-  margin-bottom: 34px;
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .maintanence-area .content .inner {
-    margin-bottom: 20px;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .maintanence-area .content .inner {
-    margin-bottom: 20px;
-  }
-}
-.maintanence-area .content .subscription-form .form-group {
-  max-width: 470px;
-}
-.maintanence-area .content .subscription-form .form-group input, .maintanence-area .content .subscription-form .form-group select {
-  background: #F0F2F5;
-  color: #65676B;
-}
-
-.axil-privacy-area .section-title .title {
-  display: inline-block;
-  padding-bottom: 16px;
-  border-bottom: 3px solid var(--color-primary);
-  margin-bottom: 60px;
-}
-
-.maintanence-area .content .logo a img.light-logo, .maintanence-area .content .logo .post-content .post-cat .post-cat-list .item-pending img.light-logo, .post-content .post-cat .post-cat-list .maintanence-area .content .logo .item-pending img.light-logo {
-  display: none;
-}
-
 /*===========================
     Start Footer Area 
 =============================*/

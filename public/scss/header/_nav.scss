@@ -1,6 +1,4 @@
-/*--------------------------
-Navigation Css  
----------------------------*/
+
 .mainmenu-nav {
     ul {
         &.mainmenu {
@@ -21,7 +19,6 @@ Navigation Css
                 }
                 > a {
                     font-size: var(--font-size-b2);
-                    line-height: var(--line-height-b2);
                     color: var(--color-midgray);
                     font-weight: var(--p-medium);
                     @extend %transition;
@@ -113,7 +110,6 @@ Navigation Css
                         position: absolute;
                         background: #fff;
                         width: 100%;
-                        left: 0;
                         right: 0;
                         opacity: 0;
                         visibility: hidden;
