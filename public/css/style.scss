@@ -1,42 +1,4 @@
-/*********************************************************************************
 
-	Template Name: Blogar Personal Blog Template
-	Note: This is style css.
-
-**********************************************************************************/
-
-/**************************************************************
-	
-	STYLESHEET INDEXING
-	|
-	|
-	|___ Default Styles
-	|	|
-	|	|___ Reset Styles
-	|	|___ Typography
-	|	|___ Animations
-	|	|___ Utilities
-	|
-	|
-	|___Elements Styles
-	|	|___ Button
-	|	|___ Section Title
-	|
-	|
-	|___Blocks Styles
-	|	|___ Header 
-	|	|___ Navigation 
-	|	|___ Banner
-	|	|___ Footer
-	|
-	|
-	|___ END STYLESHEET INDEXING
-
-***************************************************************/
-
-/**************************************
-    Default Styles
-***************************************/
 @import '../scss/default/variables';
 @import '../scss/default/mixins';
 @import '../scss/default/reset';
@@ -50,28 +12,18 @@
 
 
 
-
-/**************************************
-	Elements Styles
-***************************************/
 @import '../scss/elements/button';
 @import '../scss/elements/cursor';
 @import '../scss/elements/section-title';
 @import '../scss/elements/tab';
 @import '../scss/elements/category';
 @import '../scss/elements/social';
-@import '../scss/elements/video';
 @import '../scss/elements/scrolltotop';
 @import '../scss/elements/slick';
-@import '../scss/elements/breadcrumb';
 @import '../scss/elements/contact';
 
 
 
-
-/**************************************
-	Header Styles
-***************************************/
 @import '../scss/header/header';
 @import '../scss/header/nav';
 @import '../scss/header/subscribe';
@@ -80,33 +32,22 @@
 
 
 
-/**************************************
-	Post Styles
-***************************************/
-@import '../scss/post/post-list';
-@import '../scss/post/sidebar';
-@import '../scss/post/post-details';
-@import '../scss/post/post-format';
-@import '../scss/post/post-stories';
-@import '../scss/post/comment';
+@import '../scss/book/post-list';
+@import '../scss/book/sidebar';
+@import '../scss/book/post-details';
+@import '../scss/book/post-format';
+@import '../scss/book/comment';
 
 
-/**************************************
-	Template Styles
-***************************************/
-@import '../scss/template/banner';
+
 @import '../scss/template/instagram';
 @import '../scss/template/darkversion';
-@import '../scss/template/author';
 @import '../scss/template/animation-image-hover';
 @import '../scss/template/error';
 @import '../scss/template/maintanence';
 
 
 
-/**************************************
-	Footer Styles
-***************************************/
 @import '../scss/footer/footer';
 @import '../scss/footer/dark';
 

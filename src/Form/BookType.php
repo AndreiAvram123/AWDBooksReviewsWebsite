@@ -29,8 +29,7 @@ class BookType extends AbstractType
             ->add('find_author',ButtonType::class,
                 [
                     'attr' =>[
-                        'class'=> 'btn btn-link',
-                        'onclick' =>'window.location="/books/create"'
+                        'class'=> 'btn btn-link'
                     ],
                     'label'=>"Could not find your author? Click here to add it"
                 ])

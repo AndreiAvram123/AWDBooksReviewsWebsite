@@ -25,13 +25,17 @@ class RatingType extends AbstractType
     {
           /** @var User $user */
           $user = $this->security->getUser();
-          if(!isNull($user)) {
+          if(!is_null($user)) {
+              //add the like and dislike buttons only if the user is logged in
               $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) use ($user) {
                   /** @var BookReview $bookReview * */
                   $bookReview = $formEvent->getData();
                   $form = $formEvent->getForm();
 
-                  if ($bookReview->hasUserRating($user) === false) {
+                  $currentUserIsCreator =  $bookReview->getCreator()->getId() === $user->getId();
+                  $alreadyRated = $bookReview->hasUserRating($user);
+
+                  if ($alreadyRated === false && $currentUserIsCreator === false) {
                       $form->add('like_button', SubmitType::class, [
                           'attr' => [
                               'class' => "btn-floating deep-purple"

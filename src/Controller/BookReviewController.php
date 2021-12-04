@@ -51,7 +51,7 @@ class BookReviewController extends BaseController
     }
 
 
-    #[Route('/bookReview/{id}', name : "book_review")]
+    #[Route('/bookReviews/{id}', name : "book_review")]
     public function displayBookReviewById(BookReview $bookReview): Response
     {
 

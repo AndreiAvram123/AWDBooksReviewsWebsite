@@ -21,7 +21,7 @@ class CategoryController extends BaseController
             'categories' => $categories
         ]);
     }
-    #[Route('/category/{name}', name: 'category')]
+    #[Route('/category/{name}', name: 'category_path')]
     public function category(
         BookCategory $category
     ): Response{
