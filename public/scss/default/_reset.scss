@@ -94,8 +94,6 @@ pre  {
     margin: 10px 0;
     overflow: auto;
     padding: 20px;
-    white-space: pre;
-    white-space: pre-wrap;
     word-wrap: break-word;
     color: var(--color-body);
     background: var(--color-lighter);
@@ -141,10 +139,6 @@ ul {
 }
 
 nav ul,
-nav ol {
-    list-style: none;
-    list-style-image: none;
-}
 li>ul,
 li>ol {
     margin: 0;
@@ -206,7 +200,6 @@ input[type="reset"],
 input[type="submit"] {
     -webkit-appearance: button;
     -moz-appearance: button;
-    appearance: button;
     cursor: pointer;
 }
 
@@ -223,8 +216,6 @@ input[type="radio"] {
 input[type="search"] {
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
-    appearance: textfield;
-    appearance: textfield;
     padding-right: 2px;
     width: 270px;
 }
@@ -315,10 +306,7 @@ q {
 blockquote:before,
 blockquote:after,
 q:before,
-q:after {
-    content: "";
-    content: none;
-}
+
 
 blockquote {
     font-size: var(--font-size-b1);
