@@ -21,7 +21,8 @@ class UserController extends BaseController
     ): Response{
         /** @var User $currentSessionUser */
         $currentSessionUser = $this->getUser();
-        if(!is_null($currentSessionUser)){
+        $userProfileForm = null;
+        if(!is_null($currentSessionUser) && $currentSessionUser->getId() === $user->getId()){
             $userProfileForm = $this->createForm(UserProfileType::class, $currentSessionUser);
 
             if($this->canAccessFormData($userProfileForm)){
@@ -35,13 +36,10 @@ class UserController extends BaseController
                 }
 
             }
-            return $this->renderForm('user/user_profile.twig', [
-                'user' => $user,
-                'userProfileForm' => $userProfileForm
-            ]);
         }
-        return $this->render('user/user_profile.twig', [
-            'user' => $user
+        return $this->renderForm('user/user_profile.twig', [
+            'user' => $user,
+            'userProfileForm' => $userProfileForm
         ]);
     }
 

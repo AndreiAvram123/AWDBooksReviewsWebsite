@@ -44,7 +44,8 @@ class BookReviewRepository extends ServiceEntityRepository
 
     public function findFeaturedReviews():array{
         $qb = $this->createPubliclyAvailableQueryBuilder();
-        return $qb-> andWhere('SIZE(br.positiveRatings) > SIZE(br.negativeRatings)')
+        return $this->createPubliclyAvailableQueryBuilder()
+             ->andWhere('SIZE(br.positiveRatings) > SIZE(br.negativeRatings)')
              ->orderBy('SIZE(br.positiveRatings)','DESC')
              ->addOrderBy('br.creationDate','DESC')
              ->getQuery()
