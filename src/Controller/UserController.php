@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends BaseController
 {
 
-    #[Route('/user/{id}', name: 'user_profile')]
+    #[Route('/users/{id}', name: 'user_profile')]
     public function getUserById(
         User $user,
         AwsImageUtils $awsImageUtils

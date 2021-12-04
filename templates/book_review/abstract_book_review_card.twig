@@ -10,7 +10,7 @@
         <div class="post-cat">
             <div class="post-cat-list">
                 {% set categoryName = bookReview.book.category.name  %}
-                <a class="hover-flip-item-wrapper" href="{{ url('category',{'name' : categoryName}) }}">
+                <a class="hover-flip-item-wrapper" href="{{ url('category_path',{'name' : categoryName}) }}">
                                             <span class="hover-flip-item">
                                                 <span data-text="{{ categoryName }}">{{categoryName }}</span>
                                             </span>

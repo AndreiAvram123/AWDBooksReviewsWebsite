@@ -26,6 +26,7 @@ class BookReviewRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('br')
                    ->andWhere('br.declined = false')
                    ->andWhere('br.pending = true')
+                   ->orderBy('br.creationDate','DESC')
                    ->getQuery()
                    ->getResult();
     }

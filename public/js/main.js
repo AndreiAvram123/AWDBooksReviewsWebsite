@@ -49,7 +49,7 @@
 				var data = $(this).serialize();
 				$.ajax({
 					url: 'mail.php',
-					type: "post",
+					type: "book",
 					dataType: 'json',
 					data: data,
 					success: function (data) {
@@ -183,11 +183,11 @@
         },
 
         axilHover: function () {
-            $('.content-direction-column, .post-listview-visible-color').mouseenter(function () {
+            $('.content-direction-column, .book-listview-visible-color').mouseenter(function () {
                 var self = this;
                 $(self).removeClass('axil-control');
                 setTimeout(function () {
-                    $('.content-direction-column.is-active, .post-listview-visible-color .post-list-view.is-active').removeClass('is-active').addClass('axil-control');
+                    $('.content-direction-column.is-active, .book-listview-visible-color .book-list-view.is-active').removeClass('is-active').addClass('axil-control');
                     $(self).removeClass('axil-control').addClass('is-active');
                 }, 0);
             });
@@ -200,11 +200,11 @@
             //do something
             var width = axilInit._window.width();
             if (width > 991) {
-                $('.trend-post').mouseenter(function () {
+                $('.trend-book').mouseenter(function () {
                     var self = this;
                     $(self).removeClass('axil-control');
                     setTimeout(function () {
-                        $('.trend-post.is-active').removeClass('is-active').addClass('axil-control');
+                        $('.trend-book.is-active').removeClass('is-active').addClass('axil-control');
                         $(self).removeClass('axil-control').addClass('is-active');
                     }, 0);
 
@@ -255,7 +255,7 @@
                 nextArrow: '<button class="slide-arrow next-arrow"><i class="fal fa-arrow-right"></i></button>'
             });
 
-            $('.modern-post-activation').slick({
+            $('.modern-book-activation').slick({
                 infinite: true,
                 slidesToShow: 3,
                 slidesToScroll: 1,
@@ -286,10 +286,10 @@
 
             // Bootstrap Tab With Slick 
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                $('.modern-post-activation').slick('setPosition');
+                $('.modern-book-activation').slick('setPosition');
             });
 
-            $('.post-gallery-activation').slick({
+            $('.book-gallery-activation').slick({
                 infinite: true,
                 slidesToShow: 1,
                 slidesToScroll: 1,

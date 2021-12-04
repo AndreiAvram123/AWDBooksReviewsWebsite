@@ -21,7 +21,7 @@
                                                 <h1 class="title text-center">{{ book.title}}</h1>
                                                 <h3 class="title text-center">By {{ book.author.getFullName()}}</h3>
                                                 {% set categoryName = book.category.name %}
-                                                <a class="hover-flip-item-wrapper" href="{{ url('category', {'name' : categoryName}) }}">
+                                                <a class="hover-flip-item-wrapper" href="{{ url('category_path', {'name' : categoryName}) }}">
                                                             <span class="hover-flip-item">
                                                                 <span data-text="{{ categoryName}}">{{ categoryName}}</span>
                                                             </span>
@@ -32,7 +32,9 @@
                                                     </figure>
                                                 {% endif %}
                                                 <div class="mt-5">
-                                                {{ form(moderatorForm) }}
+                                                    {% if moderatorForm is defined %}
+                                                     {{ form(moderatorForm) }}
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
