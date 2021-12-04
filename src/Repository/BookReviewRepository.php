@@ -46,6 +46,7 @@ class BookReviewRepository extends ServiceEntityRepository
         $qb = $this->createPubliclyAvailableQueryBuilder();
         return $qb-> andWhere('SIZE(br.positiveRatings) > SIZE(br.negativeRatings)')
              ->orderBy('SIZE(br.positiveRatings)','DESC')
+             ->addOrderBy('br.creationDate','DESC')
              ->getQuery()
              ->getResult();
     }
