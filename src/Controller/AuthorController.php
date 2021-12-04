@@ -14,7 +14,7 @@ class AuthorController extends BaseController
    public function createAuthor():Response{
        $createAuthorForm = $this->createForm(AuthorType::class);
        //when form data is available use the callback
-       if($createAuthorForm->isSubmitted() && $createAuthorForm->isValid()){
+       if($this->canAccessFormData($createAuthorForm)){
            $author = $createAuthorForm->getData();
            $this->persistAndFlush($author);
            return $this->redirectToRoute('home');

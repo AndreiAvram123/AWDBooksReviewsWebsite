@@ -24,16 +24,20 @@ class BookRepository extends ServiceEntityRepository
     }
 
     public function findByTitle(string $title):array{
-        return $this->createQueryBuilder('b')
-              ->where('LOWER(b.title) LIKE LOWER(:title)')
-              ->setParameter('title', '%'.$title.'%')
+        $qb= $this->createPubliclyAvailableQB();
+        return $qb->where(
+            $qb->expr()->like(
+                $qb->expr()->lower('b.title'),
+                $qb->expr()->lower(':title')
+            ))->setParameter('title', '%'.$title.'%')
                ->setMaxResults(100)
               ->getQuery()
               ->getResult();
     }
+
     public function countPubliclyAvailable():int{
-      return $this->getPubliclyAvailableBuilder()
-             ->select('count(b.id)')
+     $qb = $this->createPubliclyAvailableQB();
+      return $qb->select($qb->expr()->count('b.id'))
              ->getQuery()
              ->getSingleScalarResult();
 
@@ -52,24 +56,20 @@ class BookRepository extends ServiceEntityRepository
     public function findPubliclyAvailable(int $page = 1): array
     {
         $offset = BookController::$itemsPerPage * ($page-1);
-        return $this->getPubliclyAvailableBuilder()
+        return $this->createPubliclyAvailableQB()
             ->setFirstResult($offset)
             ->setMaxResults(BookReviewController::$itemsPerPage)
             ->getQuery()
             ->getResult();
     }
 
-    private function getPubliclyAvailableBuilder(): QueryBuilder
+    public function createPubliclyAvailableQB(): QueryBuilder
     {
         return $this->createQueryBuilder('b')
             ->andWhere('b.pending = false')
             ->andWhere('b.declined = false');
     }
 
-    public function findAllPubliclyAvailableAsBuilder(): QueryBuilder
-    {
-       return $this->getPubliclyAvailableBuilder()
-            ->setMaxResults(BookReviewController::$itemsPerPage);
-    }
+
 
 }

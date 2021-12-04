@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,9 +21,12 @@ class UserRepository extends ServiceEntityRepository
     }
 
     public function findByUsernameQuery(string $query):array{
-        return $this->createQueryBuilder('u')
-                ->andWhere('LOWER(u.username) LIKE LOWER(:query)')
-                ->setParameter('query','%'.$query.'%')
+        $qb = $this->createQueryBuilder('u');
+        return $qb->andWhere(
+              $qb->expr()->like(
+                  $qb->expr()->lower('u.username'),
+                  $qb->expr()->lower(':query'),
+              ))->setParameter('query','%'.$query.'%')
                  ->setMaxResults(100)
                 ->getQuery()
                 ->getResult();

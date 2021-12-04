@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Entity\User;
+use App\Repository\BookRepository;
+use App\Repository\BookReviewRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,20 +16,17 @@ class SearchController extends BaseController
 {
 
     #[Route('/search', name: 'search')]
-    public function search(Request $request):Response{
+    public function search(
+        Request $request,
+        BookReviewRepository $bookReviewRepository,
+        BookRepository $bookRepository,
+        UserRepository $userRepository
+    ):Response{
         $query = $request->query->get('_search_query');
 
-        $bookReviews = $this ->getDoctrine()
-            ->getRepository(BookReview::class)
-            ->findAllByTitle($query);
-
-        $users = $this->getDoctrine()
-                ->getRepository(User::class)
-                ->findByUsernameQuery($query);
-
-        $books = $this->getDoctrine()
-                ->getRepository(Book::class)
-                 ->findByTitle($query);
+        $bookReviews = $bookReviewRepository->findAllByTitle($query);
+        $users = $userRepository->findByUsernameQuery($query);
+        $books = $bookRepository ->findByTitle($query);
 
         return $this->render('search/search_results.twig',
         [

@@ -23,18 +23,33 @@ class BookReviewRepository extends ServiceEntityRepository
     }
 
 
-    public function findPending():array{
+    private function createPendingQB():QueryBuilder{
         return $this->createQueryBuilder('br')
-                   ->andWhere('br.declined = false')
-                   ->andWhere('br.pending = true')
-                   ->orderBy('br.creationDate','DESC')
-                   ->getQuery()
-                   ->getResult();
+            ->andWhere('br.declined = false')
+            ->andWhere('br.pending = true');
     }
+
+    public function findPending():array{
+        return   $this->createPendingQB()
+            ->orderBy('br.creationDate','DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countPending():int{
+        $qb = $this->createPendingQB();
+        return $qb -> select(
+             $qb->expr()->count('br.id')
+           )
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+
 
     public function findPubliclyAvailable(int $page = 1):array{
         $offset = BookReviewController::$itemsPerPage * ($page-1);
-        return $this->createPubliclyAvailableQueryBuilder()
+        return $this->createPubliclyAvailableQB()
             ->setFirstResult($offset)
             ->setMaxResults(BookReviewController::$itemsPerPage)
             ->orderBy('br.creationDate', 'DESC')
@@ -43,17 +58,16 @@ class BookReviewRepository extends ServiceEntityRepository
     }
 
     public function findFeaturedReviews():array{
-        $qb = $this->createPubliclyAvailableQueryBuilder();
-        return $this->createPubliclyAvailableQueryBuilder()
-             ->andWhere('SIZE(br.positiveRatings) > SIZE(br.negativeRatings)')
-             ->orderBy('SIZE(br.positiveRatings)','DESC')
-             ->addOrderBy('br.creationDate','DESC')
-             ->getQuery()
-             ->getResult();
+        return $this->createPubliclyAvailableQB()
+            ->andWhere('SIZE(br.positiveRatings) > SIZE(br.negativeRatings)')
+            ->orderBy('SIZE(br.positiveRatings)','DESC')
+            ->addOrderBy('br.creationDate','DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     //find the posts that have the number of positive reviews higher than the number fo negative reviews
-    private function createPubliclyAvailableQueryBuilder():QueryBuilder{
+    private function createPubliclyAvailableQB():QueryBuilder{
         return $this->createQueryBuilder('br')
             ->andWhere('br.declined = false')
             ->andWhere('br.pending = false') ;
@@ -62,18 +76,24 @@ class BookReviewRepository extends ServiceEntityRepository
 
 
     public function countPubliclyAvailable():int{
-        return $this->createQueryBuilder('br')
-            ->select('count(br.id)')
+        $qb = $this->createQueryBuilder('br');
+        return $qb->select($qb->expr()->count('br.id'))
             ->andWhere('br.pending = false')
             ->andWhere('br.declined = false')
             ->getQuery()
             ->getSingleScalarResult();
     }
     public function findAllByTitle(string $query):array{
-        return $this->createQueryBuilder('br')
-            ->andWhere('LOWER(br.title) LIKE LOWER(:title)')
+        $qb = $this->createPubliclyAvailableQB();
+        return $qb->andWhere(
+                $qb->expr()->like(
+                    $qb->expr()->lower('br.title'),
+                    $qb->expr()->lower(':title')
+                )
+            )
             ->setParameter('title','%'.$query.'%')
             ->setMaxResults(100)
+             ->orderBy('br.creationDate','DESC')
             ->getQuery()
             ->getResult();
     }
