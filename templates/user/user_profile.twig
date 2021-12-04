@@ -71,8 +71,8 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-xl-8">
-                    {% if user.bookReviews is not empty %}
-                    {% for bookReview in user.bookReviews %}
+                    {% if userReviews is not empty %}
+                    {% for bookReview in userReviews %}
                         {{ include('book_review/book_review_card.twig') }}
                     {% endfor %}
                     {% else %}

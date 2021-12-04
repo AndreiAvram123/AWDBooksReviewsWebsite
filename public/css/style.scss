@@ -1,4 +1,6 @@
 
+
+
 @import '../scss/default/variables';
 @import '../scss/default/mixins';
 @import '../scss/default/reset';
@@ -19,7 +21,6 @@
 @import '../scss/elements/scrolltotop';
 @import '../scss/elements/slick';
 @import '../scss/elements/contact';
-
 
 
 @import '../scss/header/header';
@@ -43,9 +44,6 @@
 
 
 
-@import '../scss/footer/footer';
-@import '../scss/footer/dark';
-
 @import "../scss/user/user";
 
 .flex-media{
@@ -55,3 +53,4 @@
 
 @import '../scss/dashboard/dashboard';
 
+@import "../scss/template/_banner";

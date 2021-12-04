@@ -6,6 +6,7 @@ use App\Entity\BookReview;
 use App\Entity\NegativeRating;
 use App\Entity\PositiveRating;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Security;
 
@@ -15,7 +16,7 @@ class RatingUtils
 
     public function __construct(
         private Security $security,
-        private ObjectManager $manager
+        private EntityManagerInterface $manager
     ){
 
     }
