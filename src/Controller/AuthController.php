@@ -32,7 +32,7 @@ class AuthController extends BaseController
     ):Response{
         $user = new User();
         $form = $this->createForm(RegistrationType::class,$user);
-        if($form->isSubmitted() && $form-> isValid()){
+        if($this->canAccessFormData($form)){
             /** @var $user User**/
             $user = $form->getData();
             $hashedPassword = $hasher->hashPassword(user : $user ,
@@ -47,6 +47,10 @@ class AuthController extends BaseController
         ]);
     }
 
+    /**
+     * The configuration will intersect this path
+     * The method needs to be declared but does not need to return anything
+     */
     #[Route("/logout", name: "logout")]
     public function logout(){
 

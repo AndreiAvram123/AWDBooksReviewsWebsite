@@ -21,16 +21,10 @@
                                                 <h1 class="title text-center">{{ bookReview.title }}</h1>
                                                 {% set categoryName = bookReview.book.category.name %}
 
-                                                <div class="banner bg-color-grey mt-4 ">
+                                                <div class="axil-banner bg-color-grey mt-4 ">
                                                     <h3><a href="{{ url('book_path', {'id' :bookReview.book.id}) }}">{{ bookReview.book.title }}</a></h3>
                                                     <a href="{{ url('category_path', {'name' : categoryName}) }}" data-text="{{ categoryName }}">{{ categoryName }}</a>
                                                 </div>
-                                                {% if bookReview.frontImage != null %}
-                                                    <figure class="wp-block-image alignwide text-center">
-                                                        <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
-                                                    </figure>
-                                                {% endif%}
-
                                                 <div class="post-meta-wrapper">
                                                     <div class="post-meta">
                                                         <div class="post-author-avatar border-rounded">
@@ -52,6 +46,13 @@
                                                     {% set user = bookReview.creator %}
                                                     {{ include('user/user_social_hub.twig') }}
                                                 </div>
+
+                                                {% if bookReview.frontImage != null %}
+                                                    <figure class="wp-block-image alignwide text-center">
+                                                        <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
+                                                    </figure>
+                                                {% endif%}
+
                                             </div>
                                         </div>
                                     </div>

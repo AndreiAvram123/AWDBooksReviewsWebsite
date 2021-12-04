@@ -1,0 +1,43 @@
+
+{% extends 'base.html.twig' %}
+
+{% block mainContent %}
+    <div class="main-wrapper">
+        <div class="axil-post-list-area axil-section-gap bg-color-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-xl-8">
+                        <h2>Most recent</h2>
+                        {% for bookReview in allReviews %}
+                            {{ include('book_review/book_review_card.twig') }}
+                        {% endfor %}
+
+                        {% set paginationMethodName = 'book_reviews_page' %}
+                        {{ include('components/pagination.twig') }}
+                    </div>
+                    <div class="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">
+                        <!-- Start Sidebar Area  -->
+                        <div class="sidebar-inner">
+                            <!--Start most popular ones-->
+                            <div class="axil-single-widget widget widget_postlist mb--30">
+                                <h5 class="widget-title">Most featured</h5>
+
+                                <div class="post-medium-block">
+                                  {% for featuredReview in featuredReviews %}
+                                      {{ include('book_review/book_review_card_featured.twig') }}
+                                    {% endfor %}
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

@@ -3,20 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\BookCategory;
+use App\Repository\BookCategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends BaseController
 {
     #[Route('/categories', name: 'categories')]
-    public function index(): Response
+    public function index(
+        BookCategoryRepository $bookCategoryRepository
+    ): Response
     {
-        $categories = $this
-            ->getDoctrine()
-             ->getManager()
-             ->getRepository(BookCategory::class)
-             ->findAll();
-
+        $categories = $bookCategoryRepository->findAll();
         return $this->render('category/categories.twig',[
             'categories' => $categories
         ]);

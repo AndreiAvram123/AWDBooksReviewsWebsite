@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BookReview;
 use App\Entity\User;
 use App\Form\BookReviewType;
 use App\Form\UserProfileType;
@@ -17,11 +18,12 @@ class UserController extends BaseController
     #[Route('/users/{id}', name: 'user_profile')]
     public function getUserById(
         User $user,
-        AwsImageUtils $awsImageUtils
+        AwsImageUtils $awsImageUtils,
     ): Response{
         /** @var User $currentSessionUser */
         $currentSessionUser = $this->getUser();
-        if(!is_null($currentSessionUser)){
+        $userProfileForm = null;
+        if(!is_null($currentSessionUser) && $currentSessionUser->getId() === $user->getId()){
             $userProfileForm = $this->createForm(UserProfileType::class, $currentSessionUser);
 
             if($this->canAccessFormData($userProfileForm)){
@@ -35,13 +37,14 @@ class UserController extends BaseController
                 }
 
             }
-            return $this->renderForm('user/user_profile.twig', [
-                'user' => $user,
-                'userProfileForm' => $userProfileForm
-            ]);
         }
-        return $this->render('user/user_profile.twig', [
-            'user' => $user
+        $userReviews = $user->getBookReviews()->filter(function (BookReview $review){
+            return $review->getPending() === false && $review->getDeclined() === false;
+        });
+        return $this->renderForm('user/user_profile.twig', [
+            'user' => $user,
+            'userReviews'=> $userReviews,
+            'userProfileForm' => $userProfileForm
         ]);
     }
 

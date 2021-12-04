@@ -31,7 +31,7 @@ class BookReviewType extends AbstractType
                 'placeholder' => 'Click here to select a book',
                 'label' => "The book to review",
                 'query_builder' => function(BookRepository $bookRepository){
-                  return $bookRepository->findAllPubliclyAvailableAsBuilder();
+                  return $bookRepository->createPubliclyAvailableQB();
                 }
             ])
             ->add('find_book',ButtonType::class,

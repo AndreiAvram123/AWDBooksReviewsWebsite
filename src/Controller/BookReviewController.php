@@ -4,13 +4,17 @@ namespace App\Controller;
 
 use App\Entity\BookReview;
 use App\Entity\Comment;
+use App\Entity\NegativeRating;
+use App\Entity\PositiveRating;
 use App\Entity\UserRating;
 use App\Entity\ReviewSection;
 use App\Entity\User;
 use App\Form\BookReviewType;
 use App\Form\CommentType;
 use App\Form\RatingType;
+use App\Repository\BookReviewRepository;
 use App\utils\aws\AwsImageUtils;
+use App\utils\entities\RatingUtils;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,55 +26,56 @@ class BookReviewController extends BaseController
 
     #[Route("/", name: "home")]
     public function index(): Response{
-        $repo = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(BookReview::class);
-        $allReviews =  $repo->findPubliclyAvailable();
-        $numberOfPages =  intval($repo->countPubliclyAvailable()/self::$itemsPerPage);
-
-        return $this->render('reviews_list.twig', [
-            'allReviews' => $allReviews,
-            'numberOfPages' => $numberOfPages
-        ]);
+        return $this->redirectToRoute('book_reviews_page');
     }
 
     #[Route("/reviews/page/{page}", name: "book_reviews_page", requirements:['page' => '\d+'])]
-    public function bookReviewsPage(int $page): Response{
-        $repo = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(BookReview::class);
-        $allReviews = $repo->findPubliclyAvailable($page);
+    public function bookReviewsPage(
+        BookReviewRepository $booksReviewRepo,
+        int $page = 1,
+    ): Response{
 
-        $numberOfPages =  intval($repo->count(array())/self::$itemsPerPage);
-        return $this->render('reviews_list.twig', [
+        $allReviews = $booksReviewRepo->findPubliclyAvailable($page);
+        $featuredReviews = $booksReviewRepo->findFeaturedReviews();
+        $numberOfPages =  intval($booksReviewRepo->countPubliclyAvailable()/self::$itemsPerPage);
+
+        return $this->render('index.twig', [
             'allReviews' => $allReviews,
-            'numberOfPages' => $numberOfPages
+            'numberOfPages' => $numberOfPages,
+            'featuredReviews'=>$featuredReviews,
         ]);
     }
 
 
     #[Route('/bookReviews/{id}', name : "book_review")]
-    public function displayBookReviewById(BookReview $bookReview): Response
+    public function getBookReviewById(
+        BookReview $bookReview,
+        RatingUtils $ratingUtils
+    ): Response
     {
-
         $comment = new Comment();
 
         $ratingForm = $this->createForm(RatingType::class, $bookReview);
         $commentForm = $this->createForm(CommentType::class,$comment);
 
+        /**
+         * Handle a new rating
+         */
         if($this->canAccessFormData($ratingForm)){
             $isRatingPositive = $this->isFormButtonClicked($ratingForm,"like_button");
-            $rating = $this->createUserRating($isRatingPositive);
-            $this->getDoctrine()->getManager()->persist($rating);
-            $bookReview->addRating($rating);
+            $ratingUtils->addRatingToBookReview(
+                isPositive: $isRatingPositive,
+                bookReview: $bookReview
+            );
             $this->persistAndFlush($bookReview);
             return $this->redirectToRoute('book_review',[
                     'id'=>$bookReview->getId()]
             );
         }
 
+        /**
+         * Handle a new comment
+         */
         if($this->canAccessFormData($commentForm)){
             /** @var Comment $comment */
             $comment = $commentForm->getData();
@@ -85,7 +90,6 @@ class BookReviewController extends BaseController
             );
         }
 
-
         return $this-> renderForm('book_review/book_review.twig', [
             'bookReview' => $bookReview,
             'ratingForm' => $ratingForm,
@@ -93,13 +97,6 @@ class BookReviewController extends BaseController
         ]);
     }
 
-
-    private function createUserRating(bool $positive):UserRating{
-        $rating = new UserRating();
-        $rating->setIsPositiveRating($positive);
-        $rating->setCreator($this->getUser());
-        return  $rating;
-    }
 
     #[Route('/reviews/create', name: 'create_book_review')]
     public function createBookReview(Request $request, AwsImageUtils $awsImageUtils): Response

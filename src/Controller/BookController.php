@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Form\BookReviewType;
 use App\Form\BookType;
+use App\Repository\BookRepository;
 use App\utils\aws\AwsImageUtils;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,11 +53,13 @@ class BookController extends BaseController
      }
 
     #[Route("/books/{page}", name: 'books_page',  requirements:['page' => '\d+'])]
-    public function showAllBooks( int $page = 1): Response
+    public function showAllBooks(
+        BookRepository $bookRepository,
+        int $page = 1
+    ): Response
     {
-          $repo =  $this->getDoctrine()->getRepository(Book::class);
-          $numberOfPages =  intval($repo->countPubliclyAvailable()/self::$itemsPerPage);
-          $books = $repo->findPubliclyAvailable($page);
+          $numberOfPages =  intval($bookRepository->countPubliclyAvailable()/self::$itemsPerPage);
+          $books = $bookRepository->findPubliclyAvailable($page);
           return $this->render('book/books_list.twig',[
                'books' =>$books,
                'numberOfPages' => $numberOfPages

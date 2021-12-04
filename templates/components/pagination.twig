@@ -7,8 +7,8 @@
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-        <li class="page-item {% if currentPageNumber == 1 or currentPageNumber >= numberOfPages %}{{ "disabled"}} {% endif %}">
-                <a class="page-link " tabindex="-1">Previous</a>
+        <li class="page-item {% if currentPageNumber == 1 %}{{ "disabled"}} {% endif %}">
+                <a class="page-link " href="{{ url(paginationMethodName,{'page' : currentPageNumber -1 }) }}" tabindex="-1">Previous</a>
 
         </li>
         {% if numberOfPages > 0 %}

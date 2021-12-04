@@ -6,6 +6,8 @@ use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Form\ModeratorApproveType;
 use App\Form\PendingReviewType;
+use App\Repository\BookRepository;
+use App\Repository\BookReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\SubmitButton;
@@ -16,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ModeratorController extends BaseController
 {
     #[Route('/moderator', name: 'moderator')]
-    public function index(): Response
+    public function index(
+        BookReviewRepository $bookReviewRepo,
+        BookRepository $bookRepo
+    ): Response
     {
-        $totalPendingReviews = $this
-            ->getDoctrine()
-            ->getRepository(BookReview::class)
-            ->count(array('pending' => true));
+        $totalPendingReviews = $bookReviewRepo->count(array('pending' => true));
 
         $totalPendingBooks = $this
             ->getDoctrine()
