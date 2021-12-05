@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use App\Repository\ReviewSectionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\ArrayShape;
 
 #[ORM\Entity(repositoryClass: ReviewSectionRepository::class)]
-class ReviewSection
+class ReviewSection implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -65,4 +66,11 @@ class ReviewSection
         return $this;
     }
 
+    #[ArrayShape(['heading' => "", 'text' => ""])] public function jsonSerialize(): array
+    {
+        return [
+            'heading'=>$this->heading,
+            'text'=>$this->text
+        ];
+    }
 }

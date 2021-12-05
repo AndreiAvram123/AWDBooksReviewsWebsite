@@ -20,7 +20,7 @@ use function PHPUnit\Framework\isNull;
 #[UniqueEntity(fields: 'email', message: "The email is already taken")]
 #[UniqueEntity(fields: 'nickname', message: "The nickname is already taken")]
 
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -245,5 +245,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    
+
+    public function jsonSerialize()
+    {
+       return [
+
+       ];
+    }
 }

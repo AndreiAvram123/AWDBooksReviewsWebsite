@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
-class BookReview
+class BookReview implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -292,4 +292,10 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
     return $this;
 }
 
+    public function jsonSerialize()
+    {
+        return [
+            "title" => $this->title
+        ];
+    }
 }

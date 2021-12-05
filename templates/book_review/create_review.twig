@@ -19,62 +19,20 @@
             </div>
         </div>
     </div>
-    <script>
-        let container = document.getElementById('container-sections')
-        document.getElementById('book_review_number_sections').addEventListener('input',(event)=> {
-            container.innerHTML = "";
-            console.log(event.target.value)
-            for (let sectionNumber = 1; sectionNumber <= event.target.value; sectionNumber++ ) {
-                addSection(container, sectionNumber)
-            }
-        })
+{% endblock %}
 
-        function addSection(parent,sectionNumber){
-            let section = new Section(sectionNumber);
-            parent.appendChild(section.container)
-        }
+{% block javascripts %}
+    {{ parent() }}
 
-        class Section{
+    {% if form.vars.value.sections is not null %}
+        <script>
+            let sectionsData = []
+            {% for section in form.vars.value.sections %}
+              var jsSection = JSON.parse('{{ section | json_encode() | raw  }}')
+              sectionsData.push(jsSection)
+            {% endfor %}
+        </script>
 
-            constructor(sectionNumber) {
-                this.sectionNumber = sectionNumber;
-                this.createContainer()
-                this.container.appendChild(this.createHeadingLabel());
-                this.container.appendChild(this.createSectionTitleInput())
-                this.container.appendChild(this.createSummaryInput())
-            }
-
-            createContainer(){
-                let container = document.createElement('div');
-                container.className = "form-group";
-                this.container = container;
-            }
-
-            createHeadingLabel(){
-                let label = document.createElement('label');
-                label.className = "form-label required";
-                label.innerText = "Section" + this.sectionNumber;
-                return label;
-            }
-
-            createSectionTitleInput(){
-                let sectionTitle = document.createElement('input');
-                sectionTitle.name = "section_" + this.sectionNumber + "_title";
-                sectionTitle.required = true;
-                sectionTitle.className = "form-control"
-                sectionTitle.placeholder = "Enter  section " + this.sectionNumber +  " title";
-                return sectionTitle;
-            }
-
-            createSummaryInput(){
-                let textArea = document.createElement('textarea');
-                textArea.id = "section_" + this.sectionNumber + "_summary";
-                textArea.name= "section_" + this.sectionNumber + "_summary";
-                textArea.required = true;
-                textArea.placeholder ="Enter section " + this.sectionNumber +  " summary";
-                textArea.className = "form-control mt-2"
-                return  textArea;
-            }
-        }
-    </script>
+    {% endif %}
+    <script src="{{ asset('js/book-review-sections.js') }}"></script>
 {% endblock %}
