@@ -47,20 +47,6 @@ class BookReviewType extends AbstractType
                     ],
                     'label'=>"Could not find your book? Click here to add it"
                 ])
-            ->add('review_image',FileType::class,[
-                'label' => "The front image of the review",
-                'mapped' => false,
-                'required' => true,
-                'constraints' => [
-                    new File([
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png'
-                        ],
-                        'mimeTypesMessage' => "Please upload a valid image"
-                    ])
-                ]
-            ])
             ->add('Save', SubmitType::class,
                 [
                     'attr'=>[
@@ -73,9 +59,12 @@ class BookReviewType extends AbstractType
             /** @var BookReview $bookReview */
             $bookReview = $form->getData();
             $currentNumberSections = 0;
-            if(!is_null($bookReview)) {
+            $imageRequired = true;
+            if($bookReview !== null) {
                $currentNumberSections = sizeof($bookReview->getSections());
+               $imageRequired = $bookReview->getFrontImage() === null ;
             }
+             $form ->add('review_image',FileType::class,$this->creatFileTypeOptions($imageRequired));
 
             $form->add('number_sections', NumberType::class,
                 [
@@ -91,6 +80,23 @@ class BookReviewType extends AbstractType
         });
 
 
+    }
+
+    private function creatFileTypeOptions(bool $imageRequired):array{
+      return  [
+            'label' => "The front image of the review",
+            'mapped' => false,
+            'required' => $imageRequired,
+            'constraints' => [
+                new File([
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/png'
+                    ],
+                    'mimeTypesMessage' => "Please upload a valid image"
+                ])
+            ]
+        ];
     }
 
     public function configureOptions(OptionsResolver $resolver): void

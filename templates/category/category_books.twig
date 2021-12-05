@@ -1,6 +1,6 @@
 {% extends 'base/list_page.twig' %}
 
-
+{% block title %}{{ category.name}} {% endblock %}
  {% block heading %}
      <h1 class="title">Total books : {{ category.books| length}}</h1>
  {% endblock %}

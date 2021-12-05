@@ -34,7 +34,7 @@ class BookReview implements \JsonSerializable
     private $creationDate;
 
 
-    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, cascade: ["persist","remove"], orphanRemoval: true)]
     private $sections;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]

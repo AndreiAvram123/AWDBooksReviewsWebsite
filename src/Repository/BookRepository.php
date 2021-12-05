@@ -37,10 +37,9 @@ class BookRepository extends ServiceEntityRepository
 
     public function countPubliclyAvailable():int{
      $qb = $this->createPubliclyAvailableQB();
-      return $qb->select($qb->expr()->count('b.id'))
-             ->getQuery()
-             ->getSingleScalarResult();
-
+      return $qb->select(
+          $qb->expr()->count('b.id')
+      )->getQuery()->getSingleScalarResult();
     }
 
 
@@ -66,7 +65,7 @@ class BookRepository extends ServiceEntityRepository
     public function createPubliclyAvailableQB(): QueryBuilder
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.pending = false')
+            ->andWhere('b.pending = true')
             ->andWhere('b.declined = false');
     }
 

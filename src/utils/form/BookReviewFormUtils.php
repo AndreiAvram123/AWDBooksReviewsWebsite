@@ -10,7 +10,6 @@ use App\utils\aws\AwsImageUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 
 class BookReviewFormUtils
@@ -31,36 +30,35 @@ class BookReviewFormUtils
     }
 
     private function createSections(Request $request, BookReview $bookReview){
-
         $requestBag = $request->request;
+        //remove old sections
+        $bookReview->getSections()->clear();
+
         $numberOfSections = $requestBag->get('book_review')['number_sections'];
-        for($sectionNumber= 0; $sectionNumber < $numberOfSections; $sectionNumber ++){
+        for($sectionNumber= 1; $sectionNumber <= $numberOfSections; $sectionNumber ++){
             $section = new ReviewSection();
-            $section->setBookReview($bookReview);
             $sectionTitle = $requestBag->get('section_' . $sectionNumber ."_title");
             $sectionSummary = $requestBag->get('section_' . $sectionNumber ."_summary");
-            var_dump($sectionTitle);
             $section->setHeading($sectionTitle);
             $section->setText($sectionSummary);
-            $this-> manager->persist($section);
+            $bookReview->addSection($section);
         }
-
     }
     public function handleBookReviewForm(
         FormInterface $form,
         Request $request
     ){
-
-            $bookReview = $this->createReviewFromFormData($form);
-            $bookReview->setPending(true);
-            $imageFile = $form->get(BookReviewType::$review_image_name)->getData();
-            if($imageFile){
-                $image  = $this->awsImageUtils->uploadImageToBucketeer($imageFile);
-                $bookReview->setFrontImage($image);
-                $this->manager-> persist($bookReview);
-            }
-            $this->createSections($request, $bookReview);
-            $this->manager->flush($bookReview);
+        $bookReview = $this->createReviewFromFormData($form);
+        //always when a review is created or edited flag it as pending
+        $bookReview->setPending(true);
+        $imageFile = $form->get(BookReviewType::$review_image_name)->getData();
+        if($imageFile){
+            $image  = $this->awsImageUtils->uploadImageToBucketeer($imageFile);
+            $bookReview->setFrontImage($image);
         }
+        $this->createSections($request, $bookReview);
+        $this->manager-> persist($bookReview);
+        $this->manager->flush($bookReview);
+    }
 
 }

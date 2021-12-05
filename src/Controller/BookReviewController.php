@@ -48,10 +48,12 @@ class BookReviewController extends BaseController
     }
 
 
-    #[Route('/reviews/{id}', name : "book_review")]
+    #[Route('/reviews/{id}', name : "book_review", requirements:['id' => '\d+'])]
     public function getBookReviewById(
+        int $id,
         BookReview $bookReview,
         RatingUtils $ratingUtils
+
     ): Response
     {
         $comment = new Comment();
@@ -107,6 +109,7 @@ class BookReviewController extends BaseController
     ): Response
     {
        $form = $this->createForm(BookReviewType::class);
+
        if($this->canAccessFormData($form)){
            $bookReviewFormUtils->handleBookReviewForm($form,$request);
            return $this->redirectToRoute('home');

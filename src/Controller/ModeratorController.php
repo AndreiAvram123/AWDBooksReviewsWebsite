@@ -20,15 +20,11 @@ class ModeratorController extends BaseController
     #[Route('/moderator', name: 'moderator')]
     public function index(
         BookReviewRepository $bookReviewRepo,
-        BookRepository $bookRepo
+        BookRepository $booksRepo
     ): Response
     {
-        $totalPendingReviews = $bookReviewRepo->count(array('pending' => true));
-
-        $totalPendingBooks = $this
-            ->getDoctrine()
-            ->getRepository(Book::class)
-            ->count(array('pending' => true));
+        $totalPendingReviews = $bookReviewRepo->countPubliclyAvailable();
+        $totalPendingBooks = $booksRepo ->countPubliclyAvailable();
 
         return $this->render('moderator/moderator_index.twig', [
             'totalPendingReviews' => $totalPendingReviews,

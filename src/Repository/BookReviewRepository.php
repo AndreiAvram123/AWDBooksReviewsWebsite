@@ -40,9 +40,7 @@ class BookReviewRepository extends ServiceEntityRepository
         $qb = $this->createPendingQB();
         return $qb -> select(
              $qb->expr()->count('br.id')
-           )
-            ->getQuery()
-            ->getSingleResult();
+           )->getQuery()->getSingleScalarResult();
     }
 
 

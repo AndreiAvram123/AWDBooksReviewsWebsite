@@ -55,10 +55,10 @@ prePopulate()
 attachListener()
 
 function prePopulate(){
-    console.log(sectionsData)
    if(sectionsData !== undefined){
        sectionsData.forEach((section,index) => {
-           addSectionWithData(index,section.heading,section.text)
+           let sectionObject = new Section(index + 1,section.heading,section.text);
+            container.appendChild(sectionObject.container);
        })
    }
 }
@@ -72,18 +72,9 @@ function attachListener(){
 
 
 function onNumberSectionsChanged(numberSections){
-    console.log(numberSections)
     container.innerHTML = "";
     for (let sectionNumber = 1; sectionNumber <= numberSections; sectionNumber++ ) {
-        addSection(container, sectionNumber)
+        let section = new Section(sectionNumber,"","");
+        container.appendChild(section.container)
     }
-}
-
-function addSection(sectionNumber){
-    let section = new Section(sectionNumber,"","");
-    container.appendChild(section.container)
-}
-function addSectionWithData(sectionNumber,sectionTitle,sectionSummary){
-    let section = new Section(sectionNumber,sectionTitle,sectionSummary);
-    container.appendChild(section.container)
 }
