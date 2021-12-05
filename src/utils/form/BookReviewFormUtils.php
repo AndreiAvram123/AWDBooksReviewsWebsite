@@ -49,8 +49,13 @@ class BookReviewFormUtils
         Request $request
     ){
         $bookReview = $this->createReviewFromFormData($form);
-        //always when a review is created or edited flag it as pending
-        $bookReview->setPending(true);
+        if($this->security->getUser()->isModerator()){
+            $bookReview->setPending(false);
+        }else{
+            //always when a review is created or edited flag it as pending
+            $bookReview->setPending(true);
+        }
+
         $imageFile = $form->get(BookReviewType::$review_image_name)->getData();
         if($imageFile){
             $image  = $this->awsImageUtils->uploadImageToBucketeer($imageFile);

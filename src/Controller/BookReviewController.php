@@ -50,7 +50,6 @@ class BookReviewController extends BaseController
 
     #[Route('/reviews/{id}', name : "book_review", requirements:['id' => '\d+'])]
     public function getBookReviewById(
-        int $id,
         BookReview $bookReview,
         RatingUtils $ratingUtils
 

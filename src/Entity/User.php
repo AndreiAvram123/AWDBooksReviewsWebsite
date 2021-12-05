@@ -20,7 +20,7 @@ use function PHPUnit\Framework\isNull;
 #[UniqueEntity(fields: 'email', message: "The email is already taken")]
 #[UniqueEntity(fields: 'nickname', message: "The nickname is already taken")]
 
-class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSerializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -245,11 +245,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
 
         return $this;
     }
-
-    public function jsonSerialize()
-    {
-       return [
-
-       ];
+    public function isModerator():bool{
+        return in_array("ROLE_MODERATOR",$this->getRoles());
     }
 }

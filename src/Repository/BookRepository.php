@@ -43,12 +43,20 @@ class BookRepository extends ServiceEntityRepository
     }
 
 
-    public function findPending():array{
+    public function createPendingQB():QueryBuilder{
         return $this->createQueryBuilder('b')
-               ->andWhere('b.pending = true')
-               ->andWhere('b.declined = false')
-               ->getQuery()
-               ->getResult();
+            ->andWhere('b.pending = true')
+            ->andWhere('b.declined = false');
+    }
+    public function countPending():int{
+        $qb = $this->createPendingQB();
+        return $qb -> select($qb->expr()->count('b.id'))
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findPending():array{
+        return $this->createPendingQB()->getQuery()->getResult();
     }
 
 
@@ -65,7 +73,7 @@ class BookRepository extends ServiceEntityRepository
     public function createPubliclyAvailableQB(): QueryBuilder
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.pending = true')
+            ->andWhere('b.pending = false')
             ->andWhere('b.declined = false');
     }
 

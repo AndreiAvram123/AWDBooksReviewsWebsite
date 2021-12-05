@@ -23,8 +23,8 @@ class ModeratorController extends BaseController
         BookRepository $booksRepo
     ): Response
     {
-        $totalPendingReviews = $bookReviewRepo->countPubliclyAvailable();
-        $totalPendingBooks = $booksRepo ->countPubliclyAvailable();
+        $totalPendingReviews = $bookReviewRepo->countPending();
+        $totalPendingBooks = $booksRepo ->countPending();
 
         return $this->render('moderator/moderator_index.twig', [
             'totalPendingReviews' => $totalPendingReviews,
@@ -91,14 +91,12 @@ class ModeratorController extends BaseController
     }
 
     #[Route('/moderator/books/pending', name: 'pending_books')]
-    public function pendingBooks():Response{
-        $pendingBooks = $this
-            ->getDoctrine()
-            ->getRepository(Book::class)
-            ->findPending();
+    public function pendingBooks(
+        BookRepository $bookRepository
+    ):Response{
         return $this->render(
             'moderator/moderator_pending_books.twig', [
-            'pendingBooks' => $pendingBooks
+            'pendingBooks' => $bookRepository->findPending()
         ]);
     }
 }
