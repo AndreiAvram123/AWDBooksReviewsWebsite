@@ -124,6 +124,11 @@ class BookReviewController extends BaseController
         Request $request,
         BookReviewFormUtils $bookReviewFormUtils
     ): Response{
+        /** @var User $user */
+        $user = $this->getUser();
+        if($user->getId() !== $bookReview->getCreator()->getId()){
+            throw $this->createAccessDeniedException("Trying to edit another user's review!");
+        }
         //only the creator can edit the form
         $form = $this->createForm(BookReviewType::class,data:  $bookReview);
         if($this->canAccessFormData($form)){

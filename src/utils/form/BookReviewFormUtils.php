@@ -52,6 +52,7 @@ class BookReviewFormUtils
     ){
 
             $bookReview = $this->createReviewFromFormData($form);
+            $bookReview->setPending(true);
             $imageFile = $form->get(BookReviewType::$review_image_name)->getData();
             if($imageFile){
                 $image  = $this->awsImageUtils->uploadImageToBucketeer($imageFile);
