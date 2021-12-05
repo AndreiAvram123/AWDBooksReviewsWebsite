@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
-class BookReview
+class BookReview implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,7 +34,7 @@ class BookReview
     private $creationDate;
 
 
-    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: ReviewSection::class, cascade: ["persist","remove"], orphanRemoval: true)]
     private $sections;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
@@ -292,4 +292,10 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
     return $this;
 }
 
+    public function jsonSerialize()
+    {
+        return [
+            "title" => $this->title
+        ];
+    }
 }

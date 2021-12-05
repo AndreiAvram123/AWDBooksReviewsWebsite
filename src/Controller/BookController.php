@@ -29,6 +29,9 @@ class BookController extends BaseController
         if($this->canAccessFormData($form)){
             /** @var Book $book */
             $book = $form->getData();
+            if($this->getUser()->isModerator()){
+                $book->setPending(false);
+            }
             $uploadedImage = $form->get('image')->getData();
             if($uploadedImage){
                 $image = $awsImageUtils->uploadImageToBucketeer($uploadedImage);

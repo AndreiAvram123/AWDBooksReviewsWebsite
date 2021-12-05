@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} {{ book.title}} {% endblock %}
 {% block mainContent %}
     <div class="main-wrapper">
         <div class="post-single-wrapper axil-section-gap bg-color-white">
@@ -7,42 +8,51 @@
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
                         <div class="banner banner-single-post post-formate post-layout pb--40">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <!-- Start Single Slide  -->
-                                        <div class="content-block">
-                                            <!-- Start Post Content  -->
-                                            <div class="post-content">
-                                                <div class="post-cat">
-                                                    <div class="post-cat-list">
-                                                    </div>
-                                                </div>
-                                                <h1 class="title text-center">{{ book.title}}</h1>
-                                                <h3 class="title text-center">By {{ book.author.getFullName()}}</h3>
-                                                {% set categoryName = book.category.name %}
-                                                <a class="hover-flip-item-wrapper" href="{{ url('category_path', {'name' : categoryName}) }}">
+                            <!-- Start Single Slide  -->
+                            <div class="content-block">
+                                <!-- Start Post Content  -->
+                                <div class="post-content">
+                                    <div class="post-cat">
+                                        <div class="post-cat-list">
+                                        </div>
+                                    </div>
+                                    <h1 class="title text-center">{{ book.title}}</h1>
+                                    <h3 class="title text-center">By {{ book.author.getFullName()}}</h3>
+                                    {% set categoryName = book.category.name %}
+                                    <a class="hover-flip-item-wrapper" href="{{ url('category_path', {'name' : categoryName}) }}">
                                                             <span class="hover-flip-item">
                                                                 <span data-text="{{ categoryName}}">{{ categoryName}}</span>
                                                             </span>
-                                                </a>
-                                                {% if book.image != null %}
-                                                    <figure class="wp-block-image alignwide text-center">
-                                                        <img src="{{ book.image.url }}" alt="Post Images">
-                                                    </figure>
-                                                {% endif %}
-                                                <div class="mt-5">
-                                                    {% if moderatorForm is defined %}
-                                                     {{ form(moderatorForm) }}
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
+                                    </a>
+                                    {% if book.image != null %}
+                                        <figure class="wp-block-image alignwide text-center">
+                                            <img src="{{ book.image.url }}" alt="Post Images">
+                                        </figure>
+                                    {% endif %}
+                                    <div class="mt-5">
+                                        {% if moderatorForm is defined %}
+                                            {{ form(moderatorForm) }}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-xl-8">
+                        {% if book.bookReviews is not empty %}
+                            <h2>Reviews</h2>
+                            {% for bookReview in book.bookReviews| sort((a,b) => a.creationDate < b.creationDate)%}
+                                {{ include('book_review/book_review_card.twig') }}
+                            {% endfor %}
+                        {% else %}
+                            <div class="alert alert-warning">
+                                 This book does not have any reviews yet
+                            </div>
+                        {% endif %}
+                    </div>
+
                 </div>
             </div>
         </div>
