@@ -7,13 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
-class BookReview implements \JsonSerializable
+#[ExclusionPolicy(ExclusionPolicy::ALL)]
+class BookReview
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Expose]
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
@@ -21,6 +26,7 @@ class BookReview implements \JsonSerializable
     private Book $book;
 
     #[ORM\Column(type: 'boolean')]
+    #[Expose]
     private bool $pending = true;
 
     #[ORM\Column(type: 'boolean')]
@@ -292,10 +298,5 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
     return $this;
 }
 
-    public function jsonSerialize()
-    {
-        return [
-            "title" => $this->title
-        ];
-    }
+
 }
