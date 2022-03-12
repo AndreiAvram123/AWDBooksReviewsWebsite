@@ -24,7 +24,7 @@ class SearchController extends BaseController
     ):Response{
         $query = $request->query->get('_search_query');
 
-        $bookReviews = $bookReviewRepository->findAllByTitle($query);
+        $bookReviews = $bookReviewRepository->findByTitle($query);
         $users = $userRepository->findByUsernameQuery($query);
         $books = $bookRepository ->findByTitle($query);
 

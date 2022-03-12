@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use JMS\Serializer\Annotation\ExclusionPolicy;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[ExclusionPolicy(ExclusionPolicy::ALL)]
 class Book implements \JsonSerializable
 {
     #[ORM\Id]

@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\MaxDepth;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,6 +22,7 @@ use function PHPUnit\Framework\isNull;
 #[UniqueEntity(fields: 'username', message: "The username is already taken")]
 #[UniqueEntity(fields: 'email', message: "The email is already taken")]
 #[UniqueEntity(fields: 'nickname', message: "The nickname is already taken")]
+#[ExclusionPolicy(ExclusionPolicy::NONE)]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -36,12 +40,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Length(min: 5, minMessage: "The password is too weak")]
+    #[Exclude]
     private ?string $password;
 
     #[ORM\Column(type : 'json')]
+    #[Exclude]
     private array $roles = array("ROLE_USER");
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: BookReview::class, orphanRemoval: true)]
+    #[MaxDepth(1)]
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -58,6 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Image $profileImage ;
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: UserRating::class, orphanRemoval: true)]
+    #[MaxDepth(1)]
     private $userRatings;
 
 
