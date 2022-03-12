@@ -9,6 +9,7 @@ use App\ResponseModels\SearchResponseModel;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use function PHPUnit\Framework\isEmpty;
 
 class SearchApiController extends BaseRestController
 {
@@ -30,8 +31,6 @@ class SearchApiController extends BaseRestController
             ),
             format: 'json'
         );
-        return $this->jsonResponse(
-            $serializedData
-        );
+        return $this->jsonResponse($serializedData);
     }
 }

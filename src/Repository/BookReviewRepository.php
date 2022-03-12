@@ -82,6 +82,9 @@ class BookReviewRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
     public function findByTitle(string $query):array{
+        if($query === ""){
+            return [];
+        }
         $qb = $this->createPubliclyAvailableQB();
         return $qb->andWhere(
                 $qb->expr()->like(

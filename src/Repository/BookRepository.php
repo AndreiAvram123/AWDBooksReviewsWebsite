@@ -24,6 +24,9 @@ class BookRepository extends ServiceEntityRepository
     }
 
     public function findByTitle(string $title):array{
+        if($title === ""){
+            return [];
+        }
         $qb= $this->createPubliclyAvailableQB();
         return $qb->where(
             $qb->expr()->like(

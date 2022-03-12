@@ -21,6 +21,9 @@ class UserRepository extends ServiceEntityRepository
     }
 
     public function findByUsernameQuery(string $query):array{
+        if($query === ""){
+            return [];
+        }
         $qb = $this->createQueryBuilder('u');
         return $qb->andWhere(
               $qb->expr()->like(
