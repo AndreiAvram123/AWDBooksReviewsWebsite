@@ -22,8 +22,8 @@ class BaseRestController extends AbstractFOSRestController
     }
 
 
-    protected function jsonResponse(string $jsonString):JsonResponse{
-        return  JsonResponse::fromJsonString($jsonString);
+    protected function jsonResponse( $data):JsonResponse{
+        return  JsonResponse::fromJsonString($this->serializer->serialize($data,'json'));
     }
 
     protected function isDataValid($data) : bool{

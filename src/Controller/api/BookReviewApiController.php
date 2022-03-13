@@ -4,6 +4,7 @@ namespace App\Controller\api;
 
 
 
+use App\Controller\BookApi\GoogleBooksRepository;
 use App\Entity\BookReview;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
@@ -33,6 +34,23 @@ class BookReviewApiController extends BaseRestController
             format: 'json');
 
        return  $this->jsonResponse($serializedData);
+    }
+
+    #[Get("/api/reviews/{id}")]
+    public function getReviewById(
+        BookReview $bookReview
+    ):JsonResponse{
+        return $this->jsonResponse(
+            $bookReview
+        );
+    }
+
+    #[Get("/api/test")]
+    public function test(
+        GoogleBooksRepository $googleBooksRepository
+    ):JsonResponse{
+
+        return JsonResponse::fromJsonString($googleBooksRepository->getVolumeById());
     }
 
 
