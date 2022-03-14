@@ -9380,6 +9380,10 @@ Post List Style
   padding: 0 15px;
 }
 
+.alert-wrapped {
+  display: inline-block !important;
+}
+
 .content-block {
   background: var(--white);
 }

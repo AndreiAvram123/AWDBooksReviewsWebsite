@@ -3,6 +3,7 @@
 namespace App\BookApi;
 
 use App\BookApi\VolumeInfo;
+use App\Entity\Book;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Type;
 
@@ -63,5 +64,6 @@ class GoogleBook
         $this->volumeInfo = $volumeInfo;
     }
 
-
 }
+
+

@@ -9,6 +9,7 @@ use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
 use App\Repository\GoogleBooksRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,12 +30,14 @@ class SearchController extends BaseController
         $bookReviews = $bookReviewRepository->findByTitle($query);
         $users = $userRepository->findByUsernameQuery($query);
         $books = $bookRepository ->searchByTitle($query);
+        $googleBooks = $googleBooksRepository->searchByTitle($query)->getItems();
 
         return $this->render('search/search_results.twig',
         [
             'bookReviews' => $bookReviews,
             'books' => $books,
-            'users' => $users
+            'users' => $users,
+            'googleBooks'=> $googleBooks
         ]);
     }
 }

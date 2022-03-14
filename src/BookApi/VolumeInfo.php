@@ -10,12 +10,18 @@ use JMS\Serializer\Annotation\Type;
 class VolumeInfo
 {
     private string $title = "";
-    private $autors;
+
     private string $description = "";
     private int $pageCount = 0;
 
     #[Type("array<string>")]
-    private $categories;
+    private ?array $categories = null;
+
+    #[Type("array<string>")]
+    private ?array $authors = null;
+
+    #[Type("App\BookApi\GoogleBookImages")]
+    private GoogleBookImages $imageLinks;
 
     /**
      * @return string
@@ -33,21 +39,6 @@ class VolumeInfo
         $this->title = $title;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAutors()
-    {
-        return $this->autors;
-    }
-
-    /**
-     * @param mixed $autors
-     */
-    public function setAutors($autors): void
-    {
-        $this->autors = $autors;
-    }
 
     /**
      * @return string
@@ -84,7 +75,7 @@ class VolumeInfo
     /**
      * @return array
      */
-    public function getCategories(): array
+    public function getCategories(): ?array
     {
         return $this->categories;
     }
@@ -95,6 +86,22 @@ class VolumeInfo
     public function setCategories(array$categories): void
     {
         $this->categories = $categories;
+    }
+
+    /**
+     * @return GoogleBookImages
+     */
+    public function getImageLinks(): GoogleBookImages
+    {
+        return $this->imageLinks;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getAuthors(): ?array
+    {
+        return $this->authors;
     }
 
 
