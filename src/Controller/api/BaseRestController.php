@@ -4,6 +4,10 @@ namespace App\Controller\api;
 
 use App\Entity\BookReview;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
+use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,13 +16,19 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class BaseRestController extends AbstractFOSRestController
 {
-
+    protected Serializer $serializer;
     public function __construct(
-        protected SerializerInterface $serializer,
+
         protected ValidatorInterface $validator
     )
     {
-
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(
+                new SerializedNameAnnotationStrategy(
+                    new IdenticalPropertyNamingStrategy()
+                )
+            )
+            ->build();
     }
 
 

@@ -16,7 +16,7 @@
         "easycorp/easyadmin-bundle": "^3.5",
         "friendsofsymfony/rest-bundle": "^3.3",
         "guzzlehttp/guzzle": "^7.4",
-        "jms/serializer-bundle": "^4.0",
+        "jms/serializer-bundle": "^4.0.2",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.3.*",

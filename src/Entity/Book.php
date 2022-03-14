@@ -44,6 +44,9 @@ class Book implements \JsonSerializable
     #[ORM\Column(type: 'boolean')]
     private $declined = false;
 
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $isExclusive;
+
     #[Pure] public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
@@ -169,6 +172,18 @@ class Book implements \JsonSerializable
     public function setDeclined(bool $declined): self
     {
         $this->declined = $declined;
+
+        return $this;
+    }
+
+    public function getIsExclusive(): ?bool
+    {
+        return $this->isExclusive;
+    }
+
+    public function setIsExclusive(?bool $isExclusive): self
+    {
+        $this->isExclusive = $isExclusive;
 
         return $this;
     }

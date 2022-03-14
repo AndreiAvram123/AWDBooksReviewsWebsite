@@ -62,6 +62,7 @@ class BookReview
     private $negativeRatings;
 
 
+
     public function __construct()
     {
         $this->sections = new ArrayCollection();

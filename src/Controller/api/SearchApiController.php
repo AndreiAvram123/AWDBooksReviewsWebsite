@@ -22,14 +22,12 @@ class SearchApiController extends BaseRestController
     ):JsonResponse{
         $query = $request->query->get('query');
         $bookReviews = $bookReviewRepository->findByTitle($query);
-        $books = $bookRepository->findByTitle($query);
+        $books = $bookRepository->searchByTitle($query);
         $users = $userRepository->findByUsernameQuery($query);
-        $serializedData = $this->serializer->serialize(
+        return $this->jsonResponse(
             data: new SearchResponseModel(
-                bookReviews: $bookReviews, books: $books, users: $users
-            ),
-            format: 'json'
+                bookReviews: $bookReviews,books: $books, users: $users
+            )
         );
-        return $this->jsonResponse($serializedData);
     }
 }
