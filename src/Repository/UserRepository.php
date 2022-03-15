@@ -38,7 +38,16 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u');
         return $qb->andWhere('u.email = :email')
                ->setParameter('email',$email)
+                ->setMaxResults(1)
                ->getQuery()
-                ->getSingleResult();
+               ->getSingleResult();
+    }
+    public function findByUsername(string $username):User{
+        $qb = $this->createQueryBuilder('u');
+        return $qb->andWhere('u.username = :username')
+            ->setParameter('username',$username)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult();
     }
 }

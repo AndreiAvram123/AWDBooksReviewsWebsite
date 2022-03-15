@@ -3,6 +3,7 @@
 namespace App\Controller\api;
 
 use App\Entity\BookReview;
+use App\Entity\User;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -46,6 +47,9 @@ class BaseRestController extends AbstractFOSRestController
      */
     protected function getEmailFromToken(){
         return $this->jwtManager->decode($this->tokenStorageInterface->getToken())['email'];
+    }
+    protected function createTokenForUser(User $user):string{
+        return $this->jwtManager->create($user);
     }
 
     protected function jsonResponse( $data):JsonResponse{
