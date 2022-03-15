@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\MaxDepth;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -22,36 +23,37 @@ use function PHPUnit\Framework\isNull;
 #[UniqueEntity(fields: 'username', message: "The username is already taken")]
 #[UniqueEntity(fields: 'email', message: "The email is already taken")]
 #[UniqueEntity(fields: 'nickname', message: "The nickname is already taken")]
-#[ExclusionPolicy(ExclusionPolicy::NONE)]
+#[ExclusionPolicy(ExclusionPolicy::ALL)]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Expose]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Length(min : 5, max: 20)]
+    #[Expose]
     private string $username;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Expose]
     private string $email;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Length(min: 5, minMessage: "The password is too weak")]
-    #[Exclude]
     private ?string $password;
 
     #[ORM\Column(type : 'json')]
-    #[Exclude]
     private array $roles = array("ROLE_USER");
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: BookReview::class, orphanRemoval: true)]
-    #[MaxDepth(1)]
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Expose]
     private ?string $nickname;
 
     #[ORM\OneToOne(inversedBy: 'owner', targetEntity: SocialMediaHub::class, cascade: ['persist', 'remove'])]
@@ -63,7 +65,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private ?Image $profileImage ;
-
 
 
 

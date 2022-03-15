@@ -12,12 +12,10 @@ class CategoryApiController extends BaseRestController
     public function getAllCategories(
         BookCategoryRepository $bookCategoryRepository
     ):JsonResponse{
-        $serializedData = $this->serializer->serialize(
-            data: $bookCategoryRepository->findAll(),
-            format: 'json'
-        );
+
+        $categories = $bookCategoryRepository->findAll();
         return $this->jsonResponse(
-            $serializedData
+            $categories
         );
     }
 

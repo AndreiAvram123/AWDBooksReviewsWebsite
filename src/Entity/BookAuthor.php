@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
 
 #[ORM\Entity(repositoryClass: BookAuthorRepository::class)]
+#[ExclusionPolicy(ExclusionPolicy::NONE)]
 class BookAuthor
 {
     #[ORM\Id]
@@ -23,6 +26,7 @@ class BookAuthor
     private $lastName;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Book::class, orphanRemoval: true)]
+    #[Exclude]
     private $books;
 
     public function __construct()

@@ -10,23 +10,25 @@ use JetBrains\PhpStorm\Pure;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
-#[ExclusionPolicy(ExclusionPolicy::ALL)]
+#[ExclusionPolicy(ExclusionPolicy::NONE)]
 class BookReview
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Expose]
-    private int $id;
+    private int $id = 22;
 
     #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
-    #[ORM\JoinColumn(nullable: false)]
-    private Book $book;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Book $book = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $googleBookID = null;
 
     #[ORM\Column(type: 'boolean')]
-    #[Expose]
     private bool $pending = true;
 
     #[ORM\Column(type: 'boolean')]
@@ -48,11 +50,13 @@ class BookReview
 
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Comment::class, orphanRemoval: true)]
+    #[MaxDepth(1)]
     private $comments;
 
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]
     #[ORM\JoinColumn(nullable: false)]
+    #[MaxDepth(1)]
     private $creator;
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: PositiveRating::class, orphanRemoval: true)]
@@ -60,6 +64,7 @@ class BookReview
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
     private $negativeRatings;
+
 
 
 
@@ -170,6 +175,15 @@ class BookReview
 
         return $this;
     }
+
+    /**
+     * @param ArrayCollection $sections
+     */
+    public function setSections(ArrayCollection $sections): void
+    {
+        $this->sections = $sections;
+    }
+
 
     public function removeSection(ReviewSection $section): self
     {
@@ -298,6 +312,31 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
 
     return $this;
 }
+
+    /**
+     * @return string|null
+     */
+    public function getGoogleBookID(): ?string
+    {
+        return $this->googleBookID;
+    }
+
+    /**
+     * @param string|null $googleBookID
+     */
+    public function setGoogleBookID(?string $googleBookID): void
+    {
+        $this->googleBookID = $googleBookID;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
 
 
 }

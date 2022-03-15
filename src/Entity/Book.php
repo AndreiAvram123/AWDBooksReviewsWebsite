@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[ExclusionPolicy(ExclusionPolicy::ALL)]
+#[ExclusionPolicy(ExclusionPolicy::NONE)]
 class Book implements \JsonSerializable
 {
     #[ORM\Id]
@@ -25,6 +27,7 @@ class Book implements \JsonSerializable
     private int $numberOfPages;
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookReview::class, orphanRemoval: true)]
+    #[Exclude]
     private  $bookReviews;
 
     #[ORM\Column(type: 'boolean', nullable: false)]

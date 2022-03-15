@@ -4,19 +4,28 @@ namespace App\Controller\api;
 
 
 
-use App\Controller\BookApi\GoogleBooksRepository;
+use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
+use App\Repository\ReviewSectionRepository;
+use App\Repository\UserRepository;
+use App\RequestModels\CreateBookReviewModel;
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 
 class BookReviewApiController extends BaseRestController
 {
 
+    private const ERROR_BOOK_NOT_FOUND = "The book with this id was not found";
 
     #[Get("/api/reviews")]
     public function getReviewsByPage(
@@ -45,32 +54,64 @@ class BookReviewApiController extends BaseRestController
         );
     }
 
-    #[Get("/api/test")]
-    public function test(
-        GoogleBooksRepository $googleBooksRepository
-    ):JsonResponse{
-
-        return JsonResponse::fromJsonString($googleBooksRepository->getVolumeById());
-    }
 
 
     #[Post("/api/reviews")]
    public function createReview(
        Request $request,
-       BookRepository $bookRepository
+       BookRepository $bookRepository,
+       UserRepository $userRepository
     ):JsonResponse{
 
-         $bookReview  = $this->serializer->deserialize(
+        /**
+         * @var CreateBookReviewModel $createModel
+         */
+         $createModel  = $this->serializer->deserialize(
            data: $request->getContent(),
-           type: BookReview::class,
-           format: 'json'
+           type: CreateBookReviewModel::class,
+           format: 'json');
+
+        $manager = $this->getDoctrine()->getManager();
+        $validationErrors =  $this->validator->validate($createModel);
+
+        if(count($validationErrors) === 0){
+           $bookReview = new BookReview();
+           foreach ($createModel->getSections() as $section){
+               $bookReview->addSection($section);
+               $manager->persist($section);
+           }
+           $bookReview->setSections(
+               new ArrayCollection($createModel->getSections())
+           );
+           $bookReview->setTitle($createModel->getTitle());
+
+           //todo
+           //take from token
+           $user = $userRepository->find(2);
+           $bookReview->setCreator($user);
+
+           if($createModel->getGoogleBookID() === null){
+               $book = $bookRepository->find($createModel->getBookID());
+               if($book === null){
+                   return $this->notAcceptableResponse([self::ERROR_BOOK_NOT_FOUND]);
+               }
+               $bookReview->setBook($book);
+           }else{
+               //todo
+               //should perform a check here as well
+               $bookReview->setGoogleBookID($createModel->getGoogleBookID());
+           }
+
+           $bookReview->setPending(true);
+
+           $manager-> persist($bookReview);
+           $manager-> flush($bookReview);
+           return $this->jsonResponse(
+               $bookReview
            );
 
-       if($this->isDataValid($bookReview)){
-
        }
-
-       return $this -> jsonResponse($bookReview);
+       return $this->constraintViolationResponse($validationErrors);
    }
 
 

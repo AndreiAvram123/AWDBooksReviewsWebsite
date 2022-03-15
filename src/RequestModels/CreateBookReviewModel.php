@@ -3,6 +3,7 @@
 namespace App\RequestModels;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Stopwatch\Section;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -10,20 +11,18 @@ use Symfony\Component\Validator\Constraints\NotNull;
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
 class CreateBookReviewModel
 {
-    #[NotNull]
-    private  int $bookID;
-    #[NotNull]
-    private bool $pending;
-    #[NotNull]
-    private bool $declined;
+
+    private  int $bookID = 0;
+    private ?string $googleBookID = null;
+
     #[NotBlank]
     private string $title;
+
     #[NotNull]
+    #[Type("array<App\Entity\ReviewSection>")]
     private $sections;
     #[NotBlank]
-    private string $base64image;
-    #[NotNull]
-    private int $userID;
+    private string $base64Image;
 
     /**
      * @return int
@@ -41,37 +40,7 @@ class CreateBookReviewModel
         $this->bookID = $bookID;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPending(): bool
-    {
-        return $this->pending;
-    }
 
-    /**
-     * @param bool $pending
-     */
-    public function setPending(bool $pending): void
-    {
-        $this->pending = $pending;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDeclined(): bool
-    {
-        return $this->declined;
-    }
-
-    /**
-     * @param bool $declined
-     */
-    public function setDeclined(bool $declined): void
-    {
-        $this->declined = $declined;
-    }
 
     /**
      * @return string
@@ -90,7 +59,7 @@ class CreateBookReviewModel
     }
 
     /**
-     * @return mixed
+     * @return [
      */
     public function getSections()
     {
@@ -108,34 +77,27 @@ class CreateBookReviewModel
     /**
      * @return string
      */
-    public function getBase64image(): string
+    public function getBase64Image(): string
     {
-        return $this->base64image;
+        return $this->base64Image;
     }
 
     /**
-     * @param string $base64image
+     * @param string $base64Image
      */
-    public function setBase64image(string $base64image): void
+    public function setBase64Image(string $base64Image): void
     {
-        $this->base64image = $base64image;
+        $this->base64Image = $base64Image;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getUserID(): int
+    public function getGoogleBookID(): ?string
     {
-        return $this->userID;
+        return $this->googleBookID;
     }
 
-    /**
-     * @param int $userID
-     */
-    public function setUserID(int $userID): void
-    {
-        $this->userID = $userID;
-    }
 
 
 }

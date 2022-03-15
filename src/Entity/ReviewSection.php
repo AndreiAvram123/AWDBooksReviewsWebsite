@@ -5,23 +5,31 @@ namespace App\Entity;
 use App\Repository\ReviewSectionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\ArrayShape;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: ReviewSectionRepository::class)]
+#[ExclusionPolicy(ExclusionPolicy::NONE)]
 class ReviewSection implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Exclude]
     private $id;
 
     #[ORM\Column(type: 'text')]
-    private $text;
+    #[NotBlank]
+    private string $text;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $heading;
+    #[NotBlank]
+    private string $heading;
 
     #[ORM\ManyToOne(targetEntity: BookReview::class, inversedBy: 'sections')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Exclude]
     private $bookReview;
 
 
