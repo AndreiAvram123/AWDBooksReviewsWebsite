@@ -85,9 +85,9 @@ class BookReviewApiController extends BaseRestController
            );
            $bookReview->setTitle($createModel->getTitle());
 
-           //todo
-           //take from token
-           $user = $userRepository->find(2);
+            $user = $userRepository->findByEmail(
+                $this->getEmailFromToken()
+            );
            $bookReview->setCreator($user);
 
            if($createModel->getGoogleBookID() === null){

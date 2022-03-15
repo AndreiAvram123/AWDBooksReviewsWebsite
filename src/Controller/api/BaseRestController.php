@@ -11,9 +11,12 @@ use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validation;
@@ -24,8 +27,9 @@ class BaseRestController extends AbstractFOSRestController
 {
     protected Serializer $serializer;
     public function __construct(
-
-        protected ValidatorInterface $validator
+        protected ValidatorInterface $validator,
+        private TokenStorageInterface $tokenStorageInterface,
+        private JWTTokenManagerInterface $jwtManager
     )
     {
         $this->serializer = SerializerBuilder::create()
@@ -37,6 +41,12 @@ class BaseRestController extends AbstractFOSRestController
             ->build();
     }
 
+    /**
+     * @throws JWTDecodeFailureException
+     */
+    protected function getEmailFromToken(){
+        return $this->jwtManager->decode($this->tokenStorageInterface->getToken())['email'];
+    }
 
     protected function jsonResponse( $data):JsonResponse{
         return  JsonResponse::fromJsonString($this->serializer->serialize($data,'json'));
