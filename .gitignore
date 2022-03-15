@@ -23,3 +23,7 @@
 .env
 
 .idea/dataSources.xml
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
