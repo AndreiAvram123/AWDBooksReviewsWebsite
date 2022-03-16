@@ -28,7 +28,7 @@ class BookReviewApiController extends BaseRestController
 
     private const ERROR_BOOK_NOT_FOUND = "The book with this id was not found";
 
-    #[Get("/api/reviews")]
+    #[Get("/api/v1/reviews")]
     public function getReviewsByPage(
         Request $request,
         BookReviewRepository $bookReviewRepository,
@@ -46,7 +46,7 @@ class BookReviewApiController extends BaseRestController
        return  $this->jsonResponse($serializedData);
     }
 
-    #[Get("/api/reviews/{id}")]
+    #[Get("/api/v1/reviews/{id}")]
     public function getReviewById(
         BookReview $bookReview
     ):JsonResponse{
@@ -57,7 +57,7 @@ class BookReviewApiController extends BaseRestController
 
 
 
-    #[Post("/api/reviews")]
+    #[Post("/api/v1/reviews")]
    public function createReview(
        Request $request,
        BookRepository $bookRepository,
