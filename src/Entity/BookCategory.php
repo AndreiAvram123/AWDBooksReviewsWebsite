@@ -21,14 +21,19 @@ class BookCategory
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Book::class, orphanRemoval: true)]
-    #[Exclude]
+    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'categories')]
     private $books;
+
+    #[ORM\ManyToMany(targetEntity: GoogleBook::class, mappedBy: 'categories')]
+    private $googleBooks;
 
     public function __construct()
     {
         $this->books = new ArrayCollection();
+        $this->googleBooks = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -59,7 +64,7 @@ class BookCategory
     {
         if (!$this->books->contains($book)) {
             $this->books[] = $book;
-            $book->setCategory($this);
+            $book->addCategory($this);
         }
 
         return $this;
@@ -68,12 +73,38 @@ class BookCategory
     public function removeBook(Book $book): self
     {
         if ($this->books->removeElement($book)) {
-            // set the owning side to null (unless already changed)
-            if ($book->getCategory() === $this) {
-                $book->setCategory(null);
-            }
+            $book->removeCategory($this);
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|GoogleBook[]
+     */
+    public function getGoogleBooks(): Collection
+    {
+        return $this->googleBooks;
+    }
+
+    public function addGoogleBook(GoogleBook $googleBook): self
+    {
+        if (!$this->googleBooks->contains($googleBook)) {
+            $this->googleBooks[] = $googleBook;
+            $googleBook->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGoogleBook(GoogleBook $googleBook): self
+    {
+        if ($this->googleBooks->removeElement($googleBook)) {
+            $googleBook->removeCategory($this);
+        }
+
+        return $this;
+    }
+
+
 }

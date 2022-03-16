@@ -3,6 +3,7 @@
 namespace App\Controller\api;
 
 use App\Repository\BookRepository;
+use App\Repository\ExclusiveBookRepository;
 use App\Repository\GoogleBooksRepository;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -29,6 +30,14 @@ class BookApiController extends BaseRestController
                 "googleBooks"=> $googleBooksRepository->searchByTitle($query),
                 "exclusiveBooks"    => $bookRepository->searchByTitle($query)
             ]
+        );
+    }
+    #[Get("/api/v1/books/exclusive")]
+    public function getExclusiveBooks(
+        ExclusiveBookRepository $exclusiveBookRepository
+    ):JsonResponse{
+        return $this->jsonResponse(
+            $exclusiveBookRepository->findAll()
         );
     }
 }

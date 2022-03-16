@@ -34,20 +34,20 @@ class UserRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
-    public function findByEmail(string $email):User{
+    public function findByEmail(string $email):?User{
         $qb = $this->createQueryBuilder('u');
         return $qb->andWhere('u.email = :email')
                ->setParameter('email',$email)
                 ->setMaxResults(1)
                ->getQuery()
-               ->getSingleResult();
+               ->getOneOrNullResult();
     }
-    public function findByUsername(string $username):User{
+    public function findByUsername(string $username):?User{
         $qb = $this->createQueryBuilder('u');
         return $qb->andWhere('u.username = :username')
             ->setParameter('username',$username)
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }

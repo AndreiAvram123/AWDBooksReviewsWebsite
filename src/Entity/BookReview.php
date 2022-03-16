@@ -19,14 +19,11 @@ class BookReview
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id = 22;
+    private int $id = 0;
 
     #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
-    #[ORM\JoinColumn(nullable: true)]
     private ?Book $book = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $googleBookID = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $pending = true;
@@ -313,21 +310,6 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
     return $this;
 }
 
-    /**
-     * @return string|null
-     */
-    public function getGoogleBookID(): ?string
-    {
-        return $this->googleBookID;
-    }
-
-    /**
-     * @param string|null $googleBookID
-     */
-    public function setGoogleBookID(?string $googleBookID): void
-    {
-        $this->googleBookID = $googleBookID;
-    }
 
     /**
      * @param int $id

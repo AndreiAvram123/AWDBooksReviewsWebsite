@@ -8,6 +8,8 @@ use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
+use App\Repository\ExclusiveBookRepository;
+use App\Repository\GoogleBookRepository;
 use App\Repository\ReviewSectionRepository;
 use App\Repository\UserRepository;
 use App\RequestModels\CreateBookReviewModel;
@@ -61,6 +63,7 @@ class BookReviewApiController extends BaseRestController
    public function createReview(
        Request $request,
        BookRepository $bookRepository,
+       GoogleBookRepository $googleBookRepository,
        UserRepository $userRepository
     ):JsonResponse{
 
@@ -93,18 +96,16 @@ class BookReviewApiController extends BaseRestController
 
            if($createModel->getGoogleBookID() === null){
                $book = $bookRepository->find($createModel->getBookID());
-               if($book === null){
-                   return $this->notAcceptableResponse([self::ERROR_BOOK_NOT_FOUND]);
-               }
-               $bookReview->setBook($book);
            }else{
-               //todo
-               //should perform a check here as well
-               $bookReview->setGoogleBookID($createModel->getGoogleBookID());
+               $book = $googleBookRepository->findByGoogleID($createModel->getGoogleBookID());
+
            }
+            if($book === null){
+                return $this->notAcceptableResponse([self::ERROR_BOOK_NOT_FOUND]);
+            };
 
+           $bookReview->setBook($book);
            $bookReview->setPending(true);
-
            $manager-> persist($bookReview);
            $manager-> flush($bookReview);
            return $this->jsonResponse(

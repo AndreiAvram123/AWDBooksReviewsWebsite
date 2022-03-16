@@ -9,7 +9,11 @@
                     <div class="col-lg-8 col-xl-8">
                         <h2>Most recent</h2>
                         {% for bookReview in allReviews %}
+                            {% if bookReview.googleBookID is not null %}
+                                {{ include('book_review/book_review_card.twig') }}
+                            {% else %}
                             {{ include('book_review/book_review_card.twig') }}
+                            {% endif %}
                         {% endfor %}
 
                         {% set paginationMethodName = 'book_reviews_page' %}
