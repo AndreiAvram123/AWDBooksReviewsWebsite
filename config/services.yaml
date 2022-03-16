@@ -30,6 +30,10 @@ services:
     App\utils\aws\AwsClientWrapper:
         arguments: [ '%env(BUCKETEER_REGION)%' ]
 
+
+
+    App\Repository\GoogleBooksRepository:
+        arguments : ['%env(GOOGLE_BOOKS_API_KEY)%']
     App\utils\aws\AwsImageUtils:
       arguments:
              $bucketName : '%env(BUCKETEER_BUCKET_NAME)%'

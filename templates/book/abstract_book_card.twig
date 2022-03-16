@@ -33,6 +33,11 @@
                 </div>
             </div>
         </div>
+            {% if isExclusive %}
+            <div class="alert alert-primary mt-5" style="display: inline-block" role="alert">
+                Exclusive book
+            </div>
+            {% endif %}
         {% endblock %}
     </div>
 </div>

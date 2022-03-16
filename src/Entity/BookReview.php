@@ -7,18 +7,23 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: BookReviewRepository::class)]
-class BookReview implements \JsonSerializable
+#[ExclusionPolicy(ExclusionPolicy::NONE)]
+class BookReview
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private int $id = 0;
 
     #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
-    #[ORM\JoinColumn(nullable: false)]
-    private Book $book;
+    private ?Book $book = null;
+
 
     #[ORM\Column(type: 'boolean')]
     private bool $pending = true;
@@ -42,11 +47,13 @@ class BookReview implements \JsonSerializable
 
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Comment::class, orphanRemoval: true)]
+    #[MaxDepth(1)]
     private $comments;
 
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookReviews')]
     #[ORM\JoinColumn(nullable: false)]
+    #[MaxDepth(1)]
     private $creator;
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: PositiveRating::class, orphanRemoval: true)]
@@ -54,6 +61,8 @@ class BookReview implements \JsonSerializable
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
     private $negativeRatings;
+
+
 
 
     public function __construct()
@@ -163,6 +172,15 @@ class BookReview implements \JsonSerializable
 
         return $this;
     }
+
+    /**
+     * @param ArrayCollection $sections
+     */
+    public function setSections(ArrayCollection $sections): void
+    {
+        $this->sections = $sections;
+    }
+
 
     public function removeSection(ReviewSection $section): self
     {
@@ -292,10 +310,15 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
     return $this;
 }
 
-    public function jsonSerialize()
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
     {
-        return [
-            "title" => $this->title
-        ];
+        $this->id = $id;
     }
+
+
+
 }

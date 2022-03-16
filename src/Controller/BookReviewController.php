@@ -52,7 +52,6 @@ class BookReviewController extends BaseController
     public function getBookReviewById(
         BookReview $bookReview,
         RatingUtils $ratingUtils
-
     ): Response
     {
         $comment = new Comment();

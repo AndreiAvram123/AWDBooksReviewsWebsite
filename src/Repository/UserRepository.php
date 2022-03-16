@@ -21,6 +21,9 @@ class UserRepository extends ServiceEntityRepository
     }
 
     public function findByUsernameQuery(string $query):array{
+        if($query === ""){
+            return [];
+        }
         $qb = $this->createQueryBuilder('u');
         return $qb->andWhere(
               $qb->expr()->like(
@@ -31,5 +34,20 @@ class UserRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
-
+    public function findByEmail(string $email):?User{
+        $qb = $this->createQueryBuilder('u');
+        return $qb->andWhere('u.email = :email')
+               ->setParameter('email',$email)
+                ->setMaxResults(1)
+               ->getQuery()
+               ->getOneOrNullResult();
+    }
+    public function findByUsername(string $username):?User{
+        $qb = $this->createQueryBuilder('u');
+        return $qb->andWhere('u.username = :username')
+            ->setParameter('username',$username)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

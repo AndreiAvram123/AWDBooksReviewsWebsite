@@ -7,6 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\MaxDepth;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,19 +23,23 @@ use function PHPUnit\Framework\isNull;
 #[UniqueEntity(fields: 'username', message: "The username is already taken")]
 #[UniqueEntity(fields: 'email', message: "The email is already taken")]
 #[UniqueEntity(fields: 'nickname', message: "The nickname is already taken")]
+#[ExclusionPolicy(ExclusionPolicy::ALL)]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Expose]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Length(min : 5, max: 20)]
+    #[Expose]
     private string $username;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Expose]
     private string $email;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -45,6 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Expose]
     private ?string $nickname;
 
     #[ORM\OneToOne(inversedBy: 'owner', targetEntity: SocialMediaHub::class, cascade: ['persist', 'remove'])]
@@ -57,15 +66,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private ?Image $profileImage ;
 
-    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: UserRating::class, orphanRemoval: true)]
-    private $userRatings;
-
 
 
     #[Pure] public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
-        $this->userRatings = new ArrayCollection();
     }
 
     public function setRoles($roles){
@@ -216,35 +221,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|UserRating[]
-     */
-    public function getUserRatings(): Collection
-    {
-        return $this->userRatings;
-    }
 
-    public function addUserRating(UserRating $userRating): self
-    {
-        if (!$this->userRatings->contains($userRating)) {
-            $this->userRatings[] = $userRating;
-            $userRating->setCreator($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserRating(UserRating $userRating): self
-    {
-        if ($this->userRatings->removeElement($userRating)) {
-            // set the owning side to null (unless already changed)
-            if ($userRating->getCreator() === $this) {
-                $userRating->setCreator(null);
-            }
-        }
-
-        return $this;
-    }
     public function isModerator():bool{
         return in_array("ROLE_MODERATOR",$this->getRoles());
     }

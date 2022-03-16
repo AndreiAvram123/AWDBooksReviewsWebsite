@@ -23,7 +23,10 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function findByTitle(string $title):array{
+    public function searchByTitle(string $title):array{
+        if($title === ""){
+            return [];
+        }
         $qb= $this->createPubliclyAvailableQB();
         return $qb->where(
             $qb->expr()->like(
