@@ -21,14 +21,11 @@
                                                 <h1 class="title text-center">{{ bookReview.title }}</h1>
 
                                                 <div class="axil-banner bg-color-grey mt-4 ">
-                                                    {% if bookReview.googleBook is not null %}
-                                                        <h3><a href="{{ url('book_path', {'id' :bookReview.googleBook.id}) }}">{{ bookReview.googleBook.title }}</a></h3>
-
+                                                    {% if bookReview.book.googleBookID is not null %}
+                                                        <h3><a href="{{ constant('App\\BookApi\\GoogleBooksApiUrls::URL_INFO_BOOK') ~ bookReview.book.googleBookID }}">{{ bookReview.book.title }}</a></h3>
                                                     {% endif %}
 
-                                                    {% if bookReview.googleBook is not null %}
-                                                    {% endif %}
-                                                    {% for category in bookReview.googleBook.categories %}
+                                                    {% for category in bookReview.book.categories %}
                                                         <a href="{{ url('category_path', {'name' : category}) }}" data-text="{{ category }}">{{ category }}</a>
                                                     {% endfor %}
 

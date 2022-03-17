@@ -3,7 +3,7 @@
 <div class="content-block post-list-view mt--30">
     {% if bookReview.frontImage != null %}
         <div class="post-thumbnail">
-            <img src="{{ bookRe view.frontImage.url }}" alt="Post Images">
+            <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
         </div>
     {% endif %}
     <div class="post-content">
@@ -11,7 +11,7 @@
             <div class="post-cat">
                 <div class="post-cat-list">
                     <ul class="list-group">
-                        {% for category in bookReview.exclusiveBook.categories %}
+                        {% for category in bookReview.book.categories %}
                             <a class="hover-flip-item-wrapper" href="{{ url('category_path',{'name' : category}) }}">
                                             <span class="hover-flip-item">
                                                 <span data-text="{{ category }}">{{category }}</span>

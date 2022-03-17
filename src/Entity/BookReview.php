@@ -59,7 +59,7 @@ class BookReview
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
     private $negativeRatings;
 
-    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookRevies')]
+    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
     #[ORM\JoinColumn(nullable: false)]
     private $book;
 

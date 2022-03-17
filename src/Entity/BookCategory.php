@@ -24,11 +24,13 @@ class BookCategory
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'categories')]
     private $books;
 
-
     public function __construct()
     {
         $this->books = new ArrayCollection();
     }
+
+
+
 
 
 
@@ -56,5 +58,25 @@ class BookCategory
     {
         return $this->books;
     }
+
+    public function addBook(Book $book): self
+    {
+        if (!$this->books->contains($book)) {
+            $this->books[] = $book;
+            $book->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Book $book): self
+    {
+        if ($this->books->removeElement($book)) {
+            $book->removeCategory($this);
+        }
+
+        return $this;
+    }
+    
 
 }

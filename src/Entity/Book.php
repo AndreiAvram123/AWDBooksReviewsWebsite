@@ -36,9 +36,13 @@ use JMS\Serializer\Annotation\MaxDepth;
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $googleBookID;
 
+    #[ORM\ManyToMany(targetEntity: BookCategory::class, inversedBy: 'books')]
+    private $categories;
+
     public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
 
@@ -126,6 +130,30 @@ use JMS\Serializer\Annotation\MaxDepth;
     public function setGoogleBookID(?string $googleBookID): self
     {
         $this->googleBookID = $googleBookID;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BookCategory[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(BookCategory $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(BookCategory $category): self
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }
