@@ -52,10 +52,10 @@ class GoogleBooksApiRepository
 
     /**
      * @param $title
-     * @return GoogleBooksSearchResponse
+     * @return GoogleBookDTO[]
      * @throws GuzzleException
      */
-   public function searchByTitle($title):GoogleBooksSearchResponse{
+   public function searchByTitle($title):array{
        $response = $this->client->get(
           self::searchUrl,
            [
@@ -65,11 +65,14 @@ class GoogleBooksApiRepository
                ]
            ]
        );
-       return  $this-> serializer->deserialize(
+       /**
+        *  @var $serializedResponse GoogleBooksSearchResponse
+        */
+       $serializedResponse  = $this-> serializer->deserialize(
            data: (string)$response->getBody(),
            type: GoogleBooksSearchResponse::class, format: 'json'
-
        );
+       return $serializedResponse->getItems();
    }
 
 }

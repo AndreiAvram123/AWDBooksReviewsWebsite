@@ -4,13 +4,14 @@ namespace App\Form;
 
 use App\Entity\Book;
 use App\Entity\BookReview;
-use App\Entity\User;
 use App\Repository\BookRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -27,19 +28,15 @@ class BookReviewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('book', SearchType::class,[
+                'label' => "Book to review",
+                'attr'=> [
+                    'placeholder' => "Type a book title",
+                ],
+            ])
             ->add('title',TextType::class,[
                 'label'=>"Add a title for the review"
-            ])
-            ->add('book', EntityType::class, [
-                'class' => Book::class,
-                'choice_label'=> 'title',
-                'placeholder' => 'Click here to select a book',
-                'label' => "The book to review",
-                'query_builder' => function(BookRepository $bookRepository){
-                    return $bookRepository->createPubliclyAvailableQB();
-                }
-            ])
-            ->add('find_book',ButtonType::class,
+            ])->add('find_book',ButtonType::class,
                 [
                     'attr' =>[
                         'class'=> 'btn btn-link',

@@ -65,7 +65,7 @@ class GoogleBooksDTOUtils
         return null;
     }
 
-    private function convertDTOToEntity(GoogleBookDTO $googleBookDTO):Book{
+    public function convertDTOToEntity(GoogleBookDTO $googleBookDTO):Book{
         $googleBook = new Book();
         $googleBook->setTitle($googleBookDTO->getVolumeInfo()->getTitle());
         $googleBook->setGoogleBookID($googleBookDTO->getId());

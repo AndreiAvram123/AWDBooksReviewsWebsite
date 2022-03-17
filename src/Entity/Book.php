@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use App\Repository\BookReviewRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,9 +13,9 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\MaxDepth;
 
 
-#[ORM\Entity]
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
- class Book
+#[ORM\Entity(repositoryClass: BookRepository::class)]
+class Book
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,7 +45,6 @@ use JMS\Serializer\Annotation\MaxDepth;
         $this->bookReviews = new ArrayCollection();
         $this->categories = new ArrayCollection();
     }
-
 
 
 

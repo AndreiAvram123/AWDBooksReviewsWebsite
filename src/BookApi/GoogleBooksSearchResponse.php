@@ -11,9 +11,6 @@ use JMS\Serializer\Annotation\Type;
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
 class GoogleBooksSearchResponse
 {
-       #[Expose]
-        private int $totalItems = 100;
-
 
 
    #[Type("array<App\BookApi\GoogleBookDTO>")]
