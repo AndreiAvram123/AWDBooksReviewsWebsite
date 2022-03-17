@@ -4,9 +4,10 @@ namespace App\Controller\api;
 
 use App\BookApi\GoogleBookDTO;
 use App\BookApi\GoogleBooksDTOUtils;
+use App\Entity\Book;
 use App\Repository\BookRepository;
-use App\Repository\ExclusiveBookRepository;
 use App\Repository\GoogleBooksApiRepository;
+use App\ResponseModels\SearchModel;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
@@ -30,12 +31,17 @@ class BookApiController extends BaseRestController
     {
         $query = $paramFetcher->get('query');
         $googleBooks = $googleBooksRepository->searchByTitle($query);
-        array_map(function (GoogleBookDTO $googleBookDTO) use ($googleBooksDTOUtils){
+       $mappedGoogleBooks =  array_map(function (GoogleBookDTO $googleBookDTO) use ($googleBooksDTOUtils){
                  return $googleBooksDTOUtils->convertDTOToEntity($googleBookDTO);
-    },$googleBooks);
+     },$googleBooks);
+
         $localBooks = $bookRepository->searchByTitle($query);
+        $allBooks = array_merge($localBooks,$mappedGoogleBooks);
+        $responseData  = array_map(function (Book $book){
+            return SearchModel::convertBookToSearchModel($book);
+        },$allBooks);
         return $this->jsonResponse(
-            array_merge($localBooks,$googleBooks)
+           $responseData
         );
     }
 }

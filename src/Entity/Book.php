@@ -20,7 +20,7 @@ class Book
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer', nullable: false)]
-    private int $id;
+    private int $id = 0;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
     private $pending = true;

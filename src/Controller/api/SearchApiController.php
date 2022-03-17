@@ -5,7 +5,7 @@ namespace App\Controller\api;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
 use App\Repository\UserRepository;
-use App\ResponseModels\SearchResponseModel;
+use App\ResponseModels\SearchModel;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
@@ -33,7 +33,7 @@ class SearchApiController extends BaseRestController
         $books = $bookRepository->searchByTitle($query);
         $users = $userRepository->findByUsernameQuery($query);
         return $this->jsonResponse(
-            data: new SearchResponseModel(
+            data: new SearchModel(
                 bookReviews: $bookReviews,books: $books, users: $users
             )
         );
