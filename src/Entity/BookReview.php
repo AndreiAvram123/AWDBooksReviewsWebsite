@@ -21,9 +21,6 @@ class BookReview
     #[ORM\Column(type: 'integer')]
     private int $id = 0;
 
-    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
-    private ?Book $book = null;
-
 
     #[ORM\Column(type: 'boolean')]
     private bool $pending = true;
@@ -62,6 +59,12 @@ class BookReview
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
     private $negativeRatings;
 
+    #[ORM\ManyToOne(targetEntity: ExclusiveBook::class, inversedBy: 'reviews')]
+    private $exclusiveBook;
+
+    #[ORM\ManyToOne(targetEntity: GoogleBook::class, inversedBy: 'reviews')]
+    private $googleBook;
+
 
 
 
@@ -81,14 +84,14 @@ class BookReview
     }
 
 
-    public function getBook(): ?Book
+    public function getExclusiveBook(): ?Book
     {
-        return $this->book;
+        return $this->exclusiveBook;
     }
 
-    public function setBook(?Book $book): self
+    public function setExclusiveBook(?Book $exclusiveBook): self
     {
-        $this->book = $book;
+        $this->exclusiveBook = $exclusiveBook;
 
         return $this;
     }
@@ -317,6 +320,18 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getGoogleBook(): ?GoogleBook
+    {
+        return $this->googleBook;
+    }
+
+    public function setGoogleBook(?GoogleBook $googleBook): self
+    {
+        $this->googleBook = $googleBook;
+
+        return $this;
     }
 
 

@@ -16,7 +16,7 @@ class GoogleBooksSearchResponse
 
 
 
-   #[Type("array<App\BookApi\GoogleBook>")]
+   #[Type("array<App\BookApi\GoogleBookDTO>")]
    private array $items;
 
     /**
@@ -36,7 +36,7 @@ class GoogleBooksSearchResponse
     }
 
     /**
-     * @return GoogleBook[] array
+     * @return GoogleBookDTO[] array
      */
     public function getItems(): array
     {

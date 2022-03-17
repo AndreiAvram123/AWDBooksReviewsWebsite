@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method GoogleBook[]    findAll()
  * @method GoogleBook[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GoogleBookRepository extends ServiceEntityRepository
+class GoogleBooksLocalRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

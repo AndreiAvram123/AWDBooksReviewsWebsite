@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Type;
 
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
-class GoogleBook
+class GoogleBookDTO
 {
    private string $id = "";
    private string $selfLink = "";

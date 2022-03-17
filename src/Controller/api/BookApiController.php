@@ -4,7 +4,7 @@ namespace App\Controller\api;
 
 use App\Repository\BookRepository;
 use App\Repository\ExclusiveBookRepository;
-use App\Repository\GoogleBooksRepository;
+use App\Repository\GoogleBooksApiRepository;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
@@ -20,9 +20,9 @@ class BookApiController extends BaseRestController
         strict: true
     )]
     public function searchBookByTitle(
-        ParamFetcherInterface $paramFetcher,
-        GoogleBooksRepository $googleBooksRepository,
-        BookRepository $bookRepository
+        ParamFetcherInterface    $paramFetcher,
+        GoogleBooksApiRepository $googleBooksRepository,
+        BookRepository           $bookRepository
     ): JsonResponse
     {
         $query = $paramFetcher->get('query');

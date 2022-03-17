@@ -32,7 +32,7 @@ services:
 
 
 
-    App\Repository\GoogleBooksRepository:
+    App\Repository\GoogleBooksApiRepository:
         arguments : ['%env(GOOGLE_BOOKS_API_KEY)%']
     App\utils\aws\AwsImageUtils:
       arguments:

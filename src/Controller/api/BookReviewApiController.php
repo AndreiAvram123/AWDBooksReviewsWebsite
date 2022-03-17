@@ -3,26 +3,19 @@
 namespace App\Controller\api;
 
 
-
-use App\Entity\Book;
+use App\BookApi\GoogleBooksDTOUtils;
 use App\Entity\BookReview;
-use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
 use App\Repository\ExclusiveBookRepository;
-use App\Repository\GoogleBookRepository;
-use App\Repository\ReviewSectionRepository;
+use App\Repository\GoogleBooksLocalRepository;
+use App\Repository\GoogleBooksApiRepository;
 use App\Repository\UserRepository;
 use App\RequestModels\CreateBookReviewModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
-use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 
 class BookReviewApiController extends BaseRestController
@@ -61,10 +54,10 @@ class BookReviewApiController extends BaseRestController
 
     #[Post("/api/v1/reviews")]
    public function createReview(
-       Request $request,
-       BookRepository $bookRepository,
-       GoogleBookRepository $googleBookRepository,
-       UserRepository $userRepository
+        Request                    $request,
+        ExclusiveBookRepository $exclusiveBookRepository,
+        UserRepository             $userRepository,
+        GoogleBooksDTOUtils $googleBooksDTOUtils
     ):JsonResponse{
 
         /**
@@ -95,16 +88,27 @@ class BookReviewApiController extends BaseRestController
            $bookReview->setCreator($user);
 
            if($createModel->getGoogleBookID() === null){
-               $book = $bookRepository->find($createModel->getBookID());
+               $book = $exclusiveBookRepository->find($createModel->getBookID());
+               if($book === null){
+                   return $this->notAcceptableResponse(
+                       array(self::ERROR_BOOK_NOT_FOUND)
+                   );
+               }
+               $manager->persist($book);
+               $bookReview->setExclusiveBook($book);
            }else{
-               $book = $googleBookRepository->findByGoogleID($createModel->getGoogleBookID());
-
+               $googleBook = $googleBooksDTOUtils->getGoogleBookFromRequest($createModel);
+               if($googleBook === null){
+                   return $this->notAcceptableResponse(
+                       array(self::ERROR_BOOK_NOT_FOUND)
+                   );
+               }
+               //todo
+               //check if admin token
+               $manager->persist($googleBook);
+               $bookReview->setGoogleBook($googleBook);
            }
-            if($book === null){
-                return $this->notAcceptableResponse([self::ERROR_BOOK_NOT_FOUND]);
-            };
 
-           $bookReview->setBook($book);
            $bookReview->setPending(true);
            $manager-> persist($bookReview);
            $manager-> flush($bookReview);
@@ -115,7 +119,5 @@ class BookReviewApiController extends BaseRestController
        }
        return $this->constraintViolationResponse($validationErrors);
    }
-
-
 
 }

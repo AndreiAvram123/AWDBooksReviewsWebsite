@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExclusiveBookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\OneToOne;
@@ -20,11 +22,16 @@ class ExclusiveBook extends Book
     #[ORM\ManyToOne(targetEntity: BookAuthor::class, inversedBy: 'books')]
     private $author;
 
-    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookReview::class, orphanRemoval: true)]
-    #[Exclude]
-    private  $bookReviews;
     #[ORM\ManyToMany(targetEntity: BookCategory::class, inversedBy: 'books')]
     private $categories;
+
+    #[ORM\OneToMany(mappedBy: 'exclusiveBook', targetEntity: BookReview::class)]
+    private $reviews;
+
+    public function __construct()
+    {
+        $this->reviews = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -104,6 +111,36 @@ class ExclusiveBook extends Book
     public function setCategories($categories): void
     {
         $this->categories = $categories;
+    }
+
+    /**
+     * @return Collection|BookReview[]
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(BookReview $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setExclusiveBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(BookReview $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getExclusiveBook() === $this) {
+                $review->setExclusiveBook(null);
+            }
+        }
+
+        return $this;
     }
 
 

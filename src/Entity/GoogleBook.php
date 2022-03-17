@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\GoogleBookRepository;
+use App\Repository\GoogleBooksLocalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\Pure;
 use JMS\Serializer\Annotation\Exclude;
 
-#[ORM\Entity(repositoryClass: GoogleBookRepository::class)]
+#[ORM\Entity(repositoryClass: GoogleBooksLocalRepository::class)]
 class GoogleBook extends Book
 {
 
@@ -17,18 +18,19 @@ class GoogleBook extends Book
     private string $googleBookID;
 
     #[ORM\ManyToMany(targetEntity: BookCategory::class, inversedBy: 'googleBooks')]
-    private ArrayCollection $categories;
+    private  $categories;
 
     #[ORM\ManyToOne(targetEntity: BookAuthor::class, inversedBy: 'books')]
     private $author;
 
-    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookReview::class, orphanRemoval: true)]
-    #[Exclude]
-    private  $bookReviews;
+    #[ORM\OneToMany(mappedBy: 'googleBook', targetEntity: BookReview::class)]
+    private $reviews;
+
 
     #[Pure] public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
 
@@ -102,6 +104,36 @@ class GoogleBook extends Book
     public function setBookReviews($bookReviews): void
     {
         $this->bookReviews = $bookReviews;
+    }
+
+    /**
+     * @return Collection|BookReview[]
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(BookReview $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setGoogleBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(BookReview $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getGoogleBook() === $this) {
+                $review->setGoogleBook(null);
+            }
+        }
+
+        return $this;
     }
 
 
