@@ -6,6 +6,7 @@ use App\BookApi\GoogleBookDTO;
 use App\BookApi\GoogleBooksSearchResponse;
 use App\Entity\GoogleBook;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
@@ -52,7 +53,7 @@ class GoogleBooksApiRepository
     /**
      * @param $title
      * @return GoogleBooksSearchResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
    public function searchByTitle($title):GoogleBooksSearchResponse{
        $response = $this->client->get(

@@ -9,10 +9,10 @@
                     <div class="col-lg-8 col-xl-8">
                         <h2>Most recent</h2>
                         {% for bookReview in allReviews %}
-                            {% if bookReview.googleBookID is not null %}
-                                {{ include('book_review/book_review_card.twig') }}
+                                {% if bookReview.exclusiveBook is not null %}
+                                {{ include('book_review/exclusive_book_review.twig') }}
                             {% else %}
-                            {{ include('book_review/book_review_card.twig') }}
+                                 {{ include('book_review/google_book_review.twig')}}
                             {% endif %}
                         {% endfor %}
 

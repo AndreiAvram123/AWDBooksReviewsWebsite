@@ -73,7 +73,7 @@
                 <div class="col-lg-8 col-xl-8">
                     {% if userReviews is not empty %}
                     {% for bookReview in userReviews %}
-                        {{ include('book_review/book_review_card.twig') }}
+                        {{ include('book_review/exclusive_book_review.twig') }}
                     {% endfor %}
                     {% else %}
                         <div class="alert alert-warning">

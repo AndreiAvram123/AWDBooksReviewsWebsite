@@ -44,7 +44,7 @@
                         {% if book.bookReviews is not empty %}
                             <h2>Reviews</h2>
                             {% for bookReview in book.bookReviews| sort((a,b) => a.creationDate < b.creationDate)%}
-                                {{ include('book_review/book_review_card.twig') }}
+                                {{ include('book_review/exclusive_book_review.twig') }}
                             {% endfor %}
                         {% else %}
                             <div class="alert alert-warning">

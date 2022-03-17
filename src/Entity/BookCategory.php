@@ -24,13 +24,10 @@ class BookCategory
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'categories')]
     private $books;
 
-    #[ORM\ManyToMany(targetEntity: GoogleBook::class, mappedBy: 'categories')]
-    private $googleBooks;
 
     public function __construct()
     {
         $this->books = new ArrayCollection();
-        $this->googleBooks = new ArrayCollection();
     }
 
 
@@ -59,52 +56,5 @@ class BookCategory
     {
         return $this->books;
     }
-
-    public function addBook(Book $book): self
-    {
-        if (!$this->books->contains($book)) {
-            $this->books[] = $book;
-            $book->addCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBook(Book $book): self
-    {
-        if ($this->books->removeElement($book)) {
-            $book->removeCategory($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|GoogleBook[]
-     */
-    public function getGoogleBooks(): Collection
-    {
-        return $this->googleBooks;
-    }
-
-    public function addGoogleBook(GoogleBook $googleBook): self
-    {
-        if (!$this->googleBooks->contains($googleBook)) {
-            $this->googleBooks[] = $googleBook;
-            $googleBook->addCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGoogleBook(GoogleBook $googleBook): self
-    {
-        if ($this->googleBooks->removeElement($googleBook)) {
-            $googleBook->removeCategory($this);
-        }
-
-        return $this;
-    }
-
 
 }

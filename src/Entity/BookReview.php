@@ -59,11 +59,10 @@ class BookReview
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
     private $negativeRatings;
 
-    #[ORM\ManyToOne(targetEntity: ExclusiveBook::class, inversedBy: 'reviews')]
-    private $exclusiveBook;
+    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookRevies')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $book;
 
-    #[ORM\ManyToOne(targetEntity: GoogleBook::class, inversedBy: 'reviews')]
-    private $googleBook;
 
 
 
@@ -84,17 +83,6 @@ class BookReview
     }
 
 
-    public function getExclusiveBook(): ?Book
-    {
-        return $this->exclusiveBook;
-    }
-
-    public function setExclusiveBook(?Book $exclusiveBook): self
-    {
-        $this->exclusiveBook = $exclusiveBook;
-
-        return $this;
-    }
 
 
     public function getCreator(): ?User
@@ -313,27 +301,17 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
     return $this;
 }
 
+public function getBook(): ?Book
+{
+    return $this->book;
+}
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
+public function setBook(?Book $book): self
+{
+    $this->book = $book;
 
-    public function getGoogleBook(): ?GoogleBook
-    {
-        return $this->googleBook;
-    }
-
-    public function setGoogleBook(?GoogleBook $googleBook): self
-    {
-        $this->googleBook = $googleBook;
-
-        return $this;
-    }
-
+    return $this;
+}
 
 
 }

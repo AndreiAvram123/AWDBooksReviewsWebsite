@@ -19,11 +19,19 @@
                                                     </div>
                                                 </div>
                                                 <h1 class="title text-center">{{ bookReview.title }}</h1>
-                                                {% set categoryName = bookReview.book.category.name %}
 
                                                 <div class="axil-banner bg-color-grey mt-4 ">
-                                                    <h3><a href="{{ url('book_path', {'id' :bookReview.book.id}) }}">{{ bookReview.book.title }}</a></h3>
-                                                    <a href="{{ url('category_path', {'name' : categoryName}) }}" data-text="{{ categoryName }}">{{ categoryName }}</a>
+                                                    {% if bookReview.googleBook is not null %}
+                                                        <h3><a href="{{ url('book_path', {'id' :bookReview.googleBook.id}) }}">{{ bookReview.googleBook.title }}</a></h3>
+
+                                                    {% endif %}
+
+                                                    {% if bookReview.googleBook is not null %}
+                                                    {% endif %}
+                                                    {% for category in bookReview.googleBook.categories %}
+                                                        <a href="{{ url('category_path', {'name' : category}) }}" data-text="{{ category }}">{{ category }}</a>
+                                                    {% endfor %}
+
                                                 </div>
                                                 <div class="post-meta-wrapper">
                                                     <div class="post-meta">

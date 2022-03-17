@@ -12,25 +12,34 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\MaxDepth;
 
 
-#[ORM\MappedSuperclass]
+#[ORM\Entity]
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
-abstract class Book
+ class Book
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer', nullable: false)]
     private int $id;
 
-
     #[ORM\Column(type: 'boolean', nullable: false)]
     private $pending = true;
-
 
     #[ORM\Column(type: 'string', nullable: false)]
     private string $title;
 
     #[ORM\Column(type: 'boolean')]
     private $declined = false;
+
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookReview::class, orphanRemoval: true)]
+    private $bookReviews;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $googleBookID;
+
+    public function __construct()
+    {
+        $this->bookReviews = new ArrayCollection();
+    }
 
 
 
@@ -75,6 +84,48 @@ abstract class Book
     public function setDeclined(bool $declined): self
     {
         $this->declined = $declined;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BookReview[]
+     */
+    public function getBookReviews(): Collection
+    {
+        return $this->bookReviews;
+    }
+
+    public function addBookRevy(BookReview $bookRevy): self
+    {
+        if (!$this->bookReviews->contains($bookRevy)) {
+            $this->bookReviews[] = $bookRevy;
+            $bookRevy->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookRevy(BookReview $bookRevy): self
+    {
+        if ($this->bookReviews->removeElement($bookRevy)) {
+            // set the owning side to null (unless already changed)
+            if ($bookRevy->getBook() === $this) {
+                $bookRevy->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getGoogleBookID(): ?string
+    {
+        return $this->googleBookID;
+    }
+
+    public function setGoogleBookID(?string $googleBookID): self
+    {
+        $this->googleBookID = $googleBookID;
 
         return $this;
     }

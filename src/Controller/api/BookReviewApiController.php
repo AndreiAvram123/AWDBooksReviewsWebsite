@@ -5,6 +5,7 @@ namespace App\Controller\api;
 
 use App\BookApi\GoogleBooksDTOUtils;
 use App\Entity\BookReview;
+use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
 use App\Repository\ExclusiveBookRepository;
 use App\Repository\GoogleBooksLocalRepository;
@@ -38,7 +39,7 @@ class BookReviewApiController extends BaseRestController
             data: $data,
             format: 'json');
 
-       return  $this->jsonResponse($serializedData);
+        return  $this->jsonResponse($serializedData);
     }
 
     #[Get("/api/v1/reviews/{id}")]
@@ -53,9 +54,9 @@ class BookReviewApiController extends BaseRestController
 
 
     #[Post("/api/v1/reviews")]
-   public function createReview(
+    public function createReview(
         Request                    $request,
-        ExclusiveBookRepository $exclusiveBookRepository,
+        BookRepository $bookRepository,
         UserRepository             $userRepository,
         GoogleBooksDTOUtils $googleBooksDTOUtils
     ):JsonResponse{
@@ -63,61 +64,56 @@ class BookReviewApiController extends BaseRestController
         /**
          * @var CreateBookReviewModel $createModel
          */
-         $createModel  = $this->serializer->deserialize(
-           data: $request->getContent(),
-           type: CreateBookReviewModel::class,
-           format: 'json');
+        $createModel  = $this->serializer->deserialize(
+            data: $request->getContent(),
+            type: CreateBookReviewModel::class,
+            format: 'json');
 
         $manager = $this->getDoctrine()->getManager();
         $validationErrors =  $this->validator->validate($createModel);
 
         if(count($validationErrors) === 0){
-           $bookReview = new BookReview();
-           foreach ($createModel->getSections() as $section){
-               $bookReview->addSection($section);
-               $manager->persist($section);
-           }
-           $bookReview->setSections(
-               new ArrayCollection($createModel->getSections())
-           );
-           $bookReview->setTitle($createModel->getTitle());
+            $bookReview = new BookReview();
+            foreach ($createModel->getSections() as $section){
+                $bookReview->addSection($section);
+                $manager->persist($section);
+            }
+            $bookReview->setSections(
+                new ArrayCollection($createModel->getSections())
+            );
+            $bookReview->setTitle($createModel->getTitle());
 
             $user = $userRepository->findByEmail(
                 $this->getEmailFromToken()
             );
-           $bookReview->setCreator($user);
+            $bookReview->setCreator($user);
 
-           if($createModel->getGoogleBookID() === null){
-               $book = $exclusiveBookRepository->find($createModel->getBookID());
-               if($book === null){
-                   return $this->notAcceptableResponse(
-                       array(self::ERROR_BOOK_NOT_FOUND)
-                   );
-               }
-               $manager->persist($book);
-               $bookReview->setExclusiveBook($book);
-           }else{
-               $googleBook = $googleBooksDTOUtils->getGoogleBookFromRequest($createModel);
-               if($googleBook === null){
-                   return $this->notAcceptableResponse(
-                       array(self::ERROR_BOOK_NOT_FOUND)
-                   );
-               }
-               //todo
-               //check if admin token
-               $manager->persist($googleBook);
-               $bookReview->setGoogleBook($googleBook);
-           }
+            if($createModel->getGoogleBookID() === null){
+                $book = $bookRepository->find($createModel->getBookID());
+            }else {
+                $book = $googleBooksDTOUtils->getGoogleBookFromRequest($createModel);
+            }
+            if($book === null){
+                return $this->notAcceptableResponse(
+                    array(self::ERROR_BOOK_NOT_FOUND)
+                );
+            }
 
-           $bookReview->setPending(true);
-           $manager-> persist($bookReview);
-           $manager-> flush($bookReview);
-           return $this->jsonResponse(
-               $bookReview
-           );
+            $manager->persist($book);
 
-       }
-       return $this->constraintViolationResponse($validationErrors);
-   }
+            //todo
+            //check if admin token
+            $manager->persist($book);
+            $bookReview->setBook($book);
+
+            $manager-> persist($bookReview);
+            $manager-> flush($bookReview);
+            return $this->jsonResponse(
+                $bookReview
+            );
+
+        }
+        return $this->constraintViolationResponse($validationErrors);
+    }
 
 }

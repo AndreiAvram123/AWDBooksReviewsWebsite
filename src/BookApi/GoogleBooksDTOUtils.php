@@ -2,23 +2,20 @@
 
 namespace App\BookApi;
 
+use App\Entity\Book;
 use App\Entity\BookCategory;
-use App\Entity\BookReview;
-use App\Entity\GoogleBook;
-use App\Repository\BookCategoryRepository;
-use App\Repository\GoogleBooksLocalRepository;
+
+use App\Repository\BookRepository;
 use App\Repository\GoogleBooksApiRepository;
 use App\RequestModels\CreateBookReviewModel;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectManager;
-use JetBrains\PhpStorm\Pure;
+
 
 class GoogleBooksDTOUtils
 {
     public function __construct(
-        private GoogleBooksLocalRepository $googleBookLocalRepository,
         private GoogleBooksApiRepository   $googleBooksApiRepository,
+        private BookRepository $bookRepository,
         private EntityManagerInterface $entityManager
 
     ){}
@@ -46,9 +43,9 @@ class GoogleBooksDTOUtils
     }
     public function getGoogleBookFromRequest(
         CreateBookReviewModel $createBookReviewModel
-    ):?GoogleBook{
+    ):?Book{
 
-        $book = $this->googleBookLocalRepository->findByGoogleID(
+        $book = $this->bookRepository->findByGoogleID(
             $createBookReviewModel->getGoogleBookID()
         );
         if($book !== null){
@@ -68,8 +65,8 @@ class GoogleBooksDTOUtils
         return null;
     }
 
-    private function convertDTOToEntity(GoogleBookDTO $googleBookDTO):GoogleBook{
-        $googleBook = new GoogleBook();
+    private function convertDTOToEntity(GoogleBookDTO $googleBookDTO):Book{
+        $googleBook = new Book();
         $googleBook->setTitle($googleBookDTO->getVolumeInfo()->getTitle());
         $googleBook->setGoogleBookID($googleBookDTO->getId());
         return $googleBook;
