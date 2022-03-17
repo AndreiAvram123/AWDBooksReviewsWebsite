@@ -21,9 +21,6 @@ class BookReview
     #[ORM\Column(type: 'integer')]
     private int $id = 0;
 
-    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
-    private ?Book $book = null;
-
 
     #[ORM\Column(type: 'boolean')]
     private bool $pending = true;
@@ -62,6 +59,11 @@ class BookReview
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
     private $negativeRatings;
 
+    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $book;
+
+
 
 
 
@@ -81,17 +83,6 @@ class BookReview
     }
 
 
-    public function getBook(): ?Book
-    {
-        return $this->book;
-    }
-
-    public function setBook(?Book $book): self
-    {
-        $this->book = $book;
-
-        return $this;
-    }
 
 
     public function getCreator(): ?User
@@ -310,15 +301,17 @@ public function removeNegativeRating(NegativeRating $negativeRating): self
     return $this;
 }
 
+public function getBook(): ?Book
+{
+    return $this->book;
+}
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
+public function setBook(?Book $book): self
+{
+    $this->book = $book;
 
+    return $this;
+}
 
 
 }

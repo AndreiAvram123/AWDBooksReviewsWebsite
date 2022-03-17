@@ -23,6 +23,15 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    public function findByGoogleID(string $googleID):?Book{
+        return $this->createQueryBuilder('b')
+               ->where('b.googleBookID = :googleBookID')
+            ->setParameter('googleBookID', $googleID)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
     public function searchByTitle(string $title):array{
         if($title === ""){
             return [];

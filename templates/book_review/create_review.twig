@@ -25,8 +25,11 @@
     {{ parent() }}
 
 
+    <script src="{{ asset('js/BookSearch.js') }}"></script>
 
     <script>
+        var searchField = document.getElementById("book_review_book");
+        configureInputListener(searchField)
         let sectionsData = []
         {% if form.vars.value.sections is defined and form.vars.value.sections is not null %}
         {% for section in form.vars.value.sections %}
