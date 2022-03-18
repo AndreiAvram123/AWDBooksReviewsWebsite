@@ -32,6 +32,7 @@ class Book
     private $declined = false;
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookReview::class, orphanRemoval: true)]
+    #[Exclude]
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]

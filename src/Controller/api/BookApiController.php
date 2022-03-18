@@ -5,6 +5,7 @@ namespace App\Controller\api;
 use App\BookApi\GoogleBookDTO;
 use App\BookApi\GoogleBooksDTOUtils;
 use App\Entity\Book;
+use App\Entity\BookReview;
 use App\Repository\BookRepository;
 use App\Repository\GoogleBooksApiRepository;
 use App\ResponseModels\SearchModel;
@@ -45,4 +46,23 @@ class BookApiController extends BaseRestController
            $responseData
         );
     }
+
+   #[Get("/api/v1/books/{id}")]
+    public function getBookById(
+        Book $book
+   ):JsonResponse{
+        return $this->jsonResponse(
+            $book
+        );
+   }
+
+   #[Get("/api/v1/books/{id}/reviews")]
+   public function getBookReviews(
+       Book $book
+   ):JsonResponse{
+        return $this->jsonResponse(
+            $book->getBookReviews()
+        );
+   }
+
 }

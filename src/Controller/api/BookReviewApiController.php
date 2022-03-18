@@ -7,8 +7,6 @@ use App\BookApi\GoogleBooksDTOUtils;
 use App\Entity\BookReview;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
-use App\Repository\ExclusiveBookRepository;
-use App\Repository\GoogleBooksLocalRepository;
 use App\Repository\GoogleBooksApiRepository;
 use App\Repository\UserRepository;
 use App\RequestModels\CreateBookReviewModel;
@@ -114,6 +112,15 @@ class BookReviewApiController extends BaseRestController
 
         }
         return $this->constraintViolationResponse($validationErrors);
+    }
+
+    #[Get("/api/v1/reviews/{id}/comments")]
+    public function getComments(
+        BookReview $bookReview
+    ):JsonResponse{
+        return $this->jsonResponse(
+            $bookReview->getComments()
+        );
     }
 
 }
