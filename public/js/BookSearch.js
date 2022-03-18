@@ -3,6 +3,15 @@ let abortController = new AbortController();
 let signal = abortController.signal
 let containerBookResults = document.getElementById("container-book-results");
 
+let selectedBookFormField = document.getElementById("selected-book-form-field");
+let lastSelectedSearchItem = undefined;
+
+
+//todo
+
+//create actual class for search ui item
+
+
 function configureInputListener(field){
     field.addEventListener('input',(event)=>{
       fetchSearchResults(event.target.value)
@@ -40,10 +49,41 @@ function displaySearchResults(data){
 }
 
 function buildSearchUIItem(dataItem){
-    let div = document.createElement('div');
-    div.className = "search-item"
+    let searchUIItem = document.createElement('div');
+    searchUIItem.className = "search-item"
     let span = document.createElement('span')
     span.innerText = dataItem.title
-    div.appendChild(span);
-    return div;
+    searchUIItem.appendChild(span);
+    attachListenerToSearchUIItem(
+        searchUIItem,
+        dataItem
+    )
+    return searchUIItem;
+}
+
+function attachListenerToSearchUIItem(
+    searchUiItem,
+    dataItem
+){
+    searchUiItem.addEventListener('click',()=>{
+        unHighlightLastSearchItem()
+        lastSelectedSearchItem = searchUiItem;
+         highlightLastSearchItem()
+        if(dataItem.bookID !== 0){
+           selectedBookFormField.value = "book_id_" + dataItem.bookID;
+        }else{
+            selectedBookFormField.value = "google_book_id" + dataItem.googleBookID;
+        }
+    })
+}
+
+function highlightLastSearchItem(){
+    if(lastSelectedSearchItem !== undefined){
+        lastSelectedSearchItem.className = "search-item-highlight"
+    }
+}
+function unHighlightLastSearchItem(){
+    if(lastSelectedSearchItem !== undefined){
+        lastSelectedSearchItem.className = "search-item"
+    }
 }
