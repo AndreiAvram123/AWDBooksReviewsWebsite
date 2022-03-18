@@ -20,7 +20,8 @@ class BookApiController extends BaseRestController
     #[QueryParam(
         name: "query",
         requirements: "[\sa-zA-Z0-9]+",
-        strict: true
+        strict: true,
+        allowBlank: false
     )]
     public function searchBookByTitle(
         ParamFetcherInterface    $paramFetcher,
