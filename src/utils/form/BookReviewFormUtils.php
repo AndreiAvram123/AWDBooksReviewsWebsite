@@ -28,6 +28,10 @@ class BookReviewFormUtils
                                   private GoogleBookApiRepository $googleBookApiRepository,
                                   private GoogleBooksDTOUtils $googleBooksDTOUtils
 ){}
+
+    private string $googleBookRegex = "/google_book_id_[a-zA-Z0-9]+/";
+    private string $bookRegex = "/book_id_[a-zA-Z0-9]+/";
+
     private function createReview(
         FormInterface $form,
         Request $request
@@ -87,10 +91,12 @@ class BookReviewFormUtils
         if($this->isGoogleBook($inputValue)){
             $googleBookID = $this->extractGoogleBookID($inputValue);
             $googleBook = $this->bookRepository->findByGoogleID($googleBookID);
+
             if($googleBook !== null){
                 return $googleBook;
             }
             $googleBookDto = $this->googleBookApiRepository->getVolumeById($googleBookID);
+            
             if($googleBookDto === null){
                 return null;
             }
@@ -110,8 +116,7 @@ class BookReviewFormUtils
     private function isGoogleBook(
         string $inputValue
     ):bool{
-        $matchPattern = "/google_book_id_[a-zA-Z0-9]+/";
-        return preg_match($matchPattern,$inputValue) == 1;
+        return preg_match($this->googleBookRegex,$inputValue) == 1;
     }
 
     private function extractGoogleBookID(
@@ -130,8 +135,7 @@ class BookReviewFormUtils
     private function isExclusiveBook(
         string $inputValue
     ):bool{
-        $matchPattern = "/book_id_[a-zA-Z0-9]+/";
-        return preg_match($matchPattern, $inputValue) == 1;
+        return preg_match($this->bookRegex, $inputValue) == 1;
     }
 
 
