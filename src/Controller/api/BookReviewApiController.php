@@ -90,7 +90,7 @@ class BookReviewApiController extends BaseRestController
             $bookReview->setTitle($createModel->getTitle());
 
             $user = $userRepository->findByEmail(
-                $this->getEmailFromToken()
+                $this->getJWTPayload()->getEmail()
             );
             $bookReview->setCreator($user);
 
@@ -106,9 +106,10 @@ class BookReviewApiController extends BaseRestController
             }
 
             $manager->persist($book);
-            //todo
-            //check if admin token
             $bookReview->setBook($book);
+            $bookReview->setPending(
+                $this->getJWTPayload()->isUserModerator()
+            );
 
             $reviewImage = $awsImageUtils->uploadBase64ImageToBucketeer(
                $createModel->getBase64Image()

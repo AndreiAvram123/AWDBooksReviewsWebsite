@@ -88,14 +88,12 @@ class AwsImageUtils
 
    private function isImageValid($imageData):bool{
         try {
-            $img = imagecreatefromstring(base64_decode($imageData));
+            $img = imagecreatefromstring($imageData);
+            return true;
         }catch(\Exception $error){
             return false;
        }
 
-       imagepng($img, 'myimage.png');
-       $data = getimagesize('myimage.png');
-       return $data !== false;
    }
 
 }
