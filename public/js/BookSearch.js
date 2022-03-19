@@ -26,7 +26,7 @@ function fetchSearchResults(query) {
                 signal: signal
             }).then(response => response.json()).then(data => displaySearchResults(data))
             .catch((error) => {
-                //do nothing
+                console.log(error)
             })
     }else{
         clearSearchContainer()
@@ -72,7 +72,7 @@ function attachListenerToSearchUIItem(
         if(dataItem.bookID !== 0){
            selectedBookFormField.value = "book_id_" + dataItem.bookID;
         }else{
-            selectedBookFormField.value = "google_book_id" + dataItem.googleBookID;
+            selectedBookFormField.value = "google_book_id_" + dataItem.googleBookID;
         }
     })
 }

@@ -7,12 +7,13 @@ use App\BookApi\GoogleBooksDTOUtils;
 use App\Entity\BookReview;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
-use App\Repository\GoogleBooksApiRepository;
+use App\Repository\GoogleBookApiRepository;
 use App\Repository\UserRepository;
 use App\RequestModels\CreateBookReviewModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Request\ParamFetcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,12 +24,13 @@ class BookReviewApiController extends BaseRestController
     private const ERROR_BOOK_NOT_FOUND = "The book with this id was not found";
 
     #[Get("/api/v1/reviews")]
+
     public function getReviewsByPage(
+        ParamFetcher $paramFetcher,
         Request $request,
         BookReviewRepository $bookReviewRepository,
-
     ):JsonResponse{
-        $page = $request->query->get("page");
+        $page = $paramFetcher->get("page");
         if($page === null){
             $page = 1;
         }

@@ -6,7 +6,7 @@ use App\Entity\Book;
 use App\Entity\BookCategory;
 
 use App\Repository\BookRepository;
-use App\Repository\GoogleBooksApiRepository;
+use App\Repository\GoogleBookApiRepository;
 use App\RequestModels\CreateBookReviewModel;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -14,9 +14,9 @@ use Doctrine\ORM\EntityManagerInterface;
 class GoogleBooksDTOUtils
 {
     public function __construct(
-        private GoogleBooksApiRepository   $googleBooksApiRepository,
-        private BookRepository $bookRepository,
-        private EntityManagerInterface $entityManager
+        private GoogleBookApiRepository $googleBooksApiRepository,
+        private BookRepository          $bookRepository,
+        private EntityManagerInterface  $entityManager
 
     ){}
 

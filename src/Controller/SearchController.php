@@ -7,7 +7,7 @@ use App\Entity\BookReview;
 use App\Entity\User;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
-use App\Repository\GoogleBooksApiRepository;
+use App\Repository\GoogleBookApiRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ class SearchController extends BaseController
         BookReviewRepository $bookReviewRepository,
         BookRepository $bookRepository,
         UserRepository $userRepository,
-        GoogleBooksApiRepository $googleBooksRepository
+        GoogleBookApiRepository $googleBooksRepository
     ):Response{
         $query = $request->query->get('_search_query');
 

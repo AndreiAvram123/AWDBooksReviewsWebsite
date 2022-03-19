@@ -7,7 +7,7 @@ use App\BookApi\GoogleBooksDTOUtils;
 use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Repository\BookRepository;
-use App\Repository\GoogleBooksApiRepository;
+use App\Repository\GoogleBookApiRepository;
 use App\ResponseModels\SearchModel;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -25,10 +25,10 @@ class BookApiController extends BaseRestController
         allowBlank: false
     )]
     public function searchBookByTitle(
-        ParamFetcherInterface    $paramFetcher,
-        GoogleBooksApiRepository $googleBooksRepository,
-        BookRepository           $bookRepository,
-        GoogleBooksDTOUtils $googleBooksDTOUtils
+        ParamFetcherInterface   $paramFetcher,
+        GoogleBookApiRepository $googleBooksRepository,
+        BookRepository          $bookRepository,
+        GoogleBooksDTOUtils     $googleBooksDTOUtils
     ): JsonResponse
     {
         $query = $paramFetcher->get('query');

@@ -2,11 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Book;
 use App\Entity\BookReview;
-use App\Repository\BookRepository;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -28,11 +24,12 @@ class BookReviewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('book', SearchType::class,[
+            ->add('search_book', SearchType::class,[
                 'label' => "Book to review",
                 'attr'=> [
                     'placeholder' => "Type a book title",
                 ],
+                'mapped' => false
             ])
             ->add('title',TextType::class,[
                 'label'=>"Add a title for the review"

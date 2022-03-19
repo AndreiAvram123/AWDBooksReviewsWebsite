@@ -51,6 +51,7 @@ class Section{
 let container = document.getElementById('container-sections')
 let numberSectionsInput = document.getElementById('book_review_number_sections')
 
+
 function prePopulate(){
    if(sectionsData !== undefined){
        sectionsData.forEach((section,index) => {
