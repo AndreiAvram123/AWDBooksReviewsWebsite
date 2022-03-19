@@ -10,6 +10,7 @@ use App\Repository\BookReviewRepository;
 use App\Repository\GoogleBookApiRepository;
 use App\Repository\UserRepository;
 use App\RequestModels\CreateBookReviewModel;
+use App\utils\aws\AwsImageUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -22,6 +23,7 @@ class BookReviewApiController extends BaseRestController
 {
 
     private const ERROR_BOOK_NOT_FOUND = "The book with this id was not found";
+    private const INVALID_BASE64_IMAGE = "Invalid base 64 image";
 
     #[Get("/api/v1/reviews")]
 
@@ -52,13 +54,17 @@ class BookReviewApiController extends BaseRestController
     }
 
 
+//todo
+//maybe an exception catcher
+
 
     #[Post("/api/v1/reviews")]
     public function createReview(
         Request                    $request,
         BookRepository $bookRepository,
         UserRepository             $userRepository,
-        GoogleBooksDTOUtils $googleBooksDTOUtils
+        GoogleBooksDTOUtils $googleBooksDTOUtils,
+        AwsImageUtils $awsImageUtils
     ):JsonResponse{
 
         /**
@@ -100,11 +106,19 @@ class BookReviewApiController extends BaseRestController
             }
 
             $manager->persist($book);
-
             //todo
             //check if admin token
-            $manager->persist($book);
             $bookReview->setBook($book);
+
+            $reviewImage = $awsImageUtils->uploadBase64ImageToBucketeer(
+               $createModel->getBase64Image()
+            );
+            if($reviewImage == null){
+                return $this->notAcceptableResponse(
+                    array(self::INVALID_BASE64_IMAGE)
+                );
+            }
+            $bookReview->setFrontImage($reviewImage);
 
             $manager-> persist($bookReview);
             $manager-> flush($bookReview);

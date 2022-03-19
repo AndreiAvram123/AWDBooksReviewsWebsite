@@ -96,7 +96,7 @@ class BookReviewFormUtils
                 return $googleBook;
             }
             $googleBookDto = $this->googleBookApiRepository->getVolumeById($googleBookID);
-            
+
             if($googleBookDto === null){
                 return null;
             }
