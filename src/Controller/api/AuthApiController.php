@@ -12,14 +12,11 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use OpenApi\Attributes\JsonContent;
-use OpenApi\Attributes\Tag;
 use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
@@ -91,22 +88,24 @@ class AuthApiController extends BaseRestController
         }
     }
 
-    private function persistUserFromRequestData(
-        CreateUserRequest $createUserRequest,
-        UserPasswordHasherInterface $passwordHasher
-    ):User{
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = new User();
-        $user -> setUsername($createUserRequest->getUsername());
-        $user->setEmail($createUserRequest->getEmail());
-        $user->setPassword(
-            $passwordHasher->hashPassword($user, $createUserRequest->getPassword())
-        );
-        $entityManager->persist($user);
-        $entityManager->flush($user);
-        return $user;
-    }
-
+    /**
+     *
+     * Get a new authentication token by providing a refresh token
+     * @OA\Response (
+     *     response=200,
+     *     description="Return a new access token",
+     *     @OA\JsonContent(type="object",
+     *     @OA\Property(property="accessToken",type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"))
+     * )
+     *
+     * @OA\Parameter(
+     *     name="refreshToken",
+     *     in = "query",
+     *     description="The refresh token provided on login",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Tag(name = "Authentication")
+     */
     #[Get("/api/v1/token")]
     #[QueryParam(
         name: "refreshToken",
@@ -138,6 +137,22 @@ class AuthApiController extends BaseRestController
                 'accessToken'=> $JWTTokenManager->create($user)
             )
         );
+    }
+
+    private function persistUserFromRequestData(
+        CreateUserRequest $createUserRequest,
+        UserPasswordHasherInterface $passwordHasher
+    ):User{
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = new User();
+        $user -> setUsername($createUserRequest->getUsername());
+        $user->setEmail($createUserRequest->getEmail());
+        $user->setPassword(
+            $passwordHasher->hashPassword($user, $createUserRequest->getPassword())
+        );
+        $entityManager->persist($user);
+        $entityManager->flush($user);
+        return $user;
     }
 
 }

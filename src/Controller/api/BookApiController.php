@@ -12,11 +12,36 @@ use App\ResponseModels\SearchModel;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
+use OpenApi\Annotations\Items;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BookApiController extends BaseRestController
 {
 
+    /**
+     * Search a book by query
+     * @Response(
+     *     response=200,
+     *     description="Return search results by query",
+     *     @JsonContent(
+     *     type="array",
+     *     @Items(ref=@Model(type=SearchModel::class))
+     * )
+     * )
+     * @OA\Parameter(
+     *     name="query",
+     *     in = "query",
+     *     @OA\Schema(type="string")
+     * )
+     * @Tag(name="Search")
+     * @Security(name="Bearer")
+     */
     #[Get("/api/v1/books/search")]
     #[QueryParam(
         name: "query",
@@ -47,6 +72,17 @@ class BookApiController extends BaseRestController
         );
     }
 
+    /**
+     * Search a book by query
+     * @Response(
+     *     response=200,
+     *     description="Return the book by its id",
+     *     @JsonContent(ref= @Model(type=Book::class) )
+     * )
+     *
+     * @Tag(name="Books")
+     * @Security(name="Bearer")
+     */
    #[Get("/api/v1/books/{id}")]
     public function getBookById(
         Book $book
