@@ -22,6 +22,7 @@ class BookCategory
     private $name;
 
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'categories')]
+    #[Exclude]
     private $books;
 
     public function __construct()

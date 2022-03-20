@@ -45,6 +45,7 @@ class BookReview
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Comment::class, orphanRemoval: true)]
     #[MaxDepth(1)]
+    #[Exclude]
     private $comments;
 
 
@@ -54,9 +55,11 @@ class BookReview
     private $creator;
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: PositiveRating::class, orphanRemoval: true)]
+    #[Exclude]
     private $positiveRatings;
 
     #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
+    #[Exclude]
     private $negativeRatings;
 
     #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]

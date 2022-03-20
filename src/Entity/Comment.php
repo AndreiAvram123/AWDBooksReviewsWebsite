@@ -6,6 +6,7 @@ use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -24,6 +25,7 @@ class Comment
 
     #[ORM\ManyToOne(targetEntity: BookReview::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Exclude]
     private $bookReview;
 
     #[ORM\Column(type: 'datetime')]

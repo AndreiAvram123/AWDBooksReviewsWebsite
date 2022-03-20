@@ -30,7 +30,7 @@ class SearchController extends BaseController
         $bookReviews = $bookReviewRepository->findByTitle($query);
         $users = $userRepository->findByUsernameQuery($query);
         $books = $bookRepository ->searchByTitle($query);
-        $googleBooks = $googleBooksRepository->searchByTitle($query)->getItems();
+        $googleBooks = $googleBooksRepository->searchByTitle($query);
 
         return $this->render('search/search_results.twig',
         [

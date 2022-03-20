@@ -73,7 +73,7 @@ class BookApiController extends BaseRestController
     }
 
     /**
-     * Search a book by query
+     * Get a book by its id
      * @Response(
      *     response=200,
      *     description="Return the book by its id",
@@ -93,6 +93,7 @@ class BookApiController extends BaseRestController
    }
 
     /**
+     * Get the reviews of a book with the specified id
      * @Response(
      *   response=200,
      *   description="Return the reviews for a book with the specified id",
@@ -106,7 +107,7 @@ class BookApiController extends BaseRestController
      *     in = "path",
      *     @OA\Schema(type="integer")
      * )
-     * @Tag(name="Book Reviews")
+     * @Tag(name="Books")
      * @Security(name="Bearer")
      * @param Book $book
      * @return JsonResponse

@@ -9,12 +9,22 @@ use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
 use App\Repository\GoogleBookApiRepository;
 use App\Repository\UserRepository;
+use App\Entity\Comment;
 use App\RequestModels\CreateBookReviewModel;
 use App\utils\aws\AwsImageUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Request\ParamFetcher;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations\Items;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Parameter;
+use OpenApi\Annotations\RequestBody;
+use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
+use OpenApi\Annotations\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,11 +35,30 @@ class BookReviewApiController extends BaseRestController
     private const ERROR_BOOK_NOT_FOUND = "The book with this id was not found";
     private const INVALID_BASE64_IMAGE = "Invalid base 64 image";
 
+    /**
+     * @Response(
+     *     description="Return book reviews by page",
+     *     response=200,
+     *     @JsonContent(
+     *     type="array",
+     *     @Items(ref= @Model(type=BookReview::class))
+     * )
+     * )
+     * @Parameter(
+     *     name="page",
+     *     in = "query",
+     *     allowEmptyValue=true,
+     *     @Schema(type="integer")
+     *  )
+     * @Tag(name="Book Reviews")
+     * @Security(name="Bearer")
+     * @param ParamFetcher $paramFetcher
+     * @param BookReviewRepository $bookReviewRepository
+     * @return JsonResponse
+     */
     #[Get("/api/v1/reviews")]
-
     public function getReviewsByPage(
         ParamFetcher $paramFetcher,
-        Request $request,
         BookReviewRepository $bookReviewRepository,
     ):JsonResponse{
         $page = $paramFetcher->get("page");
@@ -44,6 +73,18 @@ class BookReviewApiController extends BaseRestController
         return  $this->jsonResponse($serializedData);
     }
 
+
+    /**
+     * @Response(
+     *   description="Return the Book review by the specified id",
+     *   response= 200,
+     *   @Model(type=BookReview::class)
+     * )
+     * @Tag(name="Book Reviews")
+     * @Security(name="Bearer")
+     * @param BookReview $bookReview
+     * @return JsonResponse
+     */
     #[Get("/api/v1/reviews/{id}")]
     public function getReviewById(
         BookReview $bookReview
@@ -57,7 +98,19 @@ class BookReviewApiController extends BaseRestController
 //todo
 //maybe an exception catcher
 
-
+    /**
+     * @Response(
+     *     description="Create a review",
+     *     response=201,
+     *     @Model(type=BookReview::class)
+     * )
+     *  @RequestBody(
+     *     description="Data for creating a review",
+     *     @JsonContent(ref=@Model(type=CreateBookReviewModel::class))
+     * )
+     * @Security(name="Bearer")
+     * @Tag(name="Book Reviews")
+     */
     #[Post("/api/v1/reviews")]
     public function createReview(
         Request                    $request,
@@ -127,6 +180,21 @@ class BookReviewApiController extends BaseRestController
         return $this->constraintViolationResponse($validationErrors);
     }
 
+
+    /**
+     * @Response(
+     *     description="Return the comments for the review with the specified id",
+     *     response=200,
+     *     @JsonContent(
+     *     type="array",
+     *     @Items(ref=@Model(type=Comment::class))
+     * )
+     * )
+     * @Tag(name="Book Reviews")
+     * @Security(name="Bearer")
+     * @param BookReview $bookReview
+     * @return JsonResponse
+     */
     #[Get("/api/v1/reviews/{id}/comments")]
     public function getComments(
         BookReview $bookReview
