@@ -92,6 +92,25 @@ class BookApiController extends BaseRestController
         );
    }
 
+    /**
+     * @Response(
+     *   response=200,
+     *   description="Return the reviews for a book with the specified id",
+     *   @JsonContent(
+     *     type="array",
+     *     @Items(ref= @Model(type=BookReview::class))
+     * )
+     * )
+     * @OA\Parameter(
+     *     name="id",
+     *     in = "path",
+     *     @OA\Schema(type="integer")
+     * )
+     * @Tag(name="Book Reviews")
+     * @Security(name="Bearer")
+     * @param Book $book
+     * @return JsonResponse
+     */
    #[Get("/api/v1/books/{id}/reviews")]
    public function getBookReviews(
        Book $book

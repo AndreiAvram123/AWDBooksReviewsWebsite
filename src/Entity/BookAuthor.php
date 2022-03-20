@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\ExclusionPolicy;
+use OpenApi\Annotations\Property;
 
 #[ORM\Entity(repositoryClass: BookAuthorRepository::class)]
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
@@ -17,14 +18,21 @@ class BookAuthor
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    /**
+     * @Property(example = 123)
+     */
     private $id;
 
 
-
+    /**
+     * @var
+     * @Property(example = "Andrei Avram")
+     */
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'authors')]
+    #[Exclude]
     private $books;
 
     #[Pure] public function __construct()
