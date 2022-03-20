@@ -12,17 +12,39 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use OpenApi\Attributes\JsonContent;
+use OpenApi\Attributes\Tag;
+use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
+
 
 class AuthApiController extends BaseRestController
 {
     private const EMAIL_ALREADY_USED = "Email already used";
     private const USERNAME_ALREADY_USED = "Username already used";
 
+    /**
+     *
+     * Register a user
+     *
+     * @OA\Response(
+     *     response=201,
+     *     description="Returns 201 on successful registration",
+     *     @OA\JsonContent(type="object")
+     * )
+     * @OA\Tag(name="Authentication")
+     * @OA\RequestBody(
+     *     description="registration data",
+     *     @Model(type=CreateUserRequest::class )
+     * )
+     */
     #[Post("/api/v1/register")]
     public function registerUser(
         Request $request,
@@ -58,11 +80,9 @@ class AuthApiController extends BaseRestController
                 passwordHasher: $passwordHasher
             );
 
-            return $this->json(
-                array(
-                    "accessToken" => $this->createTokenForUser($user)
-                ),
-                status: Response::HTTP_CREATED
+            return $this->jsonResponse(
+                data: new StdClass(),
+                statusCode: Response::HTTP_CREATED
             );
         }else{
             return $this->constraintViolationResponse(

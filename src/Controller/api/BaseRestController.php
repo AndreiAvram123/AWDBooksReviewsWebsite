@@ -58,8 +58,8 @@ class BaseRestController extends AbstractFOSRestController
         return $this->jwtManager->create($user);
     }
 
-    protected function jsonResponse( $data):JsonResponse{
-        return  JsonResponse::fromJsonString($this->serializer->serialize($data,'json'));
+    protected function jsonResponse( $data, int $statusCode = Response::HTTP_OK):JsonResponse{
+        return  JsonResponse::fromJsonString($this->serializer->serialize($data,'json'),status: $statusCode);
     }
 
 
