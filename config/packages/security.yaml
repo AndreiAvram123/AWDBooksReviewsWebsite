@@ -51,6 +51,7 @@ security:
 
 
     access_control:
+         - { path: ^/api/v1/token, roles: PUBLIC_ACCESS }
          - { path: ^/api/v1/login, roles: PUBLIC_ACCESS }
          - { path: ^/api/v1/register, roles: PUBLIC_ACCESS }
          - { path: ^/api/v1/books/search, roles: PUBLIC_ACCESS }

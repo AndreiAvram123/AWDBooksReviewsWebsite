@@ -63,12 +63,11 @@ class BaseRestController extends AbstractFOSRestController
     }
 
 
-    protected function notAcceptableResponse(array $errors):JsonResponse{
-        return $this->json(
-            [
-                "errors" =>$errors
-            ],
-            status: Response::HTTP_NOT_ACCEPTABLE
+    protected function notAcceptableResponse(string $error):JsonResponse{
+        $errorWrapper = new StdClass();
+        $errorWrapper->error = $error;
+        return $this->json($errorWrapper,
+            status: Response::HTTP_BAD_REQUEST
         );
     }
     protected function constraintViolationResponse(ConstraintViolationListInterface $violationList) : JsonResponse{
@@ -76,7 +75,7 @@ class BaseRestController extends AbstractFOSRestController
             [
                 "errors" => $this->fromViolationListToErrorsArray($violationList)
             ],
-            status: Response::HTTP_NOT_ACCEPTABLE
+            status:  Response::HTTP_BAD_REQUEST
         );
     }
 

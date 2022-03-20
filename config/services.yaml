@@ -30,7 +30,14 @@ services:
     App\utils\aws\AwsClientWrapper:
         arguments: [ '%env(BUCKETEER_REGION)%' ]
 
+    App\Jwt\RefreshTokenService:
+        arguments: [   '/fj0pvSJdLcvMfw6GS+Qn9wZaLv4/j0v4LhE0BRbSAs=']
 
+
+    acme_api.event.authentication_success_listener:
+         class: App\Jwt\JwtEventListener
+         tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
 
     App\Repository\GoogleBookApiRepository:
         arguments : ['%env(GOOGLE_BOOKS_API_KEY)%']
