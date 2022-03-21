@@ -14,6 +14,7 @@ use JMS\Serializer\Annotation\MaxDepth;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Unique;
 use function PHPUnit\Framework\isNull;
@@ -69,7 +70,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private bool $isEmailVerified = false;
 
-
+   public function getUserIdentifier(): string
+   {
+       return $this->email;
+   }
 
     #[Pure] public function __construct()
     {

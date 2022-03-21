@@ -6,8 +6,11 @@ use App\Entity\User;
 use App\Form\LoginType;
 use App\Form\RegistrationType;
 use App\Jwt\RefreshTokenService;
+use App\ResponseModels\ErrorResponse;
+use App\services\EmailService;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,6 +64,21 @@ class AuthController extends BaseController
     public function logout(){
 
     }
+    #[Route("/verify")]
+    public function validateEmail(
+        Request $request,
+        EmailService $emailService
+    ):Response{
+        $uuid = $request->query->get('uuid');
 
+        $validationError = $emailService->validateUuid($uuid);
+        if($validationError === null){
+            return $this->json(data: new StdClass());
+        }
+        return $this->json(
+            new ErrorResponse($validationError),
+            status: Response::HTTP_GONE
+        );
+    }
 
 }

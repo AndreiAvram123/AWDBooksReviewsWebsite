@@ -15,9 +15,7 @@ class JwtEventListener
     public function __construct(
         private RefreshTokenService $refreshTokenService,
         private UserRepository $userRepository
-    ){
-
-    }
+    ){}
 
     public function onJWTDecoded(JWTDecodedEvent $event)
     {
@@ -31,18 +29,8 @@ class JwtEventListener
         if($user->getIsEmailVerified() === false){
             $event->markAsInvalid();
         }
-
     }
 
-
-    public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event)
-    {
-
-        $response = new JWTAuthenticationFailureResponse('Bad credentials, please verify that your username/password are correctly set', Response::HTTP_UNAUTHORIZED);
-
-
-        $event->setResponse($response);
-    }
 
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
