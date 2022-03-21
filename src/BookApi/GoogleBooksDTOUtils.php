@@ -5,9 +5,11 @@ namespace App\BookApi;
 use App\Entity\Book;
 use App\Entity\BookCategory;
 
+use App\Entity\Image;
 use App\Repository\BookRepository;
 use App\Repository\GoogleBookApiRepository;
 use App\RequestModels\CreateBookReviewModel;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -69,6 +71,18 @@ class GoogleBooksDTOUtils
         $googleBook = new Book();
         $googleBook->setTitle($googleBookDTO->getVolumeInfo()->getTitle());
         $googleBook->setGoogleBookID($googleBookDTO->getId());
+        $image = new Image();
+        $image->setUrl($googleBookDTO->getVolumeInfo()->getImageLinks()->getThumbnail());
+        $googleBook->setImage($image);
+        $categories =$googleBookDTO->getVolumeInfo()->getCategories();
+        if($categories !== null){
+            $googleBook->setCategories(new ArrayCollection($categories));
+        }
+        $authors = $googleBookDTO->getVolumeInfo()->getAuthors();
+        if($authors !== null){
+            $googleBook->setAuthors(new ArrayCollection($authors));
+        }
+
         return $googleBook;
 
     }

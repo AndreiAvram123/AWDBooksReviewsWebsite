@@ -1,4 +1,50 @@
-{% extends 'book/abstract_book_card.twig' %}
 
-{% set redirectURL =  url('book_path', {'id' : book.id }) %}
-{% set isExclusive = true %}
+<div class="content-block post-list-view mt--30">
+    {% if book.image != null %}
+        <div class="post-thumbnail">
+            <img src="{{ book.image.url }}" alt="Book image">
+        </div>
+    {% endif %}
+    <div class="post-content">
+        {% block card_content %}
+            <div class="post-cat">
+                <div class="post-cat-list">
+                    {% set categoryName = book.category.name %}
+                    <a class="hover-flip-item-wrapper" href="{{ url('category_path', {'name' : categoryName}) }}">
+                                            <span class="hover-flip-item">
+                                                <span data-text="{{ categoryName }}">{{categoryName }}</span>
+                                            </span>
+                    </a>
+                </div>
+            </div>
+            <h4 class="title"><a href="{{ url('book_path',{'id' : book.id}) }}">{{ book.title }}</a></h4>
+
+
+            <div class="post-meta-wrapper">
+                <div class="post-meta">
+                    <div class="content">
+                        <h6 class="post-author-name">
+                            <ul class="list-group">
+                                {% for author in book.authors %}
+                                <li class="list-group-item">
+                                    <a class="hover-flip-item-wrapper">
+                                                    <span class="hover-flip-item">
+                                                        <span data-text="{{ author }}">{{author}}</span>
+                                                    </span>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            {% if isExclusive %}
+                <div class="alert alert-primary mt-5" style="display: inline-block" role="alert">
+                    Exclusive book
+                </div>
+            {% endif %}
+        {% endblock %}
+    </div>
+</div>

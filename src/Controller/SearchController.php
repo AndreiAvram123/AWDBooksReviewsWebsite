@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\BookApi\GoogleBookDTO;
+use App\BookApi\GoogleBooksDTOUtils;
 use App\Entity\Book;
 use App\Entity\BookReview;
 use App\Entity\User;
@@ -23,21 +25,24 @@ class SearchController extends BaseController
         BookReviewRepository $bookReviewRepository,
         BookRepository $bookRepository,
         UserRepository $userRepository,
-        GoogleBookApiRepository $googleBooksRepository
+        GoogleBookApiRepository $googleBooksRepository,
+        GoogleBooksDTOUtils $booksDTOUtils
     ):Response{
         $query = $request->query->get('_search_query');
 
         $bookReviews = $bookReviewRepository->findByTitle($query);
         $users = $userRepository->findByUsernameQuery($query);
-        $books = $bookRepository ->searchByTitle($query);
-        $googleBooks = $googleBooksRepository->searchByTitle($query);
+        $exclusiveBooks = $bookRepository ->searchByTitle($query);
+        $googleBookResults  =  $googleBooksRepository->searchByTitle($query);
+        $googleBooks = array_map(function (GoogleBookDTO $googleBookDTO) use ($booksDTOUtils){
+              return $booksDTOUtils->convertDTOToEntity($googleBookDTO);
+        },$googleBookResults);
 
         return $this->render('search/search_results.twig',
         [
             'bookReviews' => $bookReviews,
-            'books' => $books,
+            'books' => array_merge($exclusiveBooks,$googleBooks),
             'users' => $users,
-            'googleBooks'=> $googleBooks
         ]);
     }
 }

@@ -26,15 +26,18 @@
             </div>
             <div class="row">
 
-                {% if (books is not empty)  or  (googleBooks is not empty) %}
-                    <h1>Total books : {{ books | length  + googleBooks |length }}</h1>
+                {% if books is not empty %}
+                    <h1>Total books : {{ books | length }}</h1>
                     {% for book in books %}
-                        {{ include('book/book_card.twig')}}
+                        {% if book.googleBookID is not null %}
+                            {{ include('book/google_book_card.twig')}}
+                          {% else%}
+                              {{ include('book/book_card.twig')}}
+                        {% endif %}
+
                     {% endfor %}
 
-                    {% for googleBook in googleBooks %}
-                        {{ include('book/google_book_card.twig')}}
-                    {% endfor %}
+                    
 
                 {% endif %}
 

@@ -44,6 +44,9 @@ class Book
     #[ORM\ManyToMany(targetEntity: BookAuthor::class, inversedBy: 'books')]
     private $authors;
 
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    private $image;
+
     public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
@@ -186,5 +189,34 @@ class Book
 
         return $this;
     }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @param ArrayCollection $categories
+     */
+    public function setCategories(ArrayCollection $categories): void
+    {
+        $this->categories = $categories;
+    }
+
+    /**
+     * @param ArrayCollection $authors
+     */
+    public function setAuthors(ArrayCollection $authors): void
+    {
+        $this->authors = $authors;
+    }
+
 
 }
