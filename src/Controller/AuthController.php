@@ -5,14 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\LoginType;
 use App\Form\RegistrationType;
-use App\Jwt\RefreshTokenService;
-use App\ResponseModels\ErrorResponse;
+use App\Repository\EmailValidationRepository;
+
 use App\services\EmailService;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use stdClass;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -29,6 +24,7 @@ class AuthController extends BaseController
         $user = new User();
         $form = $this->createForm(LoginType::class,$user);
         $error = $authenticationUtils->getLastAuthenticationError();
+
         return $this->renderForm('auth/login.html.twig', [
             'form' => $form,
             'invalidCredentials'=> $error != null
@@ -64,20 +60,37 @@ class AuthController extends BaseController
     public function logout(){
 
     }
-    #[Route("/verify")]
+    #[Route("/verification")]
     public function validateEmail(
         Request $request,
-        EmailService $emailService
+        EmailService $emailService,
+        EmailValidationRepository $emailValidationRepository
     ):Response{
         $uuid = $request->query->get('uuid');
 
-        $validationError = $emailService->validateUuid($uuid);
-        if($validationError === null){
-            return $this->json(data: new StdClass());
+        $validationError = null;
+        if($uuid === null || $uuid === "") {
+            $validationError = "Invalid link";
         }
-        return $this->json(
-            new ErrorResponse($validationError),
-            status: Response::HTTP_GONE
+        $validation = $emailValidationRepository->findByUuid($uuid);
+
+        if($validation === null){
+            $validationError = "Invalid Link";
+        }else{
+            if($validation->getExpirationDate() < new \DateTime()){
+                $validationError = "Oops...The link has expired. But we've sent a new one to your email";
+                $emailService->removeExpiredVerification($validation);
+                $emailService->sendConfirmationEmail($validation->getUser());
+            }else{
+                $emailService->setEmailValidated($validation);
+            }
+        }
+
+        return $this->render(
+            'auth/verification_response.twig',
+            [
+                'validationError' => $validationError
+            ]
         );
     }
 

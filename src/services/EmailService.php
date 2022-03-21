@@ -19,7 +19,6 @@ class EmailService
    public function __construct(
        string $sendGridApiKey,
        private string $verificationURL,
-       private EmailValidationRepository $emailValidationRepository,
        private EntityManagerInterface $entityManager
    ){
       $this->sendGrid = new \SendGrid($sendGridApiKey);
@@ -62,20 +61,21 @@ class EmailService
         $this->entityManager->flush();
         return $emailValidation;
    }
-   public function validateUuid(
-       string $uuid
-   ):?string{
-       $validation = $this->emailValidationRepository->findByUuid($uuid);
-       if($validation === null){
-           return "Invalid link";
-       }
-       if($validation->getExpirationDate() <  new \DateTime()){
-           //validation expired
-           return "The link expired";
-       }
-       $validation->getUser()->setIsEmailVerified(true);
-       $this->entityManager->remove($validation);
+
+
+   public function setEmailValidated(
+       EmailValidation $emailValidation
+   ){
+       $emailValidation->getUser()->setIsEmailVerified(true);
+       $this->entityManager->remove($emailValidation);
        $this->entityManager->flush();
-       return null;
    }
+
+   public function removeExpiredVerification(
+       EmailValidation $emailValidation
+   ){
+       $this->entityManager->remove($emailValidation);
+       $this->entityManager->flush();
+   }
+
 }
