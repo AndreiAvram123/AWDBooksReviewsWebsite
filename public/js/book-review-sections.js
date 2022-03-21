@@ -1,4 +1,5 @@
 
+
 class Section{
 
     constructor(sectionNumber, currentTitle, currentSummary) {
@@ -50,9 +51,6 @@ class Section{
 let container = document.getElementById('container-sections')
 let numberSectionsInput = document.getElementById('book_review_number_sections')
 
-
-prePopulate()
-attachListener()
 
 function prePopulate(){
    if(sectionsData !== undefined){

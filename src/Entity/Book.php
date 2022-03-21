@@ -32,6 +32,7 @@ class Book
     private $declined = false;
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookReview::class, orphanRemoval: true)]
+    #[Exclude]
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -40,10 +41,17 @@ class Book
     #[ORM\ManyToMany(targetEntity: BookCategory::class, inversedBy: 'books')]
     private $categories;
 
+    #[ORM\ManyToMany(targetEntity: BookAuthor::class, inversedBy: 'books')]
+    private $authors;
+
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    private $image;
+
     public function __construct()
     {
         $this->bookReviews = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->authors = new ArrayCollection();
     }
 
 
@@ -157,5 +165,58 @@ class Book
 
         return $this;
     }
+
+    /**
+     * @return Collection|BookAuthor[]
+     */
+    public function getAuthors(): Collection
+    {
+        return $this->authors;
+    }
+
+    public function addAuthor(BookAuthor $author): self
+    {
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
+        }
+
+        return $this;
+    }
+
+    public function removeAuthor(BookAuthor $author): self
+    {
+        $this->authors->removeElement($author);
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @param ArrayCollection $categories
+     */
+    public function setCategories(ArrayCollection $categories): void
+    {
+        $this->categories = $categories;
+    }
+
+    /**
+     * @param ArrayCollection $authors
+     */
+    public function setAuthors(ArrayCollection $authors): void
+    {
+        $this->authors = $authors;
+    }
+
 
 }

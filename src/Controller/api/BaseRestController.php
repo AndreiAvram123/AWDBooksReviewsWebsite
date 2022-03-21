@@ -4,6 +4,7 @@ namespace App\Controller\api;
 
 use App\Entity\BookReview;
 use App\Entity\User;
+use App\Jwt\JWTPayload;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -45,24 +46,28 @@ class BaseRestController extends AbstractFOSRestController
     /**
      * @throws JWTDecodeFailureException
      */
-    protected function getEmailFromToken(){
-        return $this->jwtManager->decode($this->tokenStorageInterface->getToken())['email'];
+    protected function getJWTPayload():JWTPayload{
+        $payload =  $this->jwtManager->decode($this->tokenStorageInterface->getToken());
+       return new JWTPayload(
+            email: $payload['email'],
+            roles: $payload['roles']
+        ) ;
+
     }
     protected function createTokenForUser(User $user):string{
         return $this->jwtManager->create($user);
     }
 
-    protected function jsonResponse( $data):JsonResponse{
-        return  JsonResponse::fromJsonString($this->serializer->serialize($data,'json'));
+    protected function jsonResponse( $data, int $statusCode = Response::HTTP_OK):JsonResponse{
+        return  JsonResponse::fromJsonString($this->serializer->serialize($data,'json'),status: $statusCode);
     }
 
 
-    protected function notAcceptableResponse(array $errors):JsonResponse{
-        return $this->json(
-            [
-                "errors" =>$errors
-            ],
-            status: Response::HTTP_NOT_ACCEPTABLE
+    protected function notAcceptableResponse(string $error):JsonResponse{
+        $errorWrapper = new StdClass();
+        $errorWrapper->error = $error;
+        return $this->json($errorWrapper,
+            status: Response::HTTP_BAD_REQUEST
         );
     }
     protected function constraintViolationResponse(ConstraintViolationListInterface $violationList) : JsonResponse{
@@ -70,7 +75,7 @@ class BaseRestController extends AbstractFOSRestController
             [
                 "errors" => $this->fromViolationListToErrorsArray($violationList)
             ],
-            status: Response::HTTP_NOT_ACCEPTABLE
+            status:  Response::HTTP_BAD_REQUEST
         );
     }
 

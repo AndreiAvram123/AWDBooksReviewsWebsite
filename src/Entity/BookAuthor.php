@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\ExclusionPolicy;
+use OpenApi\Annotations\Property;
 
 #[ORM\Entity(repositoryClass: BookAuthorRepository::class)]
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
@@ -17,15 +18,22 @@ class BookAuthor
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    /**
+     * @Property(example = 123)
+     */
     private $id;
 
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Book::class, orphanRemoval: true)]
-    #[Exclude]
-    private $books;
-
+    /**
+     * @var
+     * @Property(example = "Andrei Avram")
+     */
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
+
+    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'authors')]
+    #[Exclude]
+    private $books;
 
     #[Pure] public function __construct()
     {
@@ -37,9 +45,23 @@ class BookAuthor
         return $this->id;
     }
 
+    
+
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**
-     * @return Collection
+     * @return Collection|Book[]
      */
     public function getBooks(): Collection
     {
@@ -50,7 +72,7 @@ class BookAuthor
     {
         if (!$this->books->contains($book)) {
             $this->books[] = $book;
-            $book->setAuthor($this);
+            $book->addAuthor($this);
         }
 
         return $this;
@@ -59,23 +81,8 @@ class BookAuthor
     public function removeBook(Book $book): self
     {
         if ($this->books->removeElement($book)) {
-            // set the owning side to null (unless already changed)
-            if ($book->getAuthor() === $this) {
-                $book->setAuthor(null);
-            }
+            $book->removeAuthor($this);
         }
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
 
         return $this;
     }

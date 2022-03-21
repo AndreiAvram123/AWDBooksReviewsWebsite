@@ -7,7 +7,9 @@
             <div class="row form-group">
                 {{ form_start(form) }}
                 {{ form_row(form.title) }}
-                {{ form_row(form.book) }}
+                {{ form_row(form.search_book) }}
+                <input type="hidden" id="selected-book-form-field" name="selected-book-form-field"/>
+                <div id="container-book-results"></div>
                 {{ form_widget(form.find_book) }}
                 {{ form_row(form.review_image) }}
                 {{ form_widget(form.number_sections)}}
@@ -26,9 +28,10 @@
 
 
     <script src="{{ asset('js/BookSearch.js') }}"></script>
+    <script src="{{ asset('js/book-review-sections.js') }}"></script>
 
     <script>
-        var searchField = document.getElementById("book_review_book");
+        var searchField = document.getElementById("book_review_search_book");
         configureInputListener(searchField)
         let sectionsData = []
         {% if form.vars.value.sections is defined and form.vars.value.sections is not null %}
@@ -37,7 +40,8 @@
         sectionsData.push(jsSection)
         {% endfor %}
         {% endif %}
+        prePopulate()
+        attachListener()
     </script>
 
-    <script src="{{ asset('js/book-review-sections.js') }}"></script>
 {% endblock %}

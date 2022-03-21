@@ -27,8 +27,7 @@ class ReviewSection implements \JsonSerializable
     #[NotBlank]
     private string $heading;
 
-    #[ORM\ManyToOne(targetEntity: BookReview::class, inversedBy: 'sections')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: BookReview::class, cascade: ['persist'], inversedBy: 'sections')]
     #[Exclude]
     private $bookReview;
 

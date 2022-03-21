@@ -160,6 +160,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/lcobucci/clock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/lcobucci/jwt" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/namshi/jose" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/firebase/php-jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/zircote/swagger-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nelmio/api-doc-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

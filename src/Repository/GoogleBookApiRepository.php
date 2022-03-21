@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\BookApi\GoogleBookDTO;
 use App\BookApi\GoogleBooksSearchResponse;
-use App\Entity\GoogleBook;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -12,7 +11,7 @@ use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 
-class GoogleBooksApiRepository
+class GoogleBookApiRepository
 {
    private Client $client;
    private const baseUrl = "https://www.googleapis.com/books/v1/";
