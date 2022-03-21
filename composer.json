@@ -22,6 +22,7 @@
         "lexik/jwt-authentication-bundle": "^2.14",
         "nelmio/api-doc-bundle": "^4.8.2",
         "phpdocumentor/reflection-docblock": "^5.3",
+        "sendgrid/sendgrid": "^7.11",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.3.*",
         "symfony/console": "5.3.*",

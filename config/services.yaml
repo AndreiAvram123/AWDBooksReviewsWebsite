@@ -11,6 +11,7 @@ services:
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ButtonType }
 
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -33,11 +34,24 @@ services:
     App\Jwt\RefreshTokenService:
         arguments: [   '/fj0pvSJdLcvMfw6GS+Qn9wZaLv4/j0v4LhE0BRbSAs=']
 
+    App\services\EmailService:
+        arguments: ['%env(EMAIL_SERVICE_API_KEY)%']
 
     acme_api.event.authentication_success_listener:
          class: App\Jwt\JwtEventListener
          tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+
+    acme_api.event.jwt_decoded_listener:
+      class: App\Jwt\JwtEventListener
+      tags:
+        - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
+
+    acme_api.event.authentication_failure_listener:
+      class: App\Jwt\JwtEventListener
+      tags:
+        - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
+
 
     App\Repository\GoogleBookApiRepository:
         arguments : ['%env(GOOGLE_BOOKS_API_KEY)%']

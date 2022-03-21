@@ -66,6 +66,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private ?Image $profileImage ;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isEmailVerified = false;
+
 
 
     #[Pure] public function __construct()
@@ -224,5 +227,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isModerator():bool{
         return in_array("ROLE_MODERATOR",$this->getRoles());
+    }
+
+    public function getIsEmailVerified(): ?bool
+    {
+        return $this->isEmailVerified;
+    }
+
+    public function setIsEmailVerified(bool $isEmailVerified): self
+    {
+        $this->isEmailVerified = $isEmailVerified;
+
+        return $this;
     }
 }

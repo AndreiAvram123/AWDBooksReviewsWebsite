@@ -163,6 +163,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/firebase/php-jwt" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/zircote/swagger-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nelmio/api-doc-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sendgrid/php-http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sendgrid/sendgrid" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/starkbank/ecdsa" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
