@@ -11,6 +11,7 @@ use JetBrains\PhpStorm\Pure;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
@@ -26,12 +27,14 @@ class Book
     private $pending = true;
 
     #[ORM\Column(type: 'string', nullable: false)]
+    #[NotBlank]
     private string $title;
 
     #[ORM\Column(type: 'boolean')]
     private $declined = false;
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookReview::class, orphanRemoval: true)]
+    #[NotBlank]
     #[Exclude]
     private $bookReviews;
 
@@ -42,6 +45,7 @@ class Book
     private $categories;
 
     #[ORM\ManyToMany(targetEntity: BookAuthor::class, inversedBy: 'books')]
+    #[NotBlank]
     private $authors;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]

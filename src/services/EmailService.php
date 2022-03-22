@@ -5,7 +5,7 @@ namespace App\services;
 use App\Entity\EmailValidation;
 use App\Entity\User;
 use App\Repository\EmailValidationRepository;
-use App\ResponseModels\ErrorResponse;
+use App\ResponseModels\ErrorWrapper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;

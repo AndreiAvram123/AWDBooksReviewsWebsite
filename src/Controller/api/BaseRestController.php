@@ -5,7 +5,7 @@ namespace App\Controller\api;
 use App\Entity\BookReview;
 use App\Entity\User;
 use App\Jwt\JWTPayload;
-use App\ResponseModels\ErrorResponse;
+use App\ResponseModels\ErrorWrapper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -65,7 +65,7 @@ class BaseRestController extends AbstractFOSRestController
 
 
     protected function errorResponse(string $error, int $status = Response::HTTP_NOT_ACCEPTABLE):JsonResponse{
-        $errorResponse = new ErrorResponse(
+        $errorResponse = new ErrorWrapper(
             error: $error
         );
         return  JsonResponse::fromJsonString(

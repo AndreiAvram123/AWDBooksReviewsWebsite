@@ -10,7 +10,7 @@ use App\Repository\BookReviewRepository;
 use App\Repository\UserRepository;
 use App\Entity\Comment;
 use App\RequestModels\CreateBookReviewModel;
-use App\ResponseModels\ErrorResponse;
+use App\ResponseModels\ErrorWrapper;
 use App\utils\aws\AwsImageUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Delete;
@@ -245,7 +245,7 @@ class BookReviewApiController extends BaseRestController
          );
       }
       return $this->errorResponse(
-           "Not authorized to delete this resource",
+           "Not authorized to delete this  resource",
             SymfonyResponse::HTTP_FORBIDDEN
       );
     }

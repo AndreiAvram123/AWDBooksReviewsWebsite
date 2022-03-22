@@ -7,7 +7,7 @@ use App\Jwt\RefreshTokenService;
 use App\Repository\EmailValidationRepository;
 use App\Repository\UserRepository;
 use App\RequestModels\CreateUserRequest;
-use App\ResponseModels\ErrorResponse;
+use App\ResponseModels\ErrorWrapper;
 use App\services\EmailService;
 use Firebase\JWT\ExpiredException;
 use FOS\RestBundle\Controller\Annotations\Get;
