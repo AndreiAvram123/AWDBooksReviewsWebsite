@@ -153,7 +153,7 @@ class BookReviewApiController extends BaseRestController
                 $book = $googleBooksDTOUtils->getGoogleBookFromRequest($createModel);
             }
             if($book === null){
-                return $this->notAcceptableResponse(self::ERROR_BOOK_NOT_FOUND);
+                return $this->errorResponse(self::ERROR_BOOK_NOT_FOUND);
             }
 
             $manager->persist($book);
@@ -166,7 +166,7 @@ class BookReviewApiController extends BaseRestController
                $createModel->getBase64Image()
             );
             if($reviewImage == null){
-                return $this->notAcceptableResponse(self::INVALID_BASE64_IMAGE);
+                return $this->errorResponse(self::INVALID_BASE64_IMAGE);
             }
             $bookReview->setFrontImage($reviewImage);
 

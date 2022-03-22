@@ -64,12 +64,12 @@ class BaseRestController extends AbstractFOSRestController
     }
 
 
-    protected function notAcceptableResponse(string $error):JsonResponse{
+    protected function errorResponse(string $error, int $status = Response::HTTP_NOT_ACCEPTABLE):JsonResponse{
         $errorResponse = new ErrorResponse(
             error: $error
         );
         return  JsonResponse::fromJsonString(
-            $this->serializer->serialize($errorResponse,'json'));
+            $this->serializer->serialize($errorResponse,'json'),status : $status);
     }
     protected function constraintViolationResponse(ConstraintViolationListInterface $violationList) : JsonResponse{
         return $this->json(

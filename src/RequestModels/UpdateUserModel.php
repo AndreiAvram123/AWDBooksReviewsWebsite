@@ -4,36 +4,30 @@ namespace App\RequestModels;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Unique;
 
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
 class UpdateUserModel
 {
-    #[NotBlank]
-    public string $username = "";
-    #[NotBlank]
+    public ?string $username = null;
     public ?string $nickname = null;
 
-    #[NotBlank]
     #[Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
-
-    public string $email = "";
+    public ?string $email = null;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
     /**
-     * @param string $username
+     * @param string|null $username
      */
-    public function setUsername(string $username): void
+    public function setUsername(?string $username): void
     {
         $this->username = $username;
     }
@@ -55,20 +49,21 @@ class UpdateUserModel
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
     /**
-     * @param string $email
+     * @param string|null $email
      */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
+
 
 
 }

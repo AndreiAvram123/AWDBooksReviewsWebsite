@@ -7,6 +7,7 @@ use App\RequestModels\CreateBookReviewModel;
 use App\RequestModels\UpdateUserModel;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Patch;
+use FOS\RestBundle\Controller\Annotations\Put;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations\Items;
@@ -51,9 +52,18 @@ class UserApiController extends BaseRestController
 
     #[Patch("/api/v1/users/{id}")]
     public function updateUserByID(
-        User $user,
-        Request $request
+        Request $request,
+        User $user
     ):JsonResponse{
+        //allow modification of user data only if the authentication user is the same
+        //as in token
+        if($this->getJWTPayload()->getEmail() !== $user->getEmail()){
+            return $this->errorResponse(
+                error : "Not authorized for this operations",
+                status: \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN
+            );
+        }
+
         /** @var UpdateUserModel $updateModel */
         $updateModel  = $this->serializer->deserialize(
             data: $request->getContent(),
@@ -79,9 +89,18 @@ class UserApiController extends BaseRestController
         UpdateUserModel $updateUserModel,
         User &$user
     ){
-        $user ->setEmail($updateUserModel->getEmail());
-        $user->setNickname($updateUserModel->getNickname());
-        $user->setUsername($updateUserModel->getUsername());
+        $email = $updateUserModel->getEmail();
+        $nickname = $updateUserModel->getNickname();
+        $username = $updateUserModel->getUsername();
+        if($email !== null){
+            $user ->setEmail($email);
+        }
+        if($nickname !== null){
+            $user ->setNickname($nickname);
+        }
+        if($username !== null){
+            $user ->setUsername($username);
+        }
     }
 
 
