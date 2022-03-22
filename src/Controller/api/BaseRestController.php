@@ -5,6 +5,7 @@ namespace App\Controller\api;
 use App\Entity\BookReview;
 use App\Entity\User;
 use App\Jwt\JWTPayload;
+use App\ResponseModels\ErrorResponse;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -64,11 +65,11 @@ class BaseRestController extends AbstractFOSRestController
 
 
     protected function notAcceptableResponse(string $error):JsonResponse{
-        $errorWrapper = new StdClass();
-        $errorWrapper->error = $error;
-        return $this->json($errorWrapper,
-            status: Response::HTTP_BAD_REQUEST
+        $errorResponse = new ErrorResponse(
+            error: $error
         );
+        return  JsonResponse::fromJsonString(
+            $this->serializer->serialize($errorResponse,'json'));
     }
     protected function constraintViolationResponse(ConstraintViolationListInterface $violationList) : JsonResponse{
         return $this->json(
@@ -93,5 +94,10 @@ class BaseRestController extends AbstractFOSRestController
         return $arrayErrors;
     }
 
+    protected function persistAndFlush($entity){
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($entity);
+        $manager->flush();
+    }
 
 }

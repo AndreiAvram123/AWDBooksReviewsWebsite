@@ -14,6 +14,7 @@ use JMS\Serializer\Annotation\MaxDepth;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Unique;
 use function PHPUnit\Framework\isNull;
@@ -50,6 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = array("ROLE_USER");
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: BookReview::class, orphanRemoval: true)]
+    #[Expose]
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -61,12 +63,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $socialHub;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Expose]
     private ?string $description;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    #[Expose]
     private ?Image $profileImage ;
 
+    #[ORM\Column(type: 'boolean')]
 
+    private bool $isEmailVerified = false;
+
+
+   public function getUserIdentifier(): string
+   {
+       return $this->email;
+   }
 
     #[Pure] public function __construct()
     {
@@ -225,4 +237,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isModerator():bool{
         return in_array("ROLE_MODERATOR",$this->getRoles());
     }
+
+    public function getIsEmailVerified(): ?bool
+    {
+        return $this->isEmailVerified;
+    }
+
+    public function setIsEmailVerified(bool $isEmailVerified): self
+    {
+        $this->isEmailVerified = $isEmailVerified;
+
+        return $this;
+    }
+
+
 }

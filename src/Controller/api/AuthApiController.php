@@ -4,8 +4,11 @@ namespace App\Controller\api;
 
 use App\Entity\User;
 use App\Jwt\RefreshTokenService;
+use App\Repository\EmailValidationRepository;
 use App\Repository\UserRepository;
 use App\RequestModels\CreateUserRequest;
+use App\ResponseModels\ErrorResponse;
+use App\services\EmailService;
 use Firebase\JWT\ExpiredException;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -18,8 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 class AuthApiController extends BaseRestController
@@ -46,8 +49,10 @@ class AuthApiController extends BaseRestController
     public function registerUser(
         Request $request,
         UserRepository $userRepository,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        EmailService $emailService
     ):JsonResponse{
+
         /**
          * @var  CreateUserRequest $serializedData
          */
@@ -75,6 +80,9 @@ class AuthApiController extends BaseRestController
             $user = $this->persistUserFromRequestData(
                 createUserRequest: $serializedData,
                 passwordHasher: $passwordHasher
+            );
+            $emailService->sendConfirmationEmail(
+                user: $user
             );
 
             return $this->jsonResponse(
@@ -154,5 +162,7 @@ class AuthApiController extends BaseRestController
         $entityManager->flush($user);
         return $user;
     }
+
+
 
 }

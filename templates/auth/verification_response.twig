@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verify email{% endblock %}
+
+{% block  mainContent %}
+    <div class="axil-post-list-area axil-section-gap bg-color-white">
+        <div class="container">
+            <div class="row form-group">
+                {% if validationError is null %}
+                    <div class="alert alert-primary" role="alert">
+                        You're email has been successfully verified
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ validationError }}
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
