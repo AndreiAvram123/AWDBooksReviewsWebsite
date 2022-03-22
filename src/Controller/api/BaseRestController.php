@@ -99,5 +99,10 @@ class BaseRestController extends AbstractFOSRestController
         $manager->persist($entity);
         $manager->flush();
     }
+    protected function deleteEntity($entity){
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($entity);
+        $manager->flush();
+    }
 
 }

@@ -8,6 +8,7 @@ use App\RequestModels\UpdateUserModel;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Patch;
 use FOS\RestBundle\Controller\Annotations\Put;
+use OpenApi\Annotations\Property;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations\Items;
@@ -50,6 +51,38 @@ class UserApiController extends BaseRestController
     }
 
 
+    /**
+     *  Update a user with the specified id
+     *
+     * @Response(
+     *     description="Update a user with the specified id",
+     *     response=200,
+     *     @JsonContent(
+     *       ref= @Model(type= User::class)
+     * )
+     *
+     * )
+     * @Response(
+     *     description="Invalid update data. Values already used ",
+     *     response = 400,
+     *     @JsonContent(
+     *     type = "object",
+     *     @Property (property="errors", type="array",
+     *      @Items(type="object",
+     *       @Property (property="property", type="string", example="The username is already taken")))
+     * )
+     * )
+     *  @Parameter(
+     *     name="id",
+     *     in = "path",
+     *     @Schema(type="integer")
+     * )
+     * @Tag(name = "Users")
+     * @Security(name="Bearer")
+     * @param Request $request
+     * @param User $user
+     * @return JsonResponse
+     */
     #[Patch("/api/v1/users/{id}")]
     public function updateUserByID(
         Request $request,
@@ -70,8 +103,6 @@ class UserApiController extends BaseRestController
             type: UpdateUserModel::class,
             format: 'json');
 
-        $validationErrors =  $this->validator->validate($updateModel);
-        if(count($validationErrors) === 0){
             $this->updateUser($updateModel, $user);
             $userValidationErrors = $this->validator->validate($user);
              if(count($userValidationErrors) > 0 ){
@@ -79,12 +110,8 @@ class UserApiController extends BaseRestController
             }
              $this->persistAndFlush($user);
              return $this->jsonResponse($user);
-        }else{
-            return $this->constraintViolationResponse(
-                $validationErrors
-            );
         }
-    }
+
     private function updateUser(
         UpdateUserModel $updateUserModel,
         User &$user
@@ -92,6 +119,7 @@ class UserApiController extends BaseRestController
         $email = $updateUserModel->getEmail();
         $nickname = $updateUserModel->getNickname();
         $username = $updateUserModel->getUsername();
+        $password = $updateUserModel->getPassword();
         if($email !== null){
             $user ->setEmail($email);
         }
@@ -100,6 +128,9 @@ class UserApiController extends BaseRestController
         }
         if($username !== null){
             $user ->setUsername($username);
+        }
+        if($password !== null){
+            $user->setPassword($password);
         }
     }
 

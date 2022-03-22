@@ -10,6 +10,7 @@ class UpdateUserModel
 {
     public ?string $username = null;
     public ?string $nickname = null;
+    public ?string $password = null;
 
     #[Email(
         message: 'The email {{ value }} is not a valid email.',
@@ -62,6 +63,22 @@ class UpdateUserModel
     public function setEmail(?string $email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string|null $password
+     */
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
     }
 
 

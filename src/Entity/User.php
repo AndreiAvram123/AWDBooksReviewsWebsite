@@ -51,7 +51,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = array("ROLE_USER");
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: BookReview::class, orphanRemoval: true)]
-    #[Expose]
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]

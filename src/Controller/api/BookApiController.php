@@ -79,7 +79,10 @@ class BookApiController extends BaseRestController
      *     description="Return the book by its id",
      *     @JsonContent(ref= @Model(type=Book::class) )
      * )
-     *
+     * @Response(
+     *     response=404,
+     *     description="The book with the specified id not found"
+     * )
      * @Tag(name="Books")
      * @Security(name="Bearer")
      */
@@ -101,6 +104,10 @@ class BookApiController extends BaseRestController
      *     type="array",
      *     @Items(ref= @Model(type=BookReview::class))
      * )
+     * )
+     * @Response(
+     *     response=404,
+     *     description="The book with the specified id not found"
      * )
      * @OA\Parameter(
      *     name="id",

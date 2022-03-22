@@ -43,7 +43,7 @@ class BookReview
     private $frontImage;
 
 
-    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Comment::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: Comment::class,cascade: ['remove'] , orphanRemoval: true)]
     #[MaxDepth(1)]
     #[Exclude]
     private $comments;
@@ -54,11 +54,11 @@ class BookReview
     #[MaxDepth(1)]
     private $creator;
 
-    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: PositiveRating::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: PositiveRating::class,cascade: ['remove'], orphanRemoval: true)]
     #[Exclude]
     private $positiveRatings;
 
-    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'bookReview', targetEntity: NegativeRating::class,cascade: ['remove'], orphanRemoval: true)]
     #[Exclude]
     private $negativeRatings;
 
