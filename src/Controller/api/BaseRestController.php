@@ -94,5 +94,10 @@ class BaseRestController extends AbstractFOSRestController
         return $arrayErrors;
     }
 
+    protected function persistAndFlush($entity){
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($entity);
+        $manager->flush();
+    }
 
 }

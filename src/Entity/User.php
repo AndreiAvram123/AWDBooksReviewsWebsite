@@ -51,6 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = array("ROLE_USER");
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: BookReview::class, orphanRemoval: true)]
+    #[Expose]
     private $bookReviews;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -62,13 +63,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $socialHub;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Expose]
     private ?string $description;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    #[Expose]
     private ?Image $profileImage ;
 
     #[ORM\Column(type: 'boolean')]
+
     private bool $isEmailVerified = false;
+
 
    public function getUserIdentifier(): string
    {
@@ -244,4 +249,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
 }
