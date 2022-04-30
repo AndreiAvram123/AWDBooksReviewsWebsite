@@ -8,9 +8,12 @@ use App\Form\ModeratorApproveType;
 use App\Form\PendingReviewType;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
+use App\services\EmailService;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\SubmitButton;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,6 +43,7 @@ class ModeratorController extends BaseController
         if($this->canAccessFormData($moderatorForm)){
             if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$approveButtonName)){
                 $book->setPending(false);
+
             }
             if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$declineButtonName)){
                 $book->setPending(false);
@@ -55,12 +59,19 @@ class ModeratorController extends BaseController
     }
 
 
-    #[Route('moderator/bookReview/{id}', name: 'pending_book_review')]
-    public function pendingBookReview(BookReview $bookReview):Response{
+    #[Route('/reviews/pending/{id}', name: 'pending_book_review', requirements:['id' => '\d+'])]
+    public function pendingBookReview(
+        BookReview $bookReview,
+        EmailService $emailService
+
+    ):Response{
         $moderatorForm = $this->createForm(ModeratorApproveType::class);
         if($this->canAccessFormData($moderatorForm)){
             if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$approveButtonName)){
                 $bookReview->setPending(false);
+                $emailService->sendNewReviewEmail(
+                    $bookReview
+                );
             }
             if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$declineButtonName)){
                 $bookReview->setPending(false);
@@ -77,15 +88,14 @@ class ModeratorController extends BaseController
     }
 
 
-    #[Route('/moderator/reviews/pending', name: 'pending_book_reviews')]
-    public function pendingBookReviews():Response{
-        $pendingReviews = $this
-            ->getDoctrine()
-            ->getRepository(BookReview::class)
-            ->findPending();
+    #[Route('/reviews/pending', name: 'pending_book_reviews')]
+    public function pendingBookReviews(
+        BookReviewRepository $bookReviewRepository,
+    ):Response{
 
-        return $this->render('moderator/moderator_pending_reviews.twig', [
-                'pendingReviews' => $pendingReviews
+        return $this->render(
+             'moderator/moderator_pending_reviews.twig', [
+                 'pendingReviews' => $bookReviewRepository->findPending()
             ]
         );
     }

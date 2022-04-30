@@ -26,7 +26,7 @@
                                                     {% endif %}
 
                                                     {% for category in bookReview.book.categories %}
-                                                        <a href="{{ url('category_path', {'name' : category}) }}" data-text="{{ category }}">{{ category }}</a>
+                                                        <a href="{{ url('category_path', {'name' : category.name}) }}" data-text="{{ category.name }}">{{ category.name }}</a>
                                                     {% endfor %}
 
                                                 </div>

@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Form\BookReviewType;
 use App\Repository\BookRepository;
 use App\Repository\GoogleBookApiRepository;
+use App\services\EmailService;
 use App\utils\aws\AwsImageUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -26,7 +27,8 @@ class BookReviewFormUtils
                                   private AwsImageUtils $awsImageUtils,
                                   private BookRepository $bookRepository,
                                   private GoogleBookApiRepository $googleBookApiRepository,
-                                  private GoogleBooksDTOUtils $googleBooksDTOUtils
+                                  private GoogleBooksDTOUtils $googleBooksDTOUtils,
+
 ){}
 
     private string $googleBookRegex = "/google_book_id_[a-zA-Z0-9]+/";
@@ -143,7 +145,7 @@ class BookReviewFormUtils
     public function handleBookReviewForm(
         FormInterface $form,
         Request $request
-    ){
+    ):BookReview{
         $bookReview = $this->createReview(
             form : $form,
             request: $request
@@ -151,6 +153,7 @@ class BookReviewFormUtils
 
         $this->manager-> persist($bookReview);
         $this->manager->flush($bookReview);
+        return $bookReview;
     }
 
 }

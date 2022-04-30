@@ -13,10 +13,12 @@ use App\Form\BookReviewType;
 use App\Form\CommentType;
 use App\Form\RatingType;
 use App\Repository\BookReviewRepository;
+use App\services\EmailService;
 use App\utils\aws\AwsImageUtils;
 use App\utils\entities\RatingUtils;
 use App\utils\form\BookReviewFormUtils;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,6 +56,7 @@ class BookReviewController extends BaseController
         RatingUtils $ratingUtils
     ): Response
     {
+
         $comment = new Comment();
 
         $ratingForm = $this->createForm(RatingType::class, $bookReview);
@@ -103,13 +106,17 @@ class BookReviewController extends BaseController
     #[Route('/reviews/create', name: 'create_book_review')]
     public function createBookReview(
         Request $request,
-        BookReviewFormUtils $bookReviewFormUtils
+        BookReviewFormUtils $bookReviewFormUtils,
+        EmailService $emailService
     ): Response
     {
        $form = $this->createForm(BookReviewType::class);
 
        if($this->canAccessFormData($form)){
-           $bookReviewFormUtils->handleBookReviewForm($form,$request);
+            $bookReview = $bookReviewFormUtils->handleBookReviewForm($form,$request);
+            if($bookReview->getPending() === false){
+                $emailService->sendNewReviewEmail($bookReview);
+            }
            return $this->redirectToRoute('home');
        }
         return $this->renderForm('book_review/create_review.twig',[
@@ -123,10 +130,12 @@ class BookReviewController extends BaseController
     public function editBookReview(
         BookReview $bookReview,
         Request $request,
-        BookReviewFormUtils $bookReviewFormUtils
+        BookReviewFormUtils $bookReviewFormUtils,
+        EmailService $emailService
     ): Response{
         /** @var User $user */
         $user = $this->getUser();
+
         if($user->getId() !== $bookReview->getCreator()->getId()){
             throw $this->createAccessDeniedException("Trying to edit another user's review!");
         }

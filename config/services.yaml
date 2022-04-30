@@ -26,6 +26,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+    JMS\Serializer\SerializerInterface: '@jms_serializer'
 
 
     App\utils\aws\AwsClientWrapper:

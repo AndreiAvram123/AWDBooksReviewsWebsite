@@ -8,6 +8,8 @@ use App\Form\BookReviewType;
 use App\Form\SubscribeType;
 use App\Form\UserProfileType;
 use App\utils\aws\AwsImageUtils;
+use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerInterface;
 use PHPUnit\Util\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +24,7 @@ class UserController extends BaseController
     public function getUserById(
         User $user,
         AwsImageUtils $awsImageUtils,
+        SerializerInterface $serializer
     ): Response{
         /** @var User $currentSessionUser */
         $currentSessionUser = $this->getUser();

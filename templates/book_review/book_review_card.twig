@@ -12,9 +12,9 @@
                 <div class="post-cat-list">
                     <ul class="list-group">
                         {% for category in bookReview.book.categories %}
-                            <a class="hover-flip-item-wrapper" href="{{ url('category_path',{'name' : category}) }}">
+                            <a class="hover-flip-item-wrapper" href="{{ url('category_path',{'name' : category.name}) }}">
                                             <span class="hover-flip-item">
-                                                <span data-text="{{ category }}">{{category }}</span>
+                                                <span data-text="{{ category.name }}">{{category.name }}</span>
                                             </span>
                             </a>
                         {% endfor %}
@@ -23,7 +23,7 @@
 
                 </div>
             </div>
-            <h4 class="title"><a href="{{ url('book_review',{'id' : bookReview.id}) }}">{{ bookReview.title }}</a></h4>
+            <h4 class="title"><a href="{{ redirectURL }}">{{ bookReview.title }}</a></h4>
 
 
             <div class="post-meta-wrapper">
