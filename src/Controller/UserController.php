@@ -38,7 +38,7 @@ class UserController extends BaseController
                     $image  = $awsImageUtils->uploadImageToBucketeer($imageFile);
                     $currentSessionUser->setProfileImage($image);
                 }
-                
+
                 $this->persistAndFlush($currentSessionUser);
                 return $this->redirectToRoute('user_profile',['id' => $user->getId()]);
 
