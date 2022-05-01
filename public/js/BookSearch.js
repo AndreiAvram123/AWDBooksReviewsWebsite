@@ -50,7 +50,8 @@ function displaySearchResults(data){
 
 function buildSearchUIItem(dataItem){
     let searchUIItem = document.createElement('div');
-    searchUIItem.className = "search-item"
+
+
     let span = document.createElement('span')
     span.innerText = dataItem.title
     searchUIItem.appendChild(span);
@@ -58,6 +59,15 @@ function buildSearchUIItem(dataItem){
         searchUIItem,
         dataItem
     )
+    debugger
+    console.log("sdfsdf")
+    if(dataItem.googleBookID === undefined){
+       let exclusiveUIElement =   document.createElement('span')
+        exclusiveUIElement.innerText ="Exclusive book"
+        exclusiveUIElement.className = 'ml-5'
+        searchUIItem.appendChild(exclusiveUIElement)
+        debugger
+    }
     return searchUIItem;
 }
 

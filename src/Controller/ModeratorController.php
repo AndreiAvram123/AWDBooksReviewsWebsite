@@ -37,9 +37,10 @@ class ModeratorController extends BaseController
 
 
 
-    #[Route('moderator/pending/books/{id}', name: "pending_book")]
+    #[Route('/pending/books/{id}', name: "pending_book", requirements:['id' => '\d+'])]
     public function pendingBook(Request $request, Book $book):Response{
         $moderatorForm = $this->createForm(ModeratorApproveType::class);
+
         if($this->canAccessFormData($moderatorForm)){
             if($this->isFormButtonClicked(form: $moderatorForm, buttonName: ModeratorApproveType::$approveButtonName)){
                 $book->setPending(false);
@@ -59,7 +60,9 @@ class ModeratorController extends BaseController
     }
 
 
-    #[Route('/reviews/pending/{id}', name: 'pending_book_review', requirements:['id' => '\d+'])]
+    #[Route('/reviews/pending/{id}',
+        name: 'pending_book_review',
+        requirements:['id' => '\d+'])]
     public function pendingBookReview(
         BookReview $bookReview,
         EmailService $emailService
@@ -100,7 +103,7 @@ class ModeratorController extends BaseController
         );
     }
 
-    #[Route('/moderator/books/pending', name: 'pending_books')]
+    #[Route('/books/pending', name: 'pending_books')]
     public function pendingBooks(
         BookRepository $bookRepository
     ):Response{

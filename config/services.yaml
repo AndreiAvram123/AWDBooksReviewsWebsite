@@ -33,7 +33,7 @@ services:
         arguments: [ '%env(BUCKETEER_REGION)%' ]
 
     App\Jwt\RefreshTokenService:
-        arguments: [   '/fj0pvSJdLcvMfw6GS+Qn9wZaLv4/j0v4LhE0BRbSAs=']
+        arguments: [   '%env(JWT_REFRESH_TOKEN_KEY)%']
 
     App\services\EmailService:
         arguments: ['%env(EMAIL_SERVICE_API_KEY)%','%env(VERIFICATION_URL)%']

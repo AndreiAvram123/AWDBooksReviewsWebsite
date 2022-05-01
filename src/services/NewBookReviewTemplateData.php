@@ -5,7 +5,7 @@ namespace App\services;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
-class NewBookReviewTemplateData
+class NewBookReviewTemplateData extends DynamicTemplateData
 {
 
     public function __construct(

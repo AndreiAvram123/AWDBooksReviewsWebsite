@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class RefreshTokenService
 {
-    private int $tokenDuration =  3600 * 24 ;
+    private int $tokenDuration =  3600 * 24 *3 ;
 
     public function __construct(
         private string $encryptionKey

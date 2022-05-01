@@ -1,0 +1,12 @@
+@startuml
+
+
+class EmailPersonalizations {
+
+}
+
+class EmailData {
+   + personalizations:EmailPersonalizations
+}
+
+@enduml

@@ -5,17 +5,10 @@ namespace App\services;
 use App\Entity\BookReview;
 use App\Entity\EmailValidation;
 use App\Entity\User;
-use App\Repository\EmailValidationRepository;
-use App\ResponseModels\ErrorWrapper;
-use DateTime;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
-use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use JMS\Serializer\Serializer;
-use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use SendGrid\Mail\Mail;
 
@@ -47,11 +40,14 @@ class EmailService
         BookReview $bookReview
     ){
 
-        foreach ($bookReview->getCreator()->getSubscribers() as $subscriber) {
+       $subscribersEmail = array_map(function (User $user){
+           return $user ->getEmail();
+       },$bookReview->getCreator()->getSubscribers());
+
             $emailData = new EmailData(
                 from: new EmailWrapper($this->fromIdentity),
                 personalizations: new NewBookReviewPersonalizations(
-                    to: new EmailWrapper($subscriber->getEmail()),
+                    to: $subscribersEmail,
                     dynamicTemplateData: new NewBookReviewTemplateData(
                         authorName: $bookReview->getCreator()->getUsername(),
                         reviewUrl: self::reviewsUrl . "/" . $bookReview->getId()
@@ -67,7 +63,6 @@ class EmailService
                 ],
                 'body' => $emailDataJson
             ]);
-        }
     }
 
 

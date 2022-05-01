@@ -9,12 +9,14 @@
         {% block card_content %}
             <div class="post-cat">
                 <div class="post-cat-list">
-                    {% set categoryName = book.category.name %}
+                    {% for category in book.categories%}
+                    {% set categoryName = category.name %}
                     <a class="hover-flip-item-wrapper" href="{{ url('category_path', {'name' : categoryName}) }}">
                                             <span class="hover-flip-item">
                                                 <span data-text="{{ categoryName }}">{{categoryName }}</span>
                                             </span>
                     </a>
+                    {%endfor%}
                 </div>
             </div>
             <h4 class="title"><a href="{{ url('book_path',{'id' : book.id}) }}">{{ book.title }}</a></h4>
@@ -27,9 +29,9 @@
                             <ul class="list-group">
                                 {% for author in book.authors %}
                                 <li class="list-group-item">
-                                    <a class="hover-flip-item-wrapper">
+                                    <a class="hover-flip-item-wrapper" >
                                                     <span class="hover-flip-item">
-                                                        <span data-text="{{ author }}">{{author}}</span>
+                                                        <span data-text="{{ author.name }}">{{author.name}}</span>
                                                     </span>
                                     </a>
                                 </li>
@@ -40,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            {% if isExclusive %}
+            {% if book.googleBookID is null%}
                 <div class="alert alert-primary mt-5" style="display: inline-block" role="alert">
                     Exclusive book
                 </div>

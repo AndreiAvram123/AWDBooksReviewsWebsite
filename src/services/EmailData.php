@@ -8,21 +8,23 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
  class EmailData
 {
 
-    public array $personalizations;
+
     public function __construct(
         public EmailWrapper $from,
-        EmailPersonalizations $personalizations,
+        public EmailPersonalizations $personalizations,
         public string $templateID
     )
     {
-        $this->personalizations[] = $personalizations;
+
     }
 }
 
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
 abstract class EmailPersonalizations{
     public function __construct(
-        public array $to
+        public array $to,
+        public DynamicTemplateData $dynamicTemplateData
+
     )
     {
     }
@@ -32,15 +34,6 @@ abstract class EmailPersonalizations{
 class EmailWrapper{
     public function __construct(
         public string $email
-    )
-    {
-    }
-}
-
-class EmailContent{
-    public function  __construct(
-        public string $type = "text/plain",
-        public string $value
     )
     {
     }
