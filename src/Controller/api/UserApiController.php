@@ -7,6 +7,8 @@ use App\RequestModels\CreateBookReviewModel;
 use App\RequestModels\UpdateUserModel;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Patch;
+use FOS\RestBundle\Controller\Annotations\Put;
+use OpenApi\Annotations\Property;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations\Items;
@@ -49,19 +51,58 @@ class UserApiController extends BaseRestController
     }
 
 
+    /**
+     *  Update a user with the specified id
+     *
+     * @Response(
+     *     description="Update a user with the specified id",
+     *     response=200,
+     *     @JsonContent(
+     *       ref= @Model(type= User::class)
+     * )
+     *
+     * )
+     * @Response(
+     *     description="Invalid update data. Values already used ",
+     *     response = 400,
+     *     @JsonContent(
+     *     type = "object",
+     *     @Property (property="errors", type="array",
+     *      @Items(type="object",
+     *       @Property (property="property", type="string", example="The username is already taken")))
+     * )
+     * )
+     *  @Parameter(
+     *     name="id",
+     *     in = "path",
+     *     @Schema(type="integer")
+     * )
+     * @Tag(name = "Users")
+     * @Security(name="Bearer")
+     * @param Request $request
+     * @param User $user
+     * @return JsonResponse
+     */
     #[Patch("/api/v1/users/{id}")]
     public function updateUserByID(
-        User $user,
-        Request $request
+        Request $request,
+        User $user
     ):JsonResponse{
+        //allow modification of user data only if the authentication user is the same
+        //as in token
+        if($this->getJWTPayload()->getEmail() !== $user->getEmail()){
+            return $this->errorResponse(
+                error : "Not authorized for this operations",
+                status: \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN
+            );
+        }
+
         /** @var UpdateUserModel $updateModel */
         $updateModel  = $this->serializer->deserialize(
             data: $request->getContent(),
             type: UpdateUserModel::class,
             format: 'json');
 
-        $validationErrors =  $this->validator->validate($updateModel);
-        if(count($validationErrors) === 0){
             $this->updateUser($updateModel, $user);
             $userValidationErrors = $this->validator->validate($user);
              if(count($userValidationErrors) > 0 ){
@@ -69,19 +110,28 @@ class UserApiController extends BaseRestController
             }
              $this->persistAndFlush($user);
              return $this->jsonResponse($user);
-        }else{
-            return $this->constraintViolationResponse(
-                $validationErrors
-            );
         }
-    }
+
     private function updateUser(
         UpdateUserModel $updateUserModel,
         User &$user
     ){
-        $user ->setEmail($updateUserModel->getEmail());
-        $user->setNickname($updateUserModel->getNickname());
-        $user->setUsername($updateUserModel->getUsername());
+        $email = $updateUserModel->getEmail();
+        $nickname = $updateUserModel->getNickname();
+        $username = $updateUserModel->getUsername();
+        $password = $updateUserModel->getPassword();
+        if($email !== null){
+            $user ->setEmail($email);
+        }
+        if($nickname !== null){
+            $user ->setNickname($nickname);
+        }
+        if($username !== null){
+            $user ->setUsername($username);
+        }
+        if($password !== null){
+            $user->setPassword($password);
+        }
     }
 
 

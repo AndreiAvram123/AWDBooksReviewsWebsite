@@ -29,6 +29,7 @@ class SearchModel
     private ?string $title = null;
 
 
+
     public static function convertBookToSearchModel(
         Book $book
     ):SearchModel{

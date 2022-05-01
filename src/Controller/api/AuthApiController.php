@@ -7,7 +7,7 @@ use App\Jwt\RefreshTokenService;
 use App\Repository\EmailValidationRepository;
 use App\Repository\UserRepository;
 use App\RequestModels\CreateUserRequest;
-use App\ResponseModels\ErrorResponse;
+use App\ResponseModels\ErrorWrapper;
 use App\services\EmailService;
 use Firebase\JWT\ExpiredException;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -68,13 +68,13 @@ class AuthApiController extends BaseRestController
             if($userRepository->findByEmail(
                     $serializedData->getEmail()
                 ) !== null){
-                return $this->notAcceptableResponse(self::EMAIL_ALREADY_USED);
+                return $this->errorResponse(self::EMAIL_ALREADY_USED);
             }
             //check if user with this username exists
             if($userRepository->findByUsername(
                     $serializedData->getUsername()
                 ) !== null){
-                return $this->notAcceptableResponse(self::USERNAME_ALREADY_USED);
+                return $this->errorResponse(self::USERNAME_ALREADY_USED);
             }
 
             $user = $this->persistUserFromRequestData(
@@ -129,16 +129,16 @@ class AuthApiController extends BaseRestController
         try {
             $decodedToken  = $refreshTokenService->getDecodedJWT($paramFetcher->get('refreshToken'));
         }catch (ExpiredException){
-            return  $this->notAcceptableResponse("Expired token");
+            return  $this->errorResponse("Expired token");
         }catch (\Exception){
-            return  $this->notAcceptableResponse("Not a valid refresh token");
+            return  $this->errorResponse("Not a valid refresh token");
         }
 
         $user = $userRepository->findByEmail(
             $decodedToken->getEmail()
         );
         if($user === null){
-            return $this->notAcceptableResponse("Not a valid refresh token");
+            return $this->errorResponse("Not a valid refresh token");
         }
         return $this->jsonResponse(
             array(

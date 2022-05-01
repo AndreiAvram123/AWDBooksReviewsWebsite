@@ -46,7 +46,7 @@ class BookController extends BaseController
         ]);
     }
 
-     #[Route("/books/{id}", name: 'book_path')]
+     #[Route("/books/{id}", name: 'book_path', requirements:['id' => '\d+'])]
      public function getBookById(Book $book): Response
      {
          return $this->render('book/book_page.twig',[

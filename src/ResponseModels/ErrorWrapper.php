@@ -5,7 +5,7 @@ namespace App\ResponseModels;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
-class ErrorResponse
+class ErrorWrapper
 {
     private string $error = "";
 

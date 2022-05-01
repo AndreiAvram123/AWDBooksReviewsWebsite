@@ -45,7 +45,7 @@ class BookAuthor
         return $this->id;
     }
 
-    
+
 
 
     public function getName(): ?string

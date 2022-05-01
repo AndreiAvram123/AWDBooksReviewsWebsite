@@ -7,12 +7,13 @@ use App\BookApi\GoogleBooksDTOUtils;
 use App\Entity\BookReview;
 use App\Repository\BookRepository;
 use App\Repository\BookReviewRepository;
-use App\Repository\GoogleBookApiRepository;
 use App\Repository\UserRepository;
 use App\Entity\Comment;
 use App\RequestModels\CreateBookReviewModel;
+use App\ResponseModels\ErrorWrapper;
 use App\utils\aws\AwsImageUtils;
 use Doctrine\Common\Collections\ArrayCollection;
+use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Request\ParamFetcher;
@@ -25,8 +26,11 @@ use OpenApi\Annotations\RequestBody;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use OpenApi\Annotations\Tag;
+use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use OpenApi\Annotations\Property;
 
 
 class BookReviewApiController extends BaseRestController
@@ -153,7 +157,7 @@ class BookReviewApiController extends BaseRestController
                 $book = $googleBooksDTOUtils->getGoogleBookFromRequest($createModel);
             }
             if($book === null){
-                return $this->notAcceptableResponse(self::ERROR_BOOK_NOT_FOUND);
+                return $this->errorResponse(self::ERROR_BOOK_NOT_FOUND);
             }
 
             $manager->persist($book);
@@ -166,7 +170,7 @@ class BookReviewApiController extends BaseRestController
                $createModel->getBase64Image()
             );
             if($reviewImage == null){
-                return $this->notAcceptableResponse(self::INVALID_BASE64_IMAGE);
+                return $this->errorResponse(self::INVALID_BASE64_IMAGE);
             }
             $bookReview->setFrontImage($reviewImage);
 
@@ -202,6 +206,48 @@ class BookReviewApiController extends BaseRestController
         return $this->jsonResponse(
             $bookReview->getComments()
         );
+    }
+
+    /**
+     * Delete a book review with the specified id
+     * @Response(
+     *     description="Delete a book review with the specified id",
+     *     response=204,
+     *     @JsonContent(type="object")
+     * )
+     * @Response(
+     *     description="Unauthorized to delete this",
+     *     response=403,
+     *     @JsonContent(@Property (property="error",type="string",example="Not authorized to delete this resource"))
+     * )
+     * @Parameter  (
+     *     name="id",
+     *     in = "path",
+     *     @Schema(type="integer")
+     * )
+     *
+     * @Security(name="Bearer")
+     * @Tag(name="Book Reviews")
+     * @param BookReview $bookReview
+     * @return JsonResponse
+     */
+    #[Delete("/api/v1/reviews/{id}")]
+    public function deleteBookReview(
+       BookReview $bookReview
+    ):JsonResponse{
+      //allow deletion only by user who created the review or by moderator
+      $jwtPayload = $this->getJWTPayload();
+      if($jwtPayload->getEmail() === $bookReview->getCreator()->getEmail()
+         ||in_array("ROLE_MODERATOR",$jwtPayload->getRoles()) ){
+         return $this->jsonResponse(
+             new StdClass(),
+             statusCode: SymfonyResponse::HTTP_NO_CONTENT
+         );
+      }
+      return $this->errorResponse(
+           "Not authorized to delete this  resource",
+            SymfonyResponse::HTTP_FORBIDDEN
+      );
     }
 
 }

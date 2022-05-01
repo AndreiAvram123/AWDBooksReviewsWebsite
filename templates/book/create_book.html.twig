@@ -8,12 +8,11 @@
         <div class="row form-group">
             {{ form_start(form) }}
             {{ form_row(form.title) }}
-            {{ form_row(form.author) }}
+            {{ form_row(form.authors) }}
             <div onclick="window.location.href = '{{ url('create_author_path') }}'">
                 {{ form_widget(form.find_author) }}
             </div>
-            {{ form_row(form.category) }}
-            {{ form_row(form.numberOfPages) }}
+            {{ form_row(form.categories) }}
             {{ form_row(form.image) }}
             <div id="container-sections" class="mt-4"></div>
             <div class="form-submit cerchio mt-5">
