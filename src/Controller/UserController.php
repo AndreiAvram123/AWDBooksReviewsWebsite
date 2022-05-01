@@ -24,7 +24,6 @@ class UserController extends BaseController
     public function getUserById(
         User $user,
         AwsImageUtils $awsImageUtils,
-        SerializerInterface $serializer
     ): Response{
         /** @var User $currentSessionUser */
         $currentSessionUser = $this->getUser();
