@@ -30,7 +30,7 @@ services:
 
 
     App\utils\aws\AwsClientWrapper:
-        arguments: [ '%env(BUCKETEER_REGION)%' ]
+        arguments: [ '%env(BUCKETEER_AWS_REGION)%' ]
 
     App\Jwt\RefreshTokenService:
         arguments: [   '%env(JWT_REFRESH_TOKEN_KEY)%']

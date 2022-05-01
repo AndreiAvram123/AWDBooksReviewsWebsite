@@ -321,12 +321,6 @@
     "sebastian/version": {
         "version": "3.0.2"
     },
-    "sendgrid/php-http-client": {
-        "version": "3.14.4"
-    },
-    "sendgrid/sendgrid": {
-        "version": "7.11.5"
-    },
     "sensio/framework-extra-bundle": {
         "version": "6.2",
         "recipe": {
@@ -339,8 +333,8 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
-    "starkbank/ecdsa": {
-        "version": "0.0.5"
+    "stella-maris/clock": {
+        "version": "0.1.4"
     },
     "symfony/asset": {
         "version": "v5.3.4"
