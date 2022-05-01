@@ -31,7 +31,7 @@ services:
         arguments: [   '%env(JWT_REFRESH_TOKEN_KEY)%']
 
     App\services\EmailService:
-        arguments: ['%env(EMAIL_SERVICE_API_KEY)%','%env(VERIFICATION_URL)%']
+        arguments: ['%env(EMAIL_SERVICE_API_KEY)%']
 
     acme_api.event.authentication_success_listener:
          class: App\Jwt\JwtEventListener
