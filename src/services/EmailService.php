@@ -14,7 +14,6 @@ use JMS\Serializer\SerializerInterface;
 class EmailService
 {
     private string $fromIdentity = "a.t.avram@edu.salford.ac.uk";
-    private string $confirmationEmailTemplateID = "d-2c206b86f8014d88b5e1557ac0993550";
     private string $newReviewTemplate = "d-83e60e79c21942c1b04343c9b07ebb52";
     private Client $client;
     private const baseUrl = "https://api.sendgrid.com/v3/mail/send";

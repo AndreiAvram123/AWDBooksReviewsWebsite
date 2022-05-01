@@ -1,12 +1,13 @@
 {% extends 'base/list_page.twig' %}
 
+ {% set filterBooks = category.books|filter(book => book.pending == false) %}
 {% block title %}{{ category.name}} {% endblock %}
  {% block heading %}
-     <h1 class="title">Total books : {{ category.books| length}}</h1>
+     <h1 class="title">Total books : {{ filterBooks| length}}</h1>
  {% endblock %}
 
 {% block listItems %}
-    {% for book in category.books %}
+    {% for book in filterBooks %}
        {{ include('book/book_card.twig') }}
     {% endfor %}
 {% endblock %}
