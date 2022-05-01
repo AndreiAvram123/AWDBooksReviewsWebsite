@@ -3,6 +3,7 @@
 namespace App\Controller\api;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\RequestModels\CreateBookReviewModel;
 use App\RequestModels\UpdateUserModel;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -83,19 +84,13 @@ class UserApiController extends BaseRestController
      * @param User $user
      * @return JsonResponse
      */
-    #[Patch("/api/v1/users/{id}")]
+    #[Patch("/api/v1/users/current")]
     public function updateUserByID(
         Request $request,
-        User $user
+        UserRepository $userRepository
     ):JsonResponse{
-        //allow modification of user data only if the authentication user is the same
-        //as in token
-        if($this->getJWTPayload()->getEmail() !== $user->getEmail()){
-            return $this->errorResponse(
-                error : "Not authorized for this operations",
-                status: \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN
-            );
-        }
+         $user = $this->getAuthenticatedUser();
+
 
         /** @var UpdateUserModel $updateModel */
         $updateModel  = $this->serializer->deserialize(

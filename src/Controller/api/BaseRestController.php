@@ -5,6 +5,7 @@ namespace App\Controller\api;
 use App\Entity\BookReview;
 use App\Entity\User;
 use App\Jwt\JWTPayload;
+use App\Repository\UserRepository;
 use App\ResponseModels\ErrorWrapper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -16,6 +17,7 @@ use JMS\Serializer\SerializerInterface;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use PHPUnit\Util\Exception;
 use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +26,7 @@ use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use function PHPUnit\Framework\throwException;
 
 #[View(serializerEnableMaxDepthChecks: true)]
 class BaseRestController extends AbstractFOSRestController
@@ -32,7 +35,8 @@ class BaseRestController extends AbstractFOSRestController
     public function __construct(
         protected ValidatorInterface $validator,
         private TokenStorageInterface $tokenStorageInterface,
-        private JWTTokenManagerInterface $jwtManager
+        private JWTTokenManagerInterface $jwtManager,
+        private UserRepository $userRepository
     )
     {
         $this->serializer = SerializerBuilder::create()
@@ -55,12 +59,28 @@ class BaseRestController extends AbstractFOSRestController
         ) ;
 
     }
+
+    protected function getAuthenticatedUser():User{
+        $payload =  $this->jwtManager->decode($this->tokenStorageInterface->getToken());
+        $user =$this->userRepository->findByEmail($payload['email']);
+        if($user == null){
+            throw new Exception("An Unknown user accessed a secured endpoint");
+        }
+        return $user;
+    }
+
+
     protected function createTokenForUser(User $user):string{
         return $this->jwtManager->create($user);
     }
 
-    protected function jsonResponse( $data, int $statusCode = Response::HTTP_OK):JsonResponse{
-        return  JsonResponse::fromJsonString($this->serializer->serialize($data,'json'),status: $statusCode);
+    protected function jsonResponse(
+        $data, int $statusCode = Response::HTTP_OK
+    ):JsonResponse{
+        return  JsonResponse::fromJsonString(
+            $this->serializer->serialize($data,'json'),
+            status: $statusCode
+        );
     }
 
 
