@@ -1,9 +1,4 @@
 
-parameters:
-        app.bucketeer_region : '%env(BUCKETEER_AWS_REGION)%'
-        app.bucketeer_access_key : '%env(BUCKETEER_ACCESS_KEY)%'
-        app.bucketeer_secret_key : '%env(BUCKETEER_SECRET_KEY)%'
-        app.bucketeer_public_url : '%env(BUCKETEER_PUBLIC_URL)%'
 
 services:
     foobar.form_extension.icon:
