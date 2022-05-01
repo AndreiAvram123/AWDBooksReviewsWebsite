@@ -21,7 +21,7 @@ class VolumeInfo
     private ?array $authors = null;
 
     #[Type("App\BookApi\GoogleBookImages")]
-    private GoogleBookImages $imageLinks;
+    private ?GoogleBookImages $imageLinks = null;
 
     /**
      * @return string
@@ -91,7 +91,7 @@ class VolumeInfo
     /**
      * @return GoogleBookImages
      */
-    public function getImageLinks(): GoogleBookImages
+    public function getImageLinks(): ?GoogleBookImages
     {
         return $this->imageLinks;
     }

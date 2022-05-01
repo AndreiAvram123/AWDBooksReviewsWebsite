@@ -3,6 +3,7 @@
 namespace App\BookApi;
 
 use App\Entity\Book;
+use App\Entity\BookAuthor;
 use App\Entity\BookCategory;
 
 use App\Entity\Image;
@@ -72,18 +73,36 @@ class GoogleBooksDTOUtils
         $googleBook->setTitle($googleBookDTO->getVolumeInfo()->getTitle());
         $googleBook->setGoogleBookID($googleBookDTO->getId());
         $image = new Image();
-        $image->setUrl($googleBookDTO->getVolumeInfo()->getImageLinks()->getThumbnail());
+        if($googleBookDTO->getVolumeInfo() ->getImageLinks() != null) {
+            $image->setUrl($googleBookDTO->getVolumeInfo()->getImageLinks()->getThumbnail());
+        }
         $googleBook->setImage($image);
-        $categories =$googleBookDTO->getVolumeInfo()->getCategories();
-        if($categories !== null){
+
+        $googleCategories = $googleBookDTO->getVolumeInfo()->getCategories();
+        if($googleCategories != null){
+            $categories = $this->convertGoogleCategories($googleCategories);
             $googleBook->setCategories(new ArrayCollection($categories));
         }
-        $authors = $googleBookDTO->getVolumeInfo()->getAuthors();
-        if($authors !== null){
+
+        if($googleBookDTO->getVolumeInfo()->getAuthors() != null){
+            $authors = array_map(function (string $authorName) {
+                $bookAuthor = new BookAuthor();
+                $bookAuthor->setName($authorName);
+                return $bookAuthor;
+            }, $googleBookDTO->getVolumeInfo()->getAuthors());
+
             $googleBook->setAuthors(new ArrayCollection($authors));
         }
 
         return $googleBook;
 
+    }
+
+    private function convertGoogleCategories(array $categoryNames):array{
+        return array_map(function (string $categoryName){
+            $bookCategory = new BookCategory();
+            $bookCategory->setName($categoryName);
+            return $bookCategory;
+        },$categoryNames);
     }
 }

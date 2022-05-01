@@ -9,9 +9,9 @@
         {% block card_content %}
             <div class="post-cat">
                 <div class="post-cat-list">
-                    {% for category in book.categories%}
+                    {% for category in book.categories %}
                     {% set categoryName = category.name %}
-                    <a class="hover-flip-item-wrapper" href="{{ url('category_path', {'name' : categoryName}) }}">
+                    <a class="hover-flip-item-wrapper">
                                             <span class="hover-flip-item">
                                                 <span data-text="{{ categoryName }}">{{categoryName }}</span>
                                             </span>
@@ -19,8 +19,11 @@
                     {%endfor%}
                 </div>
             </div>
+            {% if book.googleBookID is null %}
+            <h4 class="title"><a href="{{ "https://play.google.com/store/books/details?id=" ~ book.googleBookID}}">{{ book.title }}</a></h4>
+            {% else %}
             <h4 class="title"><a href="{{ url('book_path',{'id' : book.id}) }}">{{ book.title }}</a></h4>
-
+              {%endif%}
 
             <div class="post-meta-wrapper">
                 <div class="post-meta">
