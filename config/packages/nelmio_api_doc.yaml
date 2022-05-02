@@ -1,9 +1,60 @@
 nelmio_api_doc:
     documentation:
+        paths:
+            /api/v1/login:
+                post:
+                    tags:
+                        - Authentication
+                    description: Login into the api.
+                    requestBody:
+                        description: Json body
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties:
+                                        username:
+                                            type: string
+                                            example: avramandreitiberiu@gmail.com
+                                        password:
+                                            type: string
+                                            example: andrei1239
+                    responses:
+                        '200':
+                            description: Login successful
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            token:
+                                                type: string
+                                                example: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NTE1MjgyNTMsImV4cCI6MTY1MTUzMTg1Mywicm9sZX06hDchB-t-MJ03Ua0sy-3RQfojzmdLZ55lgzYXLDiDZKrvZMqYT-Au6yx
+
+                                            refreshToken:
+                                                type: string
+                                                example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib29rc1dlYnNpdGUiLCJhdWQiOiJib29rc1dlYnNpdGUiLCJleHAiOjE2NTE3ODc0NTMsImVtYWlsIjoiYXZyYW1hbmRyZ
+                        '401':
+                            description: Credentials not valid
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            code:
+                                                type: int
+                                                example: 401
+
+                                            message:
+                                                type: string
+                                                example: Invalid credentials
+
+
         info:
             title: Book website api
             description: The api for my books website
-            version: 1.0.0
+            version: 1.0.1
         components:
             securitySchemes:
                 Bearer:

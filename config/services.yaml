@@ -43,14 +43,11 @@ services:
       tags:
         - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
 
-    acme_api.event.authentication_failure_listener:
-      class: App\Jwt\JwtEventListener
-      tags:
-        - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
 
 
     App\Repository\GoogleBookApiRepository:
         arguments : ['%env(GOOGLE_BOOKS_API_KEY)%']
+
     App\utils\aws\AwsImageUtils:
       arguments:
              $bucketName : '%env(BUCKETEER_BUCKET_NAME)%'

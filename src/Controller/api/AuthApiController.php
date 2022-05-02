@@ -32,7 +32,7 @@ class AuthApiController extends BaseRestController
 
     /**
      *
-     * Register a user
+     * Register a new user in the system
      *
      * @OA\Response(
      *     response=201,
@@ -43,6 +43,15 @@ class AuthApiController extends BaseRestController
      * @OA\RequestBody(
      *     description="registration data",
      *     @Model(type=CreateUserRequest::class )
+     * )
+     *
+     *
+     * @OA\Response(
+     *     response=Response::HTTP_NOT_ACCEPTABLE ,
+     *     description="The email or username are not available",
+     *     @OA\JsonContent(type="object",
+     *     @OA\Property(property="error",type="string", example= "Email already used"))
+     *
      * )
      */
     #[Post("/api/v1/register")]
