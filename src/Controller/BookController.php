@@ -62,7 +62,7 @@ class BookController extends BaseController
     ): Response
     {
           $numberOfPages =  intval($bookRepository->countPubliclyAvailable()/self::$itemsPerPage);
-          $books = $bookRepository->findPubliclyAvailable($page);
+          $books = $bookRepository->findPubliclyAvailable($page,true);
           return $this->render('book/books_list.twig',[
                'books' =>$books,
                'numberOfPages' => $numberOfPages

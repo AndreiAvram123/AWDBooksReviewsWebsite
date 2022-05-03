@@ -72,15 +72,20 @@ class BookRepository extends ServiceEntityRepository
     }
 
 
-    public function findPubliclyAvailable(int $page = 1): array
+    public function findPubliclyAvailable(int $page = 1, $exclusive = false): array
     {
         $offset = BookController::$itemsPerPage * ($page-1);
-        return $this->createPubliclyAvailableQB()
-            ->setFirstResult($offset)
+        $query =  $this->createPubliclyAvailableQB();
+            if($exclusive === true){
+                $query->andWhere('b.googleBookID is  null');
+            }
+
+           return  $query->setFirstResult($offset)
             ->setMaxResults(BookReviewController::$itemsPerPage)
             ->getQuery()
             ->getResult();
     }
+
 
     public function createPubliclyAvailableQB(): QueryBuilder
     {

@@ -14,7 +14,15 @@ class CategoryController extends BaseController
         BookCategoryRepository $bookCategoryRepository
     ): Response
     {
-        $categories = $bookCategoryRepository->findAll();
+        $categories = array_filter($bookCategoryRepository->findAll(),function (BookCategory $category){
+            $found = false;
+            foreach ($category->getBooks() as $book){
+                if($book->getPending() === false){
+                    $found = true;
+                }
+            }
+            return $found;
+        });
         return $this->render('category/categories.twig',[
             'categories' => $categories
         ]);

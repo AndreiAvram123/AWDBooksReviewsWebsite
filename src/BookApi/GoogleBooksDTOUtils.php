@@ -70,6 +70,7 @@ class GoogleBooksDTOUtils
 
     public function convertDTOToEntity(GoogleBookDTO $googleBookDTO):Book{
         $googleBook = new Book();
+        $googleBook->setPending(false);
         $googleBook->setTitle($googleBookDTO->getVolumeInfo()->getTitle());
         $googleBook->setGoogleBookID($googleBookDTO->getId());
         $image = new Image();

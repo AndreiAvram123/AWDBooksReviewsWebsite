@@ -41,7 +41,7 @@ class Book
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $googleBookID;
 
-    #[ORM\ManyToMany(targetEntity: BookCategory::class, inversedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: BookCategory::class, inversedBy: 'books', cascade: ["persist"])]
     private $categories;
 
     #[ORM\ManyToMany(targetEntity: BookAuthor::class, inversedBy: 'books', cascade: ["persist"])]

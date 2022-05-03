@@ -19,7 +19,7 @@
                     {%endfor%}
                 </div>
             </div>
-            {% if book.googleBookID is null %}
+            {% if book.googleBookID is not  null %}
             <h4 class="title"><a href="{{ "https://play.google.com/store/books/details?id=" ~ book.googleBookID}}">{{ book.title }}</a></h4>
             {% else %}
             <h4 class="title"><a href="{{ url('book_path',{'id' : book.id}) }}">{{ book.title }}</a></h4>

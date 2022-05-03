@@ -12,7 +12,7 @@
                 <div class="post-cat-list">
                     <ul class="list-group">
                         {% for category in bookReview.book.categories %}
-                            <a class="hover-flip-item-wrapper" href="{{ url('category_path',{'name' : category.name}) }}">
+                            <a class="hover-flip-item-wrapper" href="{{ url('category_path',{'name' : category.name | url_encode}) }}">
                                             <span class="hover-flip-item">
                                                 <span data-text="{{ category.name }}">{{category.name }}</span>
                                             </span>
