@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -26,12 +27,12 @@ use OpenApi\Annotations\RequestBody;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use OpenApi\Annotations\Tag;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Annotations\Property;
-
 
 class BookReviewApiController extends BaseRestController
 {
@@ -41,7 +42,7 @@ class BookReviewApiController extends BaseRestController
 
     /**
      * @Response(
-     *     description="Return book reviews by page",
+     *     description="Successfully returned book reviews by page",
      *     response=200,
      *     @JsonContent(
      *     type="array",
@@ -51,7 +52,6 @@ class BookReviewApiController extends BaseRestController
      * @Parameter(
      *     name="page",
      *     in = "query",
-     *     allowEmptyValue=true,
      *     @Schema(type="integer")
      *  )
      * @Tag(name="Book Reviews")
@@ -61,28 +61,32 @@ class BookReviewApiController extends BaseRestController
      * @return JsonResponse
      */
     #[Get("/api/v1/reviews")]
+    #[QueryParam(name: "page", requirements: '\d+', strict: true, nullable: true, allowBlank: false)]
     public function getReviewsByPage(
         ParamFetcher $paramFetcher,
         BookReviewRepository $bookReviewRepository,
     ):JsonResponse{
+
         $page = $paramFetcher->get("page");
-        if($page === null){
+        if($page == null){
             $page = 1;
         }
         $data = $bookReviewRepository->findPubliclyAvailable($page);
-        $serializedData = $this->serializer->serialize(
-            data: $data,
-            format: 'json');
 
-        return  $this->jsonResponse($serializedData);
+        return  $this->jsonResponse($data);
     }
 
 
     /**
+     * Get a book with the given id
      * @Response(
-     *   description="Return the Book review by the specified id",
+     *   description="Successfully reuturned  book review by the specified id",
      *   response= 200,
      *   @Model(type=BookReview::class)
+     * )
+     *  @Response(
+     *     response=404,
+     *     description="The review with the specified id not found"
      * )
      * @Tag(name="Book Reviews")
      * @Security(name="Bearer")
@@ -99,18 +103,24 @@ class BookReviewApiController extends BaseRestController
     }
 
 
-//todo
-//maybe an exception catcher
 
     /**
-     * @Response(
-     *     description="Create a review",
+     *  Create a book review
+     *  @RequestBody(
+     *     description="Successfully returned the  created  review",
+     *     @JsonContent(ref=@Model(type=CreateBookReviewModel::class))
+     * )
+     *  @Response(
+     *     description="Review successfully created",
      *     response=201,
      *     @Model(type=BookReview::class)
      * )
-     *  @RequestBody(
-     *     description="Data for creating a review",
-     *     @JsonContent(ref=@Model(type=CreateBookReviewModel::class))
+     * @Response(
+     *     response=400,
+     *     description="Bad data given to the request, see error messages",
+     *     @JsonContent(type="object",
+     *     @Property(property="error",type="string", example= "You have not provided a title")
+     * )
      * )
      * @Security(name="Bearer")
      * @Tag(name="Book Reviews")
@@ -186,13 +196,18 @@ class BookReviewApiController extends BaseRestController
 
 
     /**
+     * Get the comments for a review
      * @Response(
-     *     description="Return the comments for the review with the specified id",
+     *     description="Successfully returned the comments for the review with the specified id",
      *     response=200,
      *     @JsonContent(
      *     type="array",
      *     @Items(ref=@Model(type=Comment::class))
      * )
+     * )
+     *  @Response(
+     *     response=404,
+     *     description="The review with the specified id not found"
      * )
      * @Tag(name="Book Reviews")
      * @Security(name="Bearer")
@@ -207,6 +222,35 @@ class BookReviewApiController extends BaseRestController
             $bookReview->getComments()
         );
     }
+    /**
+     * Get the comment with the given ID of a review with the given id
+     * @Response(
+     *     description="Sucessfully returned comment with that ID of the given review",
+     *     response=200,
+     *     @Model(type= Comment::class)
+     * )
+     * @Response(
+     *     description="The comment was not found or the review was not found",
+     *     response=404
+     * )
+     * @Tag(name="Book Reviews")
+     * @Security(name="Bearer")
+     * @return JsonResponse
+     */
+    #[Get("/api/v1/reviews/{reviewID}/comments/{commentID}")]
+    #[Entity('bookReview', options: ['id' => 'reviewID'])]
+    #[Entity('comment', options: ['id' => 'commentID'])]
+
+    public function getComment(
+        Comment $comment,
+
+    ):JsonResponse{
+        return $this->jsonResponse(
+             $comment
+        );
+    }
+
+
 
     /**
      * Delete a book review with the specified id
@@ -219,6 +263,10 @@ class BookReviewApiController extends BaseRestController
      *     description="Unauthorized to delete this",
      *     response=403,
      *     @JsonContent(@Property (property="error",type="string",example="Not authorized to delete this resource"))
+     * )
+     *  @Response(
+     *     response=404,
+     *     description="The review with the specified id not found"
      * )
      * @Parameter  (
      *     name="id",

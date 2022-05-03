@@ -28,7 +28,7 @@ class UserApiController extends BaseRestController
     /**
      * Get the user with the specified id
      * @Response(
-     *     description="Get the user with the specified id",
+     *     description="Successfully returned the user with the specified id",
      *     response= 200,
      *     @JsonContent(ref= @Model(type= User::class))
      * )
@@ -36,6 +36,10 @@ class UserApiController extends BaseRestController
      *     name="id",
      *     in = "path",
      *     @Schema(type="integer")
+     * )
+     *  @Response(
+     *     response=404,
+     *     description="The user with the specified id not found"
      * )
      * @Tag(name="Users")
      * @Security(name="Bearer")
@@ -53,10 +57,10 @@ class UserApiController extends BaseRestController
 
 
     /**
-     *  Update a user with the specified id
+     *  Update the current logged in user
      *
      * @Response(
-     *     description="Update a user with the specified id",
+     *     description="Successfully updated",
      *     response=200,
      *     @JsonContent(
      *       ref= @Model(type= User::class)
@@ -72,11 +76,6 @@ class UserApiController extends BaseRestController
      *      @Items(type="object",
      *       @Property (property="property", type="string", example="The username is already taken")))
      * )
-     * )
-     *  @Parameter(
-     *     name="id",
-     *     in = "path",
-     *     @Schema(type="integer")
      * )
      * @Tag(name = "Users")
      * @Security(name="Bearer")
@@ -133,7 +132,7 @@ class UserApiController extends BaseRestController
     /**
      * Get reviews for user with the given id
      * @Response(
-     *     description="Get reviews for the user with the given id ",
+     *     description="Successfully returned all reviews",
      *     response=200,
      *     @JsonContent(
      *     type="array",

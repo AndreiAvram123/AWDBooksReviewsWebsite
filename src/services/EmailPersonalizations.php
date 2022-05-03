@@ -5,16 +5,13 @@ namespace App\services;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 
 #[ExclusionPolicy(ExclusionPolicy::NONE)]
- class EmailData
+abstract class EmailPersonalizations
 {
-
-
     public function __construct(
-        public EmailWrapper $from,
-        public array $personalizations,
-        public string $templateID
+        public array               $to,
+        public DynamicTemplateData $dynamicTemplateData
+
     )
     {
-
     }
 }

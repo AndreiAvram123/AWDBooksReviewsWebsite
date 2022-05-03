@@ -22,7 +22,8 @@ class RatingUtils
     }
 
 
-    public function addRatingToBookReview(bool $isPositive, BookReview $bookReview){
+    public function addRatingToBookReview(bool $isPositive, BookReview $bookReview): void
+    {
         if($isPositive === true){
             $rating = $this->createPositiveRating();
             $this->manager->persist($rating);

@@ -18,9 +18,10 @@ class BookAuthorApiController extends BaseRestController
 {
 
     /**
+     * Get all authors
      * @Response(
      *     response=200,
-     *     description="Return all the available authors",
+     *     description="Successfully returned all the available authors",
      *     @JsonContent(
      *       type="array",
      *       @Items(ref= @Model(type= BookAuthor::class))

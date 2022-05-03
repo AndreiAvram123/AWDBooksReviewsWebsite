@@ -35,18 +35,18 @@ class EmailService
     ){
 
        $subscribersEmail = array_map(function (User $user){
-           return $user ->getEmail();
-       },$bookReview->getCreator()->getSubscribers());
+           return new EmailWrapper($user ->getEmail());
+       },$bookReview->getCreator()->getSubscribers()->toArray());
 
             $emailData = new EmailData(
                 from: new EmailWrapper($this->fromIdentity),
-                personalizations: new NewBookReviewPersonalizations(
+                personalizations: array(new NewBookReviewPersonalizations(
                     to: $subscribersEmail,
                     dynamicTemplateData: new NewBookReviewTemplateData(
                         authorName: $bookReview->getCreator()->getUsername(),
                         reviewUrl: self::reviewsUrl . "/" . $bookReview->getId()
                     )
-                ),
+                )),
                 templateID: $this->newReviewTemplate
             );
             $emailDataJson = $this->serializer->serialize($emailData, 'json');

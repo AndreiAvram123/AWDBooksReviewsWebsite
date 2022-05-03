@@ -28,8 +28,9 @@ class SearchApiController extends BaseRestController
 {
 
     /**
+     * Search books,reviews an authors
      * @Response(
-     *     description="Return search results including books, reviews and authors",
+     *     description="Successfully returned   books, reviews and authors matching query",
      *     response=200,
      *     @JsonContent(
      *      type="object",
@@ -41,6 +42,8 @@ class SearchApiController extends BaseRestController
      * @Parameter(
      *     name="query",
      *     in = "query",
+     *     required=true,
+     *     allowEmptyValue=false,
      *     @Schema(type="string")
      * )
      * @Tag(name="Search")
@@ -50,7 +53,9 @@ class SearchApiController extends BaseRestController
     #[QueryParam(
         name: "query",
         requirements: "[\sa-zA-Z0-9]+",
-        strict: true
+        strict: true,
+        nullable: false,
+
     )]
     public function search(
         ParamFetcherInterface    $paramFetcher,

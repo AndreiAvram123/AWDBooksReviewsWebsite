@@ -17,9 +17,9 @@ use App\Entity\BookCategory;
 class CategoryApiController extends BaseRestController
 {
     /**
-     * Return all categories
+     * Get all categories
      * @Response (
-     *     description="Return all the categories",
+     *     description="Successfully returned all the categories",
      *     response=200,
      *     @JsonContent(
      *     type="array",
@@ -28,6 +28,11 @@ class CategoryApiController extends BaseRestController
      *    )
      * )
      * )
+     *  @Response(
+     *     response=404,
+     *     description="The category with the specified id not found"
+     * )
+     *
      *
      * @Tag(name="Categories")
      * @Security(name="Bearer")
@@ -46,9 +51,9 @@ class CategoryApiController extends BaseRestController
     }
 
     /**
-     * Return the books from a category
+     * Get books from a category
      * @Response(
-     *     description="Return the books from the category with the specified id",
+     *     description="Successfully returned the books from the category with the specified id",
      *     response=200,
      *     @JsonContent(
      *     type="array",

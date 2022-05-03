@@ -32,20 +32,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Expose]
-    private $id;
+    private $id = 0;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Length(min : 5, max: 20)]
     #[Expose]
-    private string $username;
+    private string $username = "";
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Expose]
-    private string $email;
+    private string $email = "";
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Length(min: 5, minMessage: "The password is too weak")]
-    private ?string $password;
+    private ?string $password = "";
 
     #[ORM\Column(type : 'json')]
     private array $roles = array("ROLE_USER");
@@ -55,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Expose]
-    private ?string $nickname;
+    private ?string $nickname = null;
 
     #[ORM\OneToOne(inversedBy: 'owner', targetEntity: SocialMediaHub::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
@@ -63,11 +63,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Expose]
-    private ?string $description;
+    private ?string $description = null;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     #[Expose]
-    private ?Image $profileImage ;
+    private ?Image $profileImage  = null;
 
     #[ORM\Column(type: 'boolean')]
 

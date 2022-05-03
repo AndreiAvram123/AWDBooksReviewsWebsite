@@ -36,14 +36,15 @@ class AuthApiController extends BaseRestController
      *
      * @OA\Response(
      *     response=201,
-     *     description="Returns 201 on successful registration",
-     *     @OA\JsonContent(type="object")
+     *     description="Successful registration",
+     *      @Model(type=User::class)
      * )
      * @OA\Tag(name="Authentication")
      * @OA\RequestBody(
      *     description="registration data",
      *     @Model(type=CreateUserRequest::class )
      * )
+     *
      *
      *
      * @OA\Response(
@@ -58,8 +59,7 @@ class AuthApiController extends BaseRestController
     public function registerUser(
         Request $request,
         UserRepository $userRepository,
-        UserPasswordHasherInterface $passwordHasher,
-        EmailService $emailService
+        UserPasswordHasherInterface $passwordHasher
     ):JsonResponse{
 
         /**
@@ -90,12 +90,9 @@ class AuthApiController extends BaseRestController
                 createUserRequest: $serializedData,
                 passwordHasher: $passwordHasher
             );
-            $emailService->sendConfirmationEmail(
-                user: $user
-            );
 
             return $this->jsonResponse(
-                data: new StdClass(),
+                data: $user,
                 statusCode: Response::HTTP_CREATED
             );
         }else{
@@ -110,7 +107,7 @@ class AuthApiController extends BaseRestController
      * Get a new authentication token by providing a refresh token
      * @OA\Response (
      *     response=200,
-     *     description="Return a new access token",
+     *     description="Successfully returned new access token",
      *     @OA\JsonContent(type="object",
      *     @OA\Property(property="accessToken",type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"))
      * )

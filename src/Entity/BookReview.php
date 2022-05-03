@@ -64,6 +64,7 @@ class BookReview
 
     #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'bookReviews')]
     #[ORM\JoinColumn(nullable: false)]
+    #[MaxDepth(1)]
     private $book;
 
 

@@ -16,7 +16,7 @@ class CreateBookRequestModel
     private array $categoriesIDs;
     #[Type("array<integer>")]
     #[NotBlank(message: "You must not pass an empty array")]
-    private array $authors;
+    private array $authorsIDs;
 
     /**
      * @return string
@@ -37,9 +37,9 @@ class CreateBookRequestModel
     /**
      * @return array
      */
-    public function getAuthors(): array
+    public function getAuthorsIDs(): array
     {
-        return $this->authors;
+        return $this->authorsIDs;
     }
 
 
