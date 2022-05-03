@@ -18,7 +18,7 @@
                                     </div>
                                     <h1 class="title text-center">{{ book.title}}</h1>
                                     {% for author in book.authors %}
-                                    <h3 class="title text-center">By {{ author.getFullName()}}</h3>
+                                    <h3 class="title text-center">By {{ author.name}}</h3>
                                     {% endfor%}
                                     {% for category in book.categories %}
                                     {% set categoryName = category.name %}
@@ -27,7 +27,7 @@
                                                                 <span data-text="{{ categoryName}}">{{ categoryName}}</span>
                                                             </span>
                                     </a>
-                                    {%endif%}
+                                    {%endfor%}
                                     {% if book.image != null %}
                                         <figure class="wp-block-image alignwide text-center">
                                             <img src="{{ book.image.url }}" alt="Post Images">

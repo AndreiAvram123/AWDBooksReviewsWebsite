@@ -44,7 +44,7 @@ class Book
     #[ORM\ManyToMany(targetEntity: BookCategory::class, inversedBy: 'books')]
     private $categories;
 
-    #[ORM\ManyToMany(targetEntity: BookAuthor::class, inversedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: BookAuthor::class, inversedBy: 'books', cascade: ["persist"])]
     #[NotBlank]
     private $authors;
 
