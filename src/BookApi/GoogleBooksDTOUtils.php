@@ -73,11 +73,12 @@ class GoogleBooksDTOUtils
         $googleBook->setPending(false);
         $googleBook->setTitle($googleBookDTO->getVolumeInfo()->getTitle());
         $googleBook->setGoogleBookID($googleBookDTO->getId());
-        $image = new Image();
         if($googleBookDTO->getVolumeInfo() ->getImageLinks() != null) {
+            $image = new Image();
             $image->setUrl($googleBookDTO->getVolumeInfo()->getImageLinks()->getThumbnail());
+            $googleBook->setImage($image);
         }
-        $googleBook->setImage($image);
+
 
         $googleCategories = $googleBookDTO->getVolumeInfo()->getCategories();
         if($googleCategories != null){

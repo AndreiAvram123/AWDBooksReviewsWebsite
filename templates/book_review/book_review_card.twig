@@ -1,7 +1,7 @@
 
 
 <div class="content-block post-list-view mt--30">
-    {% if bookReview.frontImage != null %}
+    {% if bookReview.frontImage is not null %}
         <div class="post-thumbnail">
             <img src="{{ bookReview.frontImage.url }}" alt="Post Images">
         </div>
