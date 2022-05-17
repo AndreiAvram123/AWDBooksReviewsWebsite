@@ -27,12 +27,16 @@ class CategoryController extends BaseController
             'categories' => $categories
         ]);
     }
-    #[Route('/category/{name}', name: 'category_path')]
+    #[Route('/category/{name}', name: 'category_path', requirements: ['name' => '.+'])]
     public function category(
-        BookCategory $category
+           string $name,
+           BookCategoryRepository $bookCategoryRepository
     ): Response{
+
+        $bookCategory = $bookCategoryRepository->findByName(urldecode($name));
+
         return $this->render('category/category_books.twig',[
-            'category' => $category
+            'category' => $bookCategory
         ]);
     }
 }

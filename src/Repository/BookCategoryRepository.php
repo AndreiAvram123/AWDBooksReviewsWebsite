@@ -18,4 +18,12 @@ class BookCategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, BookCategory::class);
     }
+
+    public function findByName(string $name):?BookCategory{
+        return  $this->createQueryBuilder('c')
+               ->where('c.name = :name')
+               ->setParameter('name', $name)
+                ->getQuery()
+               ->getOneOrNullResult();
+      }
 }
