@@ -3,21 +3,20 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SubscribeType extends AbstractType
+class UnsubscribeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('subscribe_button',SubmitType::class,[
-                 'label' => "Subscribe",
-                 'attr'=>[
-                    'class' => 'axil-button-primary button-rounded'
-                ]
-            ])
+        $builder->add('unsubscribe_button',SubmitType::class,[
+            'label' => "Unsubscribe",
+            'attr'=>[
+                'class' => 'axil-button-primary button-rounded'
+            ]
+        ])
         ;
     }
 

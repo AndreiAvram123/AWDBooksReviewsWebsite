@@ -6,6 +6,7 @@ use App\Entity\BookReview;
 use App\Entity\User;
 use App\Form\BookReviewType;
 use App\Form\SubscribeType;
+use App\Form\UnsubscribeType;
 use App\Form\UserProfileType;
 use App\utils\aws\AwsImageUtils;
 use JMS\Serializer\Serializer;
@@ -57,11 +58,20 @@ class UserController extends BaseController
              return $this->redirectToRoute('user_profile',['id' => $user->getId()]);
         }
 
+        $unsubscribeForm = $this->createForm(UnsubscribeType::class);
+        if($unsubscribeForm->isSubmitted() && $unsubscribeForm->isValid()) {
+            if($currentSessionUser == null) throwException(new Exception("The user is null"));
+            $user->removeSubscriber($currentSessionUser);
+            $this->persistAndFlush($user);
+            return $this->redirectToRoute('user_profile',['id' => $user->getId()]);
+        }
+
         return $this->renderForm('user/user_profile.twig', [
             'user' => $user,
             'userReviews'=> $userReviews,
             'userProfileForm' => $userProfileForm,
-            'subscribeForm' => $subscribeForm
+            'subscribeForm' => $subscribeForm,
+            'unsubscribeForm' => $unsubscribeForm
         ]);
     }
 

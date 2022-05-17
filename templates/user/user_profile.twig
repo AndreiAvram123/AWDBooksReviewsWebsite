@@ -82,6 +82,17 @@
                 {% endif %}
             {% else %}
                 <p class="mt-4">You are subscribed to this user</p>
+                {% if unsubscribeForm is defined %}
+                    {{ form_start(unsubscribeForm) }}
+                    <div class="row mt-5">
+                        <div class="col-lg-12">
+                            <div class="form-submit cerchio">
+                                {{ form_widget(unsubscribeForm.unsubscribe_button) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(unsubscribeForm)}}
+                {% endif %}
             {% endif %}
         {% endif %}
         <div class="axil-post-list-area axil-section-gap bg-color-white">
